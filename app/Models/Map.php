@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Map extends Model
 {
@@ -21,8 +22,19 @@ class Map extends Model
         'is_active' => 'boolean',
     ];
 
+    /**
+     * Map belongs to a Mouza.
+     */
     public function mouza(): BelongsTo
     {
         return $this->belongsTo(Mouza::class);
+    }
+
+    /**
+     * Map has many Orders.
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }

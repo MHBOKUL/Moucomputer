@@ -1,11 +1,12 @@
 <?php
-
-use App\Http\Controllers\Admin\MapController;
-use App\Http\Controllers\Admin\MouzaController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\DivisionController;
 use App\Http\Controllers\Admin\DistrictController;
+use App\Http\Controllers\Admin\MapController;
+use App\Http\Controllers\Admin\MouzaController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UpazilaController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -28,7 +29,9 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 
 /*
@@ -45,11 +48,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/admin', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-
-
+Route::get('/admin', [AdminDashboardController::class, 'index'])
+    ->name('admin.dashboard');
     /*
     |--------------------------------------------------------------------------
     | Division Management
@@ -96,15 +96,61 @@ Route::middleware(['auth', 'admin'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // PDF Download
-    // IMPORTANT: This must be BEFORE the resource route
+    /*
+    | PDF Download
+    |
+    | IMPORTANT:
+    | This route must be before the resource route.
+    */
+
     Route::get('/admin/maps/{map}/download', [MapController::class, 'download'])
         ->name('admin.maps.download');
 
 
-    // Map CRUD
+    /*
+    | Map CRUD
+    */
+
     Route::resource('/admin/maps', MapController::class)
         ->names('admin.maps');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Order Management
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    | Order List
+    */
+
+    Route::get('/admin/orders', [OrderController::class, 'index'])
+        ->name('admin.orders.index');
+
+
+    /*
+    | Order Details
+    */
+
+    Route::get('/admin/orders/{order}', [OrderController::class, 'show'])
+        ->name('admin.orders.show');
+
+    /*
+    | Update Order Status
+    */
+
+    Route::patch('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])
+        ->name('admin.orders.status');
+
+
+    /*
+    | Delete Order
+    */
+
+    Route::delete('/admin/orders/{order}', [OrderController::class, 'destroy'])
+        ->name('admin.orders.destroy');
+
 });
 
 
@@ -124,6 +170,7 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
+
 });
 
 

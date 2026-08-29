@@ -10,49 +10,83 @@ use Illuminate\Support\Facades\Storage;
 
 class MapController extends Controller
 {
+    /**
+     * Display all maps.
+     */
     public function index()
     {
         $maps = Map::with([
             'mouza.upazila.district.division',
-            'mouza.surveyType'
+            'mouza.surveyType',
         ])
-        ->latest()
-        ->get();
+            ->latest()
+            ->get();
 
         return view('admin.maps.index', compact('maps'));
     }
 
+    /**
+     * Show the form for creating a new map.
+     */
     public function create()
     {
         $mouzas = Mouza::with([
             'upazila.district.division',
-            'surveyType'
+            'surveyType',
         ])
-        ->where('is_active', true)
-        ->orderBy('name')
-        ->get();
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get();
 
         return view('admin.maps.create', compact('mouzas'));
     }
 
+    /**
+     * Store a newly created map.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'mouza_id' => ['required', 'exists:mouzas,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'file' => ['required', 'file', 'mimes:pdf', 'max:20480'],
-            'price' => ['required', 'numeric', 'min:0'],
-            'is_active' => ['nullable', 'boolean'],
+            'mouza_id' => [
+                'required',
+                'exists:mouzas,id',
+            ],
+
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'file' => [
+                'required',
+                'file',
+                'mimes:pdf',
+                'max:20480',
+            ],
+
+            'price' => [
+                'required',
+                'numeric',
+                'min:0',
+            ],
+
+            'is_active' => [
+                'nullable',
+                'boolean',
+            ],
         ]);
 
+        // Upload PDF
         $file = $request->file('file');
 
-        $path = $file->store('maps', 'public');
+        $filePath = $file->store('maps', 'public');
 
+        // Create map record
         Map::create([
             'mouza_id' => $validated['mouza_id'],
             'title' => $validated['title'],
-            'file_path' => $path,
+            'file_path' => $filePath,
             'file_name' => $file->getClientOriginalName(),
             'price' => $validated['price'],
             'is_active' => $request->boolean('is_active'),
@@ -63,25 +97,31 @@ class MapController extends Controller
             ->with('success', 'Map added successfully.');
     }
 
+    /**
+     * Display the specified map.
+     */
     public function show(Map $map)
     {
         $map->load([
             'mouza.upazila.district.division',
-            'mouza.surveyType'
+            'mouza.surveyType',
         ]);
 
         return view('admin.maps.show', compact('map'));
     }
 
+    /**
+     * Show the form for editing the specified map.
+     */
     public function edit(Map $map)
     {
         $mouzas = Mouza::with([
             'upazila.district.division',
-            'surveyType'
+            'surveyType',
         ])
-        ->where('is_active', true)
-        ->orderBy('name')
-        ->get();
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get();
 
         return view('admin.maps.edit', compact(
             'map',
@@ -89,14 +129,40 @@ class MapController extends Controller
         ));
     }
 
+    /**
+     * Update the specified map.
+     */
     public function update(Request $request, Map $map)
     {
         $validated = $request->validate([
-            'mouza_id' => ['required', 'exists:mouzas,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'file' => ['nullable', 'file', 'mimes:pdf', 'max:20480'],
-            'price' => ['required', 'numeric', 'min:0'],
-            'is_active' => ['nullable', 'boolean'],
+            'mouza_id' => [
+                'required',
+                'exists:mouzas,id',
+            ],
+
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'file' => [
+                'nullable',
+                'file',
+                'mimes:pdf',
+                'max:20480',
+            ],
+
+            'price' => [
+                'required',
+                'numeric',
+                'min:0',
+            ],
+
+            'is_active' => [
+                'nullable',
+                'boolean',
+            ],
         ]);
 
         $data = [
@@ -106,18 +172,27 @@ class MapController extends Controller
             'is_active' => $request->boolean('is_active'),
         ];
 
+        // Replace PDF if a new file is uploaded
         if ($request->hasFile('file')) {
 
-            if ($map->file_path && Storage::disk('public')->exists($map->file_path)) {
+            // Delete old PDF
+            if (
+                !empty($map->file_path) &&
+                Storage::disk('public')->exists($map->file_path)
+            ) {
                 Storage::disk('public')->delete($map->file_path);
             }
 
+            // Upload new PDF
             $file = $request->file('file');
 
-            $data['file_path'] = $file->store('maps', 'public');
+            $newFilePath = $file->store('maps', 'public');
+
+            $data['file_path'] = $newFilePath;
             $data['file_name'] = $file->getClientOriginalName();
         }
 
+        // Update map
         $map->update($data);
 
         return redirect()
@@ -125,12 +200,20 @@ class MapController extends Controller
             ->with('success', 'Map updated successfully.');
     }
 
+    /**
+     * Remove the specified map.
+     */
     public function destroy(Map $map)
     {
-        if ($map->file_path && Storage::disk('public')->exists($map->file_path)) {
+        // Delete PDF from storage
+        if (
+            !empty($map->file_path) &&
+            Storage::disk('public')->exists($map->file_path)
+        ) {
             Storage::disk('public')->delete($map->file_path);
         }
 
+        // Delete database record
         $map->delete();
 
         return redirect()
@@ -139,20 +222,33 @@ class MapController extends Controller
     }
 
     /**
-     * Download PDF
+     * Download map PDF.
      */
     public function download(Map $map)
     {
-        if (
-            !$map->file_path ||
-            !Storage::disk('public')->exists($map->file_path)
-        ) {
+        // Check file path
+        if (empty($map->file_path)) {
             abort(404, 'Map file not found.');
         }
 
-        return Storage::disk('public')->download(
-            $map->file_path,
-            $map->file_name ?? basename($map->file_path)
+        // Check whether PDF exists
+        if (!Storage::disk('public')->exists($map->file_path)) {
+            abort(404, 'Map PDF file does not exist.');
+        }
+
+        // Get actual physical file path
+        $filePath = Storage::disk('public')->path($map->file_path);
+
+        // Original file name
+        $downloadName = $map->file_name ?: basename($map->file_path);
+
+        // Download PDF
+        return response()->download(
+            $filePath,
+            $downloadName,
+            [
+                'Content-Type' => 'application/pdf',
+            ]
         );
     }
 }
