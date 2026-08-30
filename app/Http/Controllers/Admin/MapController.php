@@ -25,6 +25,7 @@ class MapController extends Controller
         return view('admin.maps.index', compact('maps'));
     }
 
+
     /**
      * Show the form for creating a new map.
      */
@@ -40,6 +41,7 @@ class MapController extends Controller
 
         return view('admin.maps.create', compact('mouzas'));
     }
+
 
     /**
      * Store a newly created map.
@@ -77,12 +79,24 @@ class MapController extends Controller
             ],
         ]);
 
-        // Upload PDF
+
+        /*
+        |--------------------------------------------------------------------------
+        | Upload PDF
+        |--------------------------------------------------------------------------
+        */
+
         $file = $request->file('file');
 
         $filePath = $file->store('maps', 'public');
 
-        // Create map record
+
+        /*
+        |--------------------------------------------------------------------------
+        | Create Map
+        |--------------------------------------------------------------------------
+        */
+
         Map::create([
             'mouza_id' => $validated['mouza_id'],
             'title' => $validated['title'],
@@ -92,13 +106,15 @@ class MapController extends Controller
             'is_active' => $request->boolean('is_active'),
         ]);
 
+
         return redirect()
             ->route('admin.maps.index')
             ->with('success', 'Map added successfully.');
     }
 
+
     /**
-     * Display the specified map.
+     * Display the specified map in admin panel.
      */
     public function show(Map $map)
     {
@@ -109,6 +125,48 @@ class MapController extends Controller
 
         return view('admin.maps.show', compact('map'));
     }
+
+
+    /**
+     * Display a public map details page.
+     */
+    public function publicShow(Map $map)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | Public Access
+        |--------------------------------------------------------------------------
+        |
+        | Only active maps can be viewed by customers.
+        |
+        */
+
+        if (!$map->is_active) {
+            abort(404);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Load Map Relationships
+        |--------------------------------------------------------------------------
+        */
+
+        $map->load([
+            'mouza.upazila.district.division',
+            'mouza.surveyType',
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Public Map Details View
+        |--------------------------------------------------------------------------
+        */
+
+        return view('maps.show', compact('map'));
+    }
+
 
     /**
      * Show the form for editing the specified map.
@@ -128,6 +186,7 @@ class MapController extends Controller
             'mouzas'
         ));
     }
+
 
     /**
      * Update the specified map.
@@ -165,6 +224,13 @@ class MapController extends Controller
             ],
         ]);
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Basic Map Data
+        |--------------------------------------------------------------------------
+        */
+
         $data = [
             'mouza_id' => $validated['mouza_id'],
             'title' => $validated['title'],
@@ -172,10 +238,19 @@ class MapController extends Controller
             'is_active' => $request->boolean('is_active'),
         ];
 
-        // Replace PDF if a new file is uploaded
+
+        /*
+        |--------------------------------------------------------------------------
+        | Replace PDF
+        |--------------------------------------------------------------------------
+        */
+
         if ($request->hasFile('file')) {
 
-            // Delete old PDF
+            /*
+            | Delete old PDF
+            */
+
             if (
                 !empty($map->file_path) &&
                 Storage::disk('public')->exists($map->file_path)
@@ -183,29 +258,51 @@ class MapController extends Controller
                 Storage::disk('public')->delete($map->file_path);
             }
 
-            // Upload new PDF
+
+            /*
+            | Upload new PDF
+            */
+
             $file = $request->file('file');
 
             $newFilePath = $file->store('maps', 'public');
+
+
+            /*
+            | Save new file information
+            */
 
             $data['file_path'] = $newFilePath;
             $data['file_name'] = $file->getClientOriginalName();
         }
 
-        // Update map
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update Map
+        |--------------------------------------------------------------------------
+        */
+
         $map->update($data);
+
 
         return redirect()
             ->route('admin.maps.index')
             ->with('success', 'Map updated successfully.');
     }
 
+
     /**
      * Remove the specified map.
      */
     public function destroy(Map $map)
     {
-        // Delete PDF from storage
+        /*
+        |--------------------------------------------------------------------------
+        | Delete PDF
+        |--------------------------------------------------------------------------
+        */
+
         if (
             !empty($map->file_path) &&
             Storage::disk('public')->exists($map->file_path)
@@ -213,36 +310,74 @@ class MapController extends Controller
             Storage::disk('public')->delete($map->file_path);
         }
 
-        // Delete database record
+
+        /*
+        |--------------------------------------------------------------------------
+        | Delete Database Record
+        |--------------------------------------------------------------------------
+        */
+
         $map->delete();
+
 
         return redirect()
             ->route('admin.maps.index')
             ->with('success', 'Map deleted successfully.');
     }
 
+
     /**
-     * Download map PDF.
+     * Download map PDF from admin panel.
      */
     public function download(Map $map)
     {
-        // Check file path
+        /*
+        |--------------------------------------------------------------------------
+        | Check File Path
+        |--------------------------------------------------------------------------
+        */
+
         if (empty($map->file_path)) {
             abort(404, 'Map file not found.');
         }
 
-        // Check whether PDF exists
+
+        /*
+        |--------------------------------------------------------------------------
+        | Check PDF Exists
+        |--------------------------------------------------------------------------
+        */
+
         if (!Storage::disk('public')->exists($map->file_path)) {
             abort(404, 'Map PDF file does not exist.');
         }
 
-        // Get actual physical file path
+
+        /*
+        |--------------------------------------------------------------------------
+        | Get Physical File Path
+        |--------------------------------------------------------------------------
+        */
+
         $filePath = Storage::disk('public')->path($map->file_path);
 
-        // Original file name
-        $downloadName = $map->file_name ?: basename($map->file_path);
 
-        // Download PDF
+        /*
+        |--------------------------------------------------------------------------
+        | Original File Name
+        |--------------------------------------------------------------------------
+        */
+
+        $downloadName = $map->file_name
+            ?: basename($map->file_path);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Download PDF
+        |--------------------------------------------------------------------------
+        */
+
         return response()->download(
             $filePath,
             $downloadName,

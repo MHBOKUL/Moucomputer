@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\DivisionController;
 use App\Http\Controllers\Admin\DistrictController;
@@ -6,6 +7,7 @@ use App\Http\Controllers\Admin\MapController;
 use App\Http\Controllers\Admin\MouzaController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UpazilaController;
+use App\Http\Controllers\MapBrowserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,9 +18,200 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+
+/*
+|--------------------------------------------------------------------------
+| Homepage
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+
+/*
+|--------------------------------------------------------------------------
+| Public Map Browser
+|--------------------------------------------------------------------------
+|
+| Customer flow:
+|
+| Division
+|     ↓
+| District
+|     ↓
+| Upazila
+|     ↓
+| Mouza
+|     ↓
+| Available Maps
+|     ↓
+| Map Details
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| Browse Divisions
+|--------------------------------------------------------------------------
+|
+| Example:
+| /maps/browse
+|
+*/
+
+Route::get(
+    '/maps/browse',
+    [MapBrowserController::class, 'index']
+)->name('maps.browse');
+
+
+/*
+|--------------------------------------------------------------------------
+| Browse Districts
+|--------------------------------------------------------------------------
+|
+| Example:
+| /maps/browse/divisions/1/districts
+|
+*/
+
+Route::get(
+    '/maps/browse/divisions/{division}/districts',
+    [MapBrowserController::class, 'districts']
+)->name('maps.browse.districts');
+
+
+/*
+|--------------------------------------------------------------------------
+| Browse Upazilas
+|--------------------------------------------------------------------------
+|
+| Example:
+| /maps/browse/districts/1/upazilas
+|
+*/
+
+Route::get(
+    '/maps/browse/districts/{district}/upazilas',
+    [MapBrowserController::class, 'upazilas']
+)->name('maps.browse.upazilas');
+
+
+/*
+|--------------------------------------------------------------------------
+| Browse Mouzas
+|--------------------------------------------------------------------------
+|
+| Example:
+| /maps/browse/upazilas/1/mouzas
+|
+*/
+
+Route::get(
+    '/maps/browse/upazilas/{upazila}/mouzas',
+    [MapBrowserController::class, 'mouzas']
+)->name('maps.browse.mouzas');
+
+
+/*
+|--------------------------------------------------------------------------
+| Browse Maps
+|--------------------------------------------------------------------------
+|
+| Example:
+| /maps/browse/mouzas/1/maps
+|
+*/
+
+Route::get(
+    '/maps/browse/mouzas/{mouza}/maps',
+    [MapBrowserController::class, 'maps']
+)->name('maps.browse.maps');
+
+
+/*
+|--------------------------------------------------------------------------
+| Public Map Details
+|--------------------------------------------------------------------------
+|
+| Example:
+| /maps/1
+|
+| Only active maps are publicly accessible.
+|
+*/
+
+Route::get(
+    '/maps/{map}',
+    [MapController::class, 'publicShow']
+)->name('maps.show');
+
+
+/*
+|--------------------------------------------------------------------------
+| Public Order
+|--------------------------------------------------------------------------
+|
+| GET  /orders/create/{map}
+| POST /orders
+| GET  /orders/{order}/success
+| GET  /orders/{order}/download
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| Create Order
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/orders/create/{map}',
+    [OrderController::class, 'createPublic']
+)->name('orders.create');
+
+
+/*
+|--------------------------------------------------------------------------
+| Store Order
+|--------------------------------------------------------------------------
+*/
+
+Route::post(
+    '/orders',
+    [OrderController::class, 'storePublic']
+)->name('orders.store');
+
+
+/*
+|--------------------------------------------------------------------------
+| Order Success
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/orders/{order}/success',
+    [OrderController::class, 'success']
+)->name('orders.success');
+
+
+/*
+|--------------------------------------------------------------------------
+| Customer PDF Download
+|--------------------------------------------------------------------------
+|
+| Download is protected inside OrderController.
+|
+*/
+
+Route::get(
+    '/orders/{order}/download',
+    [OrderController::class, 'download']
+)->name('orders.download');
 
 
 /*
@@ -42,22 +235,29 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'admin'])->group(function () {
 
+
     /*
     |--------------------------------------------------------------------------
     | Admin Dashboard
     |--------------------------------------------------------------------------
     */
 
-Route::get('/admin', [AdminDashboardController::class, 'index'])
-    ->name('admin.dashboard');
+    Route::get(
+        '/admin',
+        [AdminDashboardController::class, 'index']
+    )->name('admin.dashboard');
+
+
     /*
     |--------------------------------------------------------------------------
     | Division Management
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('/admin/divisions', DivisionController::class)
-        ->names('admin.divisions');
+    Route::resource(
+        '/admin/divisions',
+        DivisionController::class
+    )->names('admin.divisions');
 
 
     /*
@@ -66,8 +266,10 @@ Route::get('/admin', [AdminDashboardController::class, 'index'])
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('/admin/districts', DistrictController::class)
-        ->names('admin.districts');
+    Route::resource(
+        '/admin/districts',
+        DistrictController::class
+    )->names('admin.districts');
 
 
     /*
@@ -76,8 +278,10 @@ Route::get('/admin', [AdminDashboardController::class, 'index'])
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('/admin/upazilas', UpazilaController::class)
-        ->names('admin.upazilas');
+    Route::resource(
+        '/admin/upazilas',
+        UpazilaController::class
+    )->names('admin.upazilas');
 
 
     /*
@@ -86,8 +290,10 @@ Route::get('/admin', [AdminDashboardController::class, 'index'])
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('/admin/mouzas', MouzaController::class)
-        ->names('admin.mouzas');
+    Route::resource(
+        '/admin/mouzas',
+        MouzaController::class
+    )->names('admin.mouzas');
 
 
     /*
@@ -96,23 +302,32 @@ Route::get('/admin', [AdminDashboardController::class, 'index'])
     |--------------------------------------------------------------------------
     */
 
+
     /*
-    | PDF Download
+    |--------------------------------------------------------------------------
+    | Admin Map PDF Download
+    |--------------------------------------------------------------------------
     |
-    | IMPORTANT:
-    | This route must be before the resource route.
+    | Must be before the Map resource route.
+    |
     */
 
-    Route::get('/admin/maps/{map}/download', [MapController::class, 'download'])
-        ->name('admin.maps.download');
+    Route::get(
+        '/admin/maps/{map}/download',
+        [MapController::class, 'download']
+    )->name('admin.maps.download');
 
 
     /*
-    | Map CRUD
+    |--------------------------------------------------------------------------
+    | Admin Map CRUD
+    |--------------------------------------------------------------------------
     */
 
-    Route::resource('/admin/maps', MapController::class)
-        ->names('admin.maps');
+    Route::resource(
+        '/admin/maps',
+        MapController::class
+    )->names('admin.maps');
 
 
     /*
@@ -121,35 +336,38 @@ Route::get('/admin', [AdminDashboardController::class, 'index'])
     |--------------------------------------------------------------------------
     */
 
-    /*
-    | Order List
-    */
-
-    Route::get('/admin/orders', [OrderController::class, 'index'])
-        ->name('admin.orders.index');
-
 
     /*
-    | Order Details
+    |--------------------------------------------------------------------------
+    | Admin Order CRUD
+    |--------------------------------------------------------------------------
+    |
+    | GET       /admin/orders
+    | POST      /admin/orders
+    | GET       /admin/orders/create
+    | GET       /admin/orders/{order}
+    | PUT/PATCH /admin/orders/{order}
+    | DELETE    /admin/orders/{order}
+    | GET       /admin/orders/{order}/edit
+    |
     */
 
-    Route::get('/admin/orders/{order}', [OrderController::class, 'show'])
-        ->name('admin.orders.show');
+    Route::resource(
+        '/admin/orders',
+        OrderController::class
+    )->names('admin.orders');
+
 
     /*
-    | Update Order Status
+    |--------------------------------------------------------------------------
+    | Quick Order Status Update
+    |--------------------------------------------------------------------------
     */
 
-    Route::patch('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])
-        ->name('admin.orders.status');
-
-
-    /*
-    | Delete Order
-    */
-
-    Route::delete('/admin/orders/{order}', [OrderController::class, 'destroy'])
-        ->name('admin.orders.destroy');
+    Route::patch(
+        '/admin/orders/{order}/status',
+        [OrderController::class, 'updateStatus']
+    )->name('admin.orders.status');
 
 });
 
@@ -162,14 +380,41 @@ Route::get('/admin', [AdminDashboardController::class, 'index'])
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/profile', [ProfileController::class, 'edit'])
-        ->name('profile.edit');
 
-    Route::patch('/profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
+    /*
+    |--------------------------------------------------------------------------
+    | Profile Edit
+    |--------------------------------------------------------------------------
+    */
 
-    Route::delete('/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
+    Route::get(
+        '/profile',
+        [ProfileController::class, 'edit']
+    )->name('profile.edit');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Profile Update
+    |--------------------------------------------------------------------------
+    */
+
+    Route::patch(
+        '/profile',
+        [ProfileController::class, 'update']
+    )->name('profile.update');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Profile Delete
+    |--------------------------------------------------------------------------
+    */
+
+    Route::delete(
+        '/profile',
+        [ProfileController::class, 'destroy']
+    )->name('profile.destroy');
 
 });
 
@@ -180,4 +425,4 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

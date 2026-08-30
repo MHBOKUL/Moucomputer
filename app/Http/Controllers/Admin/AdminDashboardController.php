@@ -15,7 +15,7 @@ use Carbon\Carbon;
 class AdminDashboardController extends Controller
 {
     /**
-     * Display admin dashboard with statistics.
+     * Display the admin dashboard.
      */
     public function index()
     {
@@ -27,14 +27,10 @@ class AdminDashboardController extends Controller
 
         $today = Carbon::today();
 
-        $yesterday = Carbon::yesterday();
-
         $startOfWeek = Carbon::now()->startOfWeek();
-
         $endOfWeek = Carbon::now()->endOfWeek();
 
         $startOfMonth = Carbon::now()->startOfMonth();
-
         $endOfMonth = Carbon::now()->endOfMonth();
 
 
@@ -44,17 +40,15 @@ class AdminDashboardController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $divisionCount = Division::count();
+        $totalDivisions = Division::count();
 
-        $districtCount = District::count();
+        $totalDistricts = District::count();
 
-        $upazilaCount = Upazila::count();
+        $totalUpazilas = Upazila::count();
 
-        $mouzaCount = Mouza::count();
+        $totalMouzas = Mouza::count();
 
-        $surveyTypeCount = SurveyType::count();
-
-        $mapCount = Map::count();
+        $totalSurveyTypes = SurveyType::count();
 
 
         /*
@@ -63,6 +57,8 @@ class AdminDashboardController extends Controller
         |--------------------------------------------------------------------------
         */
 
+        $totalMaps = Map::count();
+
         $activeMaps = Map::where('is_active', true)->count();
 
         $inactiveMaps = Map::where('is_active', false)->count();
@@ -70,6 +66,31 @@ class AdminDashboardController extends Controller
         $freeMaps = Map::where('price', 0)->count();
 
         $paidMaps = Map::where('price', '>', 0)->count();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Order Statistics
+        |--------------------------------------------------------------------------
+        */
+
+        $totalOrders = Order::count();
+
+        $pendingOrders = Order::where('status', 'pending')->count();
+
+        $completedOrders = Order::where('status', 'completed')->count();
+
+        $cancelledOrders = Order::where('status', 'cancelled')->count();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Revenue Statistics
+        |--------------------------------------------------------------------------
+        */
+
+        $totalSales = Order::where('status', 'completed')
+            ->sum('amount');
 
 
         /*
@@ -92,22 +113,7 @@ class AdminDashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Yesterday's Statistics
-        |--------------------------------------------------------------------------
-        */
-
-        $yesterdayOrders = Order::whereDate('created_at', $yesterday)
-            ->where('status', 'completed')
-            ->count();
-
-        $yesterdaySales = Order::whereDate('created_at', $yesterday)
-            ->where('status', 'completed')
-            ->sum('amount');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | This Week Statistics
+        | Weekly Statistics
         |--------------------------------------------------------------------------
         */
 
@@ -128,7 +134,7 @@ class AdminDashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | This Month Statistics
+        | Monthly Statistics
         |--------------------------------------------------------------------------
         */
 
@@ -149,33 +155,11 @@ class AdminDashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Total Statistics
+        | Download Statistics
         |--------------------------------------------------------------------------
         */
-
-        $totalOrders = Order::where('status', 'completed')
-            ->count();
-
-        $totalSales = Order::where('status', 'completed')
-            ->sum('amount');
 
         $totalDownloads = Order::sum('download_count');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Order Status Statistics
-        |--------------------------------------------------------------------------
-        */
-
-        $pendingOrders = Order::where('status', 'pending')
-            ->count();
-
-        $completedOrders = Order::where('status', 'completed')
-            ->count();
-
-        $cancelledOrders = Order::where('status', 'cancelled')
-            ->count();
 
 
         /*
@@ -209,56 +193,54 @@ class AdminDashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Dashboard View
+        | Return Dashboard View
         |--------------------------------------------------------------------------
         */
 
-        return view('admin.dashboard', [
+        return view('admin.dashboard', compact(
 
             // Administrative
-            'divisionCount' => $divisionCount,
-            'districtCount' => $districtCount,
-            'upazilaCount' => $upazilaCount,
-            'mouzaCount' => $mouzaCount,
-            'surveyTypeCount' => $surveyTypeCount,
+            'totalDivisions',
+            'totalDistricts',
+            'totalUpazilas',
+            'totalMouzas',
+            'totalSurveyTypes',
 
             // Maps
-            'mapCount' => $mapCount,
-            'activeMaps' => $activeMaps,
-            'inactiveMaps' => $inactiveMaps,
-            'freeMaps' => $freeMaps,
-            'paidMaps' => $paidMaps,
+            'totalMaps',
+            'activeMaps',
+            'inactiveMaps',
+            'freeMaps',
+            'paidMaps',
+
+            // Orders
+            'totalOrders',
+            'pendingOrders',
+            'completedOrders',
+            'cancelledOrders',
+
+            // Revenue
+            'totalSales',
 
             // Today
-            'todayOrders' => $todayOrders,
-            'todaySales' => $todaySales,
-            'todayDownloads' => $todayDownloads,
-
-            // Yesterday
-            'yesterdayOrders' => $yesterdayOrders,
-            'yesterdaySales' => $yesterdaySales,
+            'todayOrders',
+            'todaySales',
+            'todayDownloads',
 
             // Week
-            'weekOrders' => $weekOrders,
-            'weekSales' => $weekSales,
+            'weekOrders',
+            'weekSales',
 
             // Month
-            'monthOrders' => $monthOrders,
-            'monthSales' => $monthSales,
+            'monthOrders',
+            'monthSales',
 
-            // Total
-            'totalOrders' => $totalOrders,
-            'totalSales' => $totalSales,
-            'totalDownloads' => $totalDownloads,
-
-            // Order status
-            'pendingOrders' => $pendingOrders,
-            'completedOrders' => $completedOrders,
-            'cancelledOrders' => $cancelledOrders,
+            // Downloads
+            'totalDownloads',
 
             // Tables
-            'recentOrders' => $recentOrders,
-            'topMaps' => $topMaps,
-        ]);
+            'recentOrders',
+            'topMaps'
+        ));
     }
 }

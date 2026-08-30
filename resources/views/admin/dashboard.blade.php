@@ -1,9 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -11,609 +9,1495 @@
 
     <style>
 
+        /* =========================================================
+           ROOT
+        ========================================================= */
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+
+            --dark: #111827;
+            --dark-2: #1f2937;
+
+            --text: #172033;
+            --muted: #64748b;
+
+            --bg: #f6f8fc;
+            --white: #ffffff;
+
+            --border: #e5e7eb;
+            --border-light: #eef2f7;
+
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+
+            --warning: #d97706;
+            --warning-bg: #fef3c7;
+
+            --danger: #dc2626;
+            --danger-bg: #fee2e2;
+
+            --purple: #7c3aed;
+            --purple-bg: #f3e8ff;
+
+            --shadow:
+                0 1px 2px rgba(15, 23, 42, .03),
+                0 6px 20px rgba(15, 23, 42, .04);
+
+            --sidebar-width: 250px;
+        }
+
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --dark: #111827;
-            --text: #1f2937;
-            --muted: #6b7280;
-            --border: #e5e7eb;
-            --bg: #f6f8fc;
-            --white: #ffffff;
-            --success: #16a34a;
-            --warning: #d97706;
-            --danger: #dc2626;
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: Inter, Arial, sans-serif;
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
             background: var(--bg);
             color: var(--text);
+
+            line-height: 1.5;
         }
 
         a {
-            text-decoration: none;
             color: inherit;
+            text-decoration: none;
         }
 
-        /* =========================
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+
+        /* =========================================================
            SIDEBAR
-        ========================= */
+        ========================================================= */
 
         .sidebar {
             position: fixed;
-            left: 0;
+
             top: 0;
-            width: 250px;
+            left: 0;
+
+            width: var(--sidebar-width);
             height: 100vh;
-            background: #111827;
-            color: white;
-            padding: 24px 16px;
+
+            background: var(--dark);
+
+            color: #fff;
+
+            padding: 20px 14px;
+
             z-index: 1000;
+
+            display: flex;
+            flex-direction: column;
+
+            overflow-y: auto;
+
+            transition: transform .25s ease;
         }
+
+
+        /* BRAND */
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 0 10px 30px;
-            border-bottom: 1px solid rgba(255,255,255,.08);
-            margin-bottom: 25px;
+
+            gap: 11px;
+
+            padding: 0 10px 22px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,.08);
         }
 
-        .brand-icon {
+        .brand-logo {
             width: 40px;
             height: 40px;
+
             border-radius: 10px;
-            background: var(--primary);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #3b82f6
+                );
+
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
+
+            font-size: 18px;
+            font-weight: 800;
+
+            box-shadow:
+                0 8px 20px rgba(37,99,235,.28);
         }
 
-        .brand h2 {
-            font-size: 19px;
-            font-weight: 700;
+        .brand-name {
+            font-size: 17px;
+            font-weight: 750;
+
+            letter-spacing: -.3px;
         }
 
-        .brand span {
+        .brand-subtitle {
             display: block;
-            font-size: 11px;
-            color: #9ca3af;
-            margin-top: 2px;
+
+            color: #94a3b8;
+
+            font-size: 10px;
+
+            margin-top: 1px;
         }
+
+
+        /* MENU */
 
         .menu-title {
-            font-size: 11px;
+            color: #64748b;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
             text-transform: uppercase;
-            letter-spacing: .08em;
-            color: #6b7280;
+
+            letter-spacing: .12em;
+
             padding: 0 12px;
-            margin-bottom: 8px;
+
+            margin: 25px 0 8px;
         }
 
         .nav {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+
+            gap: 3px;
         }
 
-        .nav a {
+        .nav-link {
             display: flex;
             align-items: center;
+
             gap: 12px;
-            padding: 12px;
+
+            padding: 10px 12px;
+
             border-radius: 8px;
-            color: #d1d5db;
-            font-size: 14px;
-            transition: .2s;
+
+            color: #cbd5e1;
+
+            font-size: 12px;
+
+            font-weight: 550;
+
+            transition:
+                background .2s ease,
+                color .2s ease,
+                transform .2s ease;
         }
 
-        .nav a:hover,
-        .nav a.active {
-            background: #1f2937;
-            color: white;
+        .nav-link:hover {
+            background: rgba(255,255,255,.06);
+
+            color: #fff;
+
+            transform: translateX(2px);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+
+            color: #fff;
+
+            box-shadow:
+                0 6px 18px rgba(37,99,235,.25);
         }
 
         .nav-icon {
-            width: 22px;
+            width: 20px;
+
             text-align: center;
+
+            font-size: 15px;
+
+            flex-shrink: 0;
         }
 
-        .sidebar-bottom {
-            position: absolute;
-            bottom: 22px;
-            left: 16px;
-            right: 16px;
+
+        /* SIDEBAR FOOTER */
+
+        .sidebar-footer {
+            margin-top: auto;
+
+            padding-top: 20px;
+        }
+
+        .admin-mini {
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+
+            padding: 10px;
+
+            margin-bottom: 10px;
+
+            background: rgba(255,255,255,.04);
+
+            border:
+                1px solid rgba(255,255,255,.06);
+
+            border-radius: 9px;
+        }
+
+        .admin-mini-avatar {
+            width: 32px;
+            height: 32px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .admin-mini-info {
+            min-width: 0;
+        }
+
+        .admin-mini-info strong {
+            display: block;
+
+            color: #fff;
+
+            font-size: 10px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .admin-mini-info span {
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 8px;
+
+            margin-top: 1px;
         }
 
         .logout {
             width: 100%;
-            padding: 11px;
-            border: 1px solid #374151;
-            background: transparent;
-            color: #d1d5db;
+
+            padding: 9px 11px;
+
+            border:
+                1px solid #374151;
+
             border-radius: 8px;
+
+            background: transparent;
+
+            color: #cbd5e1;
+
             cursor: pointer;
-            font-size: 13px;
+
+            font-size: 11px;
+
+            transition: .2s;
         }
 
         .logout:hover {
             background: #1f2937;
+
+            color: #fff;
+
+            border-color: #475569;
         }
 
 
-        /* =========================
+        /* =========================================================
+           SIDEBAR OVERLAY
+        ========================================================= */
+
+        .sidebar-overlay {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(15,23,42,.48);
+
+            z-index: 900;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+
+        /* =========================================================
            MAIN
-        ========================= */
+        ========================================================= */
 
         .main {
-            margin-left: 250px;
+            margin-left: var(--sidebar-width);
+
             min-height: 100vh;
         }
 
+
+        /* =========================================================
+           TOPBAR
+        ========================================================= */
+
         .topbar {
-            height: 72px;
-            background: white;
-            border-bottom: 1px solid var(--border);
+            height: 68px;
+
+            background: rgba(255,255,255,.96);
+
+            border-bottom:
+                1px solid var(--border);
+
+            padding:
+                0 30px;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 35px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 800;
+
+            backdrop-filter: blur(10px);
         }
 
-        .topbar-title {
-            font-size: 14px;
-            color: var(--muted);
-        }
-
-        .admin-profile {
+        .topbar-left {
             display: flex;
             align-items: center;
+
+            gap: 13px;
+        }
+
+        .mobile-menu {
+            display: none;
+
+            width: 37px;
+            height: 37px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 8px;
+
+            background: #fff;
+
+            cursor: pointer;
+
+            font-size: 17px;
+        }
+
+        .breadcrumb {
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .breadcrumb strong {
+            color: var(--text);
+
+            font-weight: 700;
+        }
+
+        .breadcrumb-separator {
+            padding: 0 5px;
+
+            color: #cbd5e1;
+        }
+
+
+        /* TOP PROFILE */
+
+        .top-profile {
+            display: flex;
+            align-items: center;
+
             gap: 10px;
         }
 
-        .avatar {
-            width: 38px;
-            height: 38px;
+        .top-avatar {
+            width: 37px;
+            height: 37px;
+
             border-radius: 50%;
-            background: #dbeafe;
-            color: #1d4ed8;
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
+
+            font-size: 12px;
+
+            font-weight: 800;
         }
 
-        .admin-info strong {
+        .top-user strong {
             display: block;
-            font-size: 13px;
+
+            font-size: 11px;
+
+            font-weight: 750;
         }
 
-        .admin-info span {
-            font-size: 11px;
+        .top-user span {
+            display: block;
+
             color: var(--muted);
+
+            font-size: 9px;
+
+            margin-top: 1px;
         }
+
+
+        /* =========================================================
+           CONTENT
+        ========================================================= */
 
         .content {
-            padding: 32px 35px;
+            max-width: 1650px;
+
+            margin: 0 auto;
+
+            padding:
+                27px 30px 45px;
         }
 
 
-        /* =========================
+        /* =========================================================
            WELCOME
-        ========================= */
+        ========================================================= */
 
         .welcome {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 25px 28px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #f8fbff
+                );
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 13px;
+
+            padding:
+                23px 25px;
+
+            margin-bottom: 25px;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 25px;
+
+            box-shadow: var(--shadow);
         }
 
         .welcome h1 {
-            font-size: 25px;
-            margin-bottom: 6px;
+            font-size: 22px;
+
+            line-height: 1.3;
+
+            letter-spacing: -.5px;
+
+            margin-bottom: 5px;
         }
 
         .welcome p {
             color: var(--muted);
-            font-size: 14px;
+
+            font-size: 11px;
         }
 
         .date-box {
+            padding:
+                8px 12px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 8px;
+
+            background: #fff;
+
             color: var(--muted);
-            font-size: 13px;
+
+            font-size: 10px;
+
+            font-weight: 650;
         }
 
 
-        /* =========================
-           SECTION HEADER
-        ========================= */
+        /* =========================================================
+           SECTION
+        ========================================================= */
 
         .section-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 15px;
+
+            margin-bottom: 13px;
         }
 
         .section-header h2 {
-            font-size: 18px;
+            font-size: 15px;
+
+            font-weight: 750;
+
+            letter-spacing: -.2px;
         }
 
         .section-header span {
             color: var(--muted);
-            font-size: 12px;
+
+            font-size: 9px;
         }
 
 
-        /* =========================
-           STATISTICS
-        ========================= */
+        /* =========================================================
+           KPI
+        ========================================================= */
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 30px;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 14px;
+
+            margin-bottom: 25px;
         }
 
         .stat-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
+            background: #fff;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 11px;
+
+            padding: 17px;
+
+            box-shadow: var(--shadow);
+
             transition: .2s;
         }
 
         .stat-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,.06);
+
+            box-shadow:
+                0 12px 30px rgba(15,23,42,.08);
         }
 
-        .stat-top {
+        .stat-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
         }
 
         .stat-label {
             color: var(--muted);
-            font-size: 12px;
+
+            font-size: 10px;
+
+            font-weight: 650;
         }
 
         .stat-icon {
-            width: 38px;
-            height: 38px;
+            width: 37px;
+            height: 37px;
+
             border-radius: 9px;
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #eff6ff;
-            color: var(--primary);
-            font-size: 18px;
+
+            font-size: 16px;
+
+            font-weight: 800;
+        }
+
+        .stat-icon.green {
+            background: var(--success-bg);
+
+            color: var(--success);
+        }
+
+        .stat-icon.orange {
+            background: var(--warning-bg);
+
+            color: var(--warning);
+        }
+
+        .stat-icon.purple {
+            background: var(--purple-bg);
+
+            color: var(--purple);
         }
 
         .stat-number {
-            font-size: 27px;
-            font-weight: 700;
-            margin-top: 14px;
+            margin-top: 13px;
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+            letter-spacing: -.5px;
         }
 
         .stat-note {
-            font-size: 11px;
             color: var(--muted);
-            margin-top: 5px;
+
+            font-size: 9px;
+
+            margin-top: 3px;
         }
 
 
-        /* =========================
-           PANELS
-        ========================= */
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+        /* =========================================================
+           PANEL
+        ========================================================= */
 
         .panel {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 22px;
+            background: #fff;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 11px;
+
+            padding: 19px;
+
+            box-shadow: var(--shadow);
         }
 
         .panel-title {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 14px;
+
+            font-weight: 750;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* =========================================================
+           SALES
+        ========================================================= */
+
+        .sales-panel {
+            margin-bottom: 18px;
+        }
+
+        .sales-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 11px;
+        }
+
+        .sales-card {
+            padding: 15px;
+
+            background: #fafbfc;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 9px;
+
+            transition: .2s;
+        }
+
+        .sales-card:hover {
+            border-color: #bfdbfe;
+
+            background: #f8fbff;
+        }
+
+        .sales-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            color: var(--muted);
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: .04em;
+        }
+
+        .sales-value {
+            margin-top: 8px;
+
+            font-size: 21px;
+
+            font-weight: 800;
+        }
+
+        .sales-orders {
+            color: var(--muted);
+
+            font-size: 9px;
+
+            margin-top: 2px;
+        }
+
+        .sales-orders strong {
+            color: var(--text);
+        }
+
+
+        /* =========================================================
+           TWO COLUMN
+        ========================================================= */
+
+        .two-column {
+            display: grid;
+
+            grid-template-columns:
+                1.5fr 1fr;
+
+            gap: 18px;
+
             margin-bottom: 18px;
         }
 
 
-        /* =========================
+        /* =========================================================
            MANAGEMENT
-        ========================= */
+        ========================================================= */
 
-        .management-list {
+        .management-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 9px;
         }
 
         .management-item {
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            padding: 15px;
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
+            gap: 10px;
+
+            padding: 11px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 8px;
+
             transition: .2s;
         }
 
         .management-item:hover {
-            border-color: #bfdbfe;
             background: #f8fbff;
+
+            border-color: #bfdbfe;
         }
 
         .management-left {
             display: flex;
+
             align-items: center;
-            gap: 11px;
+
+            gap: 9px;
+
+            min-width: 0;
         }
 
         .management-icon {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
+
+            flex-shrink: 0;
+
             border-radius: 8px;
-            background: #f3f4f6;
+
+            background: #f1f5f9;
+
             display: flex;
+
             align-items: center;
             justify-content: center;
+
+            font-size: 14px;
         }
 
         .management-name {
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 11px;
+
+            font-weight: 750;
         }
 
         .management-count {
-            font-size: 11px;
             color: var(--muted);
-            margin-top: 3px;
+
+            font-size: 8px;
+
+            margin-top: 1px;
         }
 
-        .manage-btn {
+        .manage-link {
             color: var(--primary);
-            font-size: 12px;
-            font-weight: 600;
+
+            font-size: 9px;
+
+            font-weight: 750;
+
+            white-space: nowrap;
         }
 
 
-        /* =========================
+        /* =========================================================
            QUICK ACTIONS
-        ========================= */
+        ========================================================= */
 
-        .quick-action {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        .quick-actions {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 8px;
         }
 
-        .action-btn {
+        .action {
             display: flex;
+
             align-items: center;
-            gap: 12px;
-            border: 1px solid var(--border);
-            padding: 13px;
-            border-radius: 9px;
+
+            gap: 9px;
+
+            padding: 10px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 8px;
+
             transition: .2s;
         }
 
-        .action-btn:hover {
+        .action:hover {
             background: #f8fbff;
+
             border-color: #bfdbfe;
+
+            transform: translateY(-1px);
         }
 
         .action-icon {
-            width: 34px;
-            height: 34px;
+            width: 31px;
+            height: 31px;
+
+            flex-shrink: 0;
+
             border-radius: 8px;
-            background: #eff6ff;
+
+            background: var(--primary-light);
+
             color: var(--primary);
+
             display: flex;
+
             align-items: center;
             justify-content: center;
+
+            font-size: 15px;
+
+            font-weight: 800;
         }
 
         .action-text strong {
             display: block;
-            font-size: 13px;
+
+            font-size: 10px;
+
+            font-weight: 750;
         }
 
         .action-text span {
             display: block;
+
             color: var(--muted);
-            font-size: 11px;
-            margin-top: 2px;
+
+            font-size: 8px;
+
+            margin-top: 1px;
         }
 
 
-        /* =========================
-           ORDER PANEL
-        ========================= */
+        /* =========================================================
+           ORDERS
+        ========================================================= */
 
-        .order-table-wrapper {
+        .orders-panel {
+            margin-bottom: 18px;
+        }
+
+        .table-wrapper {
+            width: 100%;
+
             overflow-x: auto;
         }
 
-        .order-table {
+        .orders-table {
             width: 100%;
+
+            min-width: 750px;
+
             border-collapse: collapse;
         }
 
-        .order-table th {
+        .orders-table th {
             text-align: left;
-            font-size: 11px;
+
+            padding:
+                9px 10px;
+
+            background: #fafbfc;
+
+            border-bottom:
+                1px solid var(--border);
+
             color: var(--muted);
-            font-weight: 600;
-            padding: 12px;
-            border-bottom: 1px solid var(--border);
+
+            font-size: 8px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: .05em;
         }
 
-        .order-table td {
-            padding: 13px 12px;
-            font-size: 12px;
-            border-bottom: 1px solid #f1f5f9;
+        .orders-table td {
+            padding:
+                11px 10px;
+
+            border-bottom:
+                1px solid var(--border-light);
+
+            font-size: 10px;
+
+            vertical-align: middle;
         }
 
-        .order-table tr:last-child td {
+        .orders-table tbody tr:hover {
+            background: #fafcff;
+        }
+
+        .orders-table tr:last-child td {
             border-bottom: none;
         }
 
+        .order-id {
+            color: var(--primary);
+
+            font-size: 9px;
+
+            font-weight: 800;
+        }
+
         .customer-name {
-            font-weight: 600;
+            font-size: 10px;
+
+            font-weight: 750;
         }
 
         .customer-phone {
-            font-size: 10px;
             color: var(--muted);
-            margin-top: 3px;
+
+            font-size: 8px;
+
+            margin-top: 2px;
         }
 
+        .map-title {
+            max-width: 180px;
+
+            overflow: hidden;
+
+            white-space: nowrap;
+
+            text-overflow: ellipsis;
+
+            font-size: 9px;
+        }
+
+        .amount {
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .payment {
+            color: var(--muted);
+
+            font-size: 9px;
+        }
+
+
+        /* =========================================================
+           BADGES
+        ========================================================= */
+
         .badge {
-            display: inline-block;
-            padding: 5px 8px;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 600;
+            display: inline-flex;
+
+            align-items: center;
+
+            padding:
+                4px 7px;
+
+            border-radius: 5px;
+
+            font-size: 8px;
+
+            font-weight: 800;
         }
 
         .badge-success {
-            background: #dcfce7;
+            background: var(--success-bg);
+
             color: #15803d;
         }
 
         .badge-warning {
-            background: #fef3c7;
+            background: var(--warning-bg);
+
             color: #b45309;
         }
 
         .badge-danger {
-            background: #fee2e2;
+            background: var(--danger-bg);
+
             color: #b91c1c;
         }
 
-        .amount {
-            font-weight: 700;
-        }
 
+        /* =========================================================
+           LOWER SECTION
+        ========================================================= */
 
-        /* =========================
-           MAP STATUS
-        ========================= */
-
-        .map-status {
+        .lower-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 18px;
         }
 
-        .status-box {
-            border-radius: 9px;
-            padding: 15px;
-            background: #f9fafb;
+
+        /* =========================================================
+           TOP MAPS
+        ========================================================= */
+
+        .top-map {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding:
+                10px 0;
+
+            border-bottom:
+                1px solid var(--border-light);
         }
 
-        .status-box span {
+        .top-map:last-child {
+            border-bottom: none;
+        }
+
+        .rank {
+            width: 29px;
+            height: 29px;
+
+            flex-shrink: 0;
+
+            border-radius: 7px;
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 9px;
+
+            font-weight: 800;
+        }
+
+        .map-info {
+            flex: 1;
+
+            min-width: 0;
+        }
+
+        .map-info strong {
             display: block;
+
+            font-size: 10px;
+
+            font-weight: 750;
+
+            overflow: hidden;
+
+            white-space: nowrap;
+
+            text-overflow: ellipsis;
+        }
+
+        .map-info span {
+            display: block;
+
             color: var(--muted);
-            font-size: 11px;
+
+            font-size: 8px;
+
+            margin-top: 2px;
         }
 
-        .status-box strong {
+        .map-sales {
+            text-align: right;
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+        .map-sales span {
             display: block;
-            font-size: 21px;
-            margin-top: 6px;
+
+            color: var(--muted);
+
+            font-size: 7px;
+
+            font-weight: 500;
         }
 
-        .active {
+
+        /* =========================================================
+           INVENTORY
+        ========================================================= */
+
+        .inventory-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 9px;
+        }
+
+        .inventory-card {
+            padding: 13px;
+
+            background: #fafbfc;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 8px;
+        }
+
+        .inventory-card span {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 8px;
+        }
+
+        .inventory-card strong {
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 19px;
+
+            font-weight: 800;
+        }
+
+        .inventory-card.active strong {
             color: var(--success);
         }
 
-        .inactive {
+        .inventory-card.inactive strong {
             color: var(--danger);
         }
 
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
+        /* ORDER STATUS */
 
-        @media (max-width: 1100px) {
+        .subsection {
+            margin-top: 17px;
+        }
+
+        .subsection-title {
+            font-size: 11px;
+
+            font-weight: 750;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* DOWNLOAD */
+
+        .download-box {
+            margin-top: 10px;
+
+            padding: 12px;
+
+            border:
+                1px solid #dbeafe;
+
+            border-radius: 8px;
+
+            background: var(--primary-light);
+        }
+
+        .download-label {
+            color: var(--muted);
+
+            font-size: 8px;
+        }
+
+        .download-value {
+            color: var(--primary);
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+            margin-top: 2px;
+        }
+
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+
+        .empty-state {
+            text-align: center;
+
+            padding:
+                30px 15px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+        .empty-icon {
+            font-size: 25px;
+
+            opacity: .45;
+
+            margin-bottom: 6px;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1200px) {
 
             .stats {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns:
+                    repeat(2, 1fr);
             }
 
-            .dashboard-grid {
+            .two-column {
                 grid-template-columns: 1fr;
             }
 
         }
 
 
-        @media (max-width: 750px) {
+        @media (max-width: 900px) {
 
-            .sidebar {
-                position: static;
-                width: 100%;
-                height: auto;
+            :root {
+                --sidebar-width: 250px;
             }
 
-            .sidebar-bottom {
-                position: static;
-                margin-top: 25px;
+            .sidebar {
+                transform:
+                    translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform:
+                    translateX(0);
             }
 
             .main {
                 margin-left: 0;
             }
 
+            .mobile-menu {
+                display: flex;
+
+                align-items: center;
+
+                justify-content: center;
+            }
+
             .topbar {
-                padding: 0 18px;
+                padding:
+                    0 18px;
             }
 
             .content {
-                padding: 20px 15px;
+                padding:
+                    22px 18px 35px;
             }
 
-            .welcome {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
+        }
+
+
+        @media (max-width: 650px) {
 
             .stats {
                 grid-template-columns: 1fr;
             }
 
-            .management-list {
+            .welcome {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 12px;
+            }
+
+            .welcome h1 {
+                font-size: 19px;
+            }
+
+            .sales-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .management-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .lower-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-user {
+                display: none;
+            }
+
+            .topbar {
+                height: 62px;
+            }
+
+        }
+
+
+        @media (max-width: 420px) {
+
+            .content {
+                padding:
+                    17px 12px 30px;
+            }
+
+            .panel {
+                padding: 14px;
+            }
+
+            .welcome {
+                padding: 18px;
+            }
+
+            .stat-card {
+                padding: 15px;
             }
 
         }
@@ -626,25 +1510,50 @@
 <body>
 
 
-<!-- =========================
-     SIDEBAR
-========================= -->
+<!-- =========================================================
+     SIDEBAR OVERLAY
+========================================================= -->
 
-<aside class="sidebar">
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+></div>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside
+    class="sidebar"
+    id="sidebar"
+>
+
+
+    <!-- BRAND -->
 
     <div class="brand">
 
-        <div class="brand-icon">
+        <div class="brand-logo">
             M
         </div>
 
         <div>
-            <h2>MoujaMap</h2>
-            <span>Administration</span>
+
+            <div class="brand-name">
+                MoujaMap
+            </div>
+
+            <span class="brand-subtitle">
+                Administration Panel
+            </span>
+
         </div>
 
     </div>
 
+
+    <!-- MAIN MENU -->
 
     <div class="menu-title">
         Main Menu
@@ -653,101 +1562,147 @@
 
     <nav class="nav">
 
-        <a href="{{ route('admin.dashboard') }}" class="active">
-            <span class="nav-icon">▦</span>
-            Dashboard
+
+        <a
+            href="{{ route('admin.dashboard') }}"
+            class="nav-link active"
+        >
+
+            <span class="nav-icon">
+                ▦
+            </span>
+
+            <span>
+                Dashboard
+            </span>
+
         </a>
 
 
-        <a href="{{ route('admin.divisions.index') }}">
-            <span class="nav-icon">◈</span>
-            Divisions
+        <a
+            href="{{ route('admin.divisions.index') }}"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                ◈
+            </span>
+
+            <span>
+                Divisions
+            </span>
+
         </a>
 
 
-        <a href="{{ route('admin.districts.index') }}">
-            <span class="nav-icon">◇</span>
-            Districts
+        <a
+            href="{{ route('admin.districts.index') }}"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                ◇
+            </span>
+
+            <span>
+                Districts
+            </span>
+
         </a>
 
 
-        <a href="{{ route('admin.upazilas.index') }}">
-            <span class="nav-icon">⌂</span>
-            Upazilas
+        <a
+            href="{{ route('admin.upazilas.index') }}"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                ⌂
+            </span>
+
+            <span>
+                Upazilas
+            </span>
+
         </a>
 
 
-        <a href="{{ route('admin.mouzas.index') }}">
-            <span class="nav-icon">▤</span>
-            Mouzas
+        <a
+            href="{{ route('admin.mouzas.index') }}"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                ▤
+            </span>
+
+            <span>
+                Mouzas
+            </span>
+
         </a>
 
 
-        <a href="{{ route('admin.maps.index') }}">
-            <span class="nav-icon">▧</span>
-            Maps / PDFs
+        <a
+            href="{{ route('admin.maps.index') }}"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                ▧
+            </span>
+
+            <span>
+                Maps / PDFs
+            </span>
+
         </a>
+
 
     </nav>
 
 
-    <div class="menu-title" style="margin-top:28px;">
+    <!-- SYSTEM -->
+
+    <div class="menu-title">
         System
     </div>
 
 
     <nav class="nav">
 
-        <a href="{{ route('profile.edit') }}">
-            <span class="nav-icon">⚙</span>
-            Profile Settings
+        <a
+            href="{{ route('profile.edit') }}"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                ⚙
+            </span>
+
+            <span>
+                Profile Settings
+            </span>
+
         </a>
 
     </nav>
 
 
-    <div class="sidebar-bottom">
+    <!-- SIDEBAR FOOTER -->
 
-        <form method="POST" action="{{ route('logout') }}">
-
-            @csrf
-
-            <button class="logout" type="submit">
-                ↪ &nbsp; Logout
-            </button>
-
-        </form>
-
-    </div>
-
-</aside>
+    <div class="sidebar-footer">
 
 
+        <div class="admin-mini">
 
-<!-- =========================
-     MAIN
-========================= -->
+            <div class="admin-mini-avatar">
 
-<main class="main">
-
-
-    <!-- TOPBAR -->
-
-    <header class="topbar">
-
-        <div class="topbar-title">
-            Admin Panel / Dashboard
-        </div>
-
-
-        <div class="admin-profile">
-
-            <div class="avatar">
                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+
             </div>
 
-
-            <div class="admin-info">
+            <div class="admin-mini-info">
 
                 <strong>
                     {{ auth()->user()->name }}
@@ -761,43 +1716,153 @@
 
         </div>
 
+
+        <form
+            method="POST"
+            action="{{ route('logout') }}"
+        >
+
+            @csrf
+
+            <button
+                type="submit"
+                class="logout"
+            >
+
+                ↪ &nbsp; Logout
+
+            </button>
+
+        </form>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+    <!-- =====================================================
+         TOPBAR
+    ====================================================== -->
+
+    <header class="topbar">
+
+
+        <div class="topbar-left">
+
+
+            <button
+                type="button"
+                class="mobile-menu"
+                id="mobileMenuBtn"
+                aria-label="Open navigation"
+            >
+                ☰
+            </button>
+
+
+            <div class="breadcrumb">
+
+                Admin Panel
+
+                <span class="breadcrumb-separator">
+                    /
+                </span>
+
+                <strong>
+                    Dashboard
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- PROFILE -->
+
+        <div class="top-profile">
+
+
+            <div class="top-avatar">
+
+                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+
+            </div>
+
+
+            <div class="top-user">
+
+                <strong>
+                    {{ auth()->user()->name }}
+                </strong>
+
+                <span>
+                    Administrator
+                </span>
+
+            </div>
+
+
+        </div>
+
+
     </header>
 
 
 
+    <!-- =====================================================
+         CONTENT
+    ====================================================== -->
+
     <div class="content">
 
 
-        <!-- =========================
+        <!-- =================================================
              WELCOME
-        ========================= -->
+        ================================================== -->
 
         <section class="welcome">
+
 
             <div>
 
                 <h1>
-                    Welcome back, {{ auth()->user()->name }} 👋
+                    Welcome back,
+                    {{ auth()->user()->name }}
+                    👋
                 </h1>
 
                 <p>
-                    Manage your MoujaMap platform from one place.
+                    Here's what's happening with your MoujaMap platform today.
                 </p>
 
             </div>
 
 
             <div class="date-box">
+
                 {{ now()->format('l, d F Y') }}
+
             </div>
+
 
         </section>
 
 
 
-        <!-- =========================
+        <!-- =================================================
              OVERVIEW
-        ========================= -->
+        ================================================== -->
 
         <div class="section-header">
 
@@ -806,150 +1871,99 @@
             </h2>
 
             <span>
-                Live database statistics
+                Live platform statistics
             </span>
 
         </div>
 
 
-
         <section class="stats">
 
 
-            <!-- DIVISIONS -->
+            <!-- TOTAL SALES -->
 
             <div class="stat-card">
 
-                <div class="stat-top">
+                <div class="stat-header">
 
-                    <div class="stat-label">
-                        Total Divisions
-                    </div>
+                    <span class="stat-label">
+                        Total Sales
+                    </span>
 
-                    <div class="stat-icon">
-                        ◈
+                    <div class="stat-icon green">
+                        ৳
                     </div>
 
                 </div>
 
                 <div class="stat-number">
-                    {{ \App\Models\Division::count() }}
+
+                    ৳{{ number_format($totalSales, 2) }}
+
                 </div>
 
                 <div class="stat-note">
-                    Administrative divisions
+                    Completed order revenue
                 </div>
 
             </div>
 
 
 
-            <!-- DISTRICTS -->
+            <!-- TOTAL ORDERS -->
 
             <div class="stat-card">
 
-                <div class="stat-top">
+                <div class="stat-header">
 
-                    <div class="stat-label">
-                        Total Districts
-                    </div>
+                    <span class="stat-label">
+                        Total Orders
+                    </span>
 
                     <div class="stat-icon">
-                        ◇
+                        🛒
                     </div>
 
                 </div>
 
                 <div class="stat-number">
-                    {{ \App\Models\District::count() }}
+
+                    {{ number_format($totalOrders) }}
+
                 </div>
 
                 <div class="stat-note">
-                    Districts registered
+                    All customer orders
                 </div>
 
             </div>
 
 
 
-            <!-- UPAZILAS -->
+            <!-- PENDING -->
 
             <div class="stat-card">
 
-                <div class="stat-top">
+                <div class="stat-header">
 
-                    <div class="stat-label">
-                        Total Upazilas
-                    </div>
+                    <span class="stat-label">
+                        Pending Orders
+                    </span>
 
-                    <div class="stat-icon">
-                        ⌂
+                    <div class="stat-icon orange">
+                        ⏳
                     </div>
 
                 </div>
 
                 <div class="stat-number">
-                    {{ \App\Models\Upazila::count() }}
+
+                    {{ number_format($pendingOrders) }}
+
                 </div>
 
                 <div class="stat-note">
-                    Upazilas registered
-                </div>
-
-            </div>
-
-
-
-            <!-- MOUZAS -->
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <div class="stat-label">
-                        Total Mouzas
-                    </div>
-
-                    <div class="stat-icon">
-                        ▤
-                    </div>
-
-                </div>
-
-                <div class="stat-number">
-                    {{ \App\Models\Mouza::count() }}
-                </div>
-
-                <div class="stat-note">
-                    Mouzas registered
-                </div>
-
-            </div>
-
-
-
-            <!-- SURVEY TYPES -->
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <div class="stat-label">
-                        Survey Types
-                    </div>
-
-                    <div class="stat-icon">
-                        ≡
-                    </div>
-
-                </div>
-
-                <div class="stat-number">
-                    {{ \App\Models\SurveyType::count() }}
-                </div>
-
-                <div class="stat-note">
-                    Available survey types
+                    Orders waiting for processing
                 </div>
 
             </div>
@@ -960,80 +1974,26 @@
 
             <div class="stat-card">
 
-                <div class="stat-top">
+                <div class="stat-header">
 
-                    <div class="stat-label">
+                    <span class="stat-label">
                         Total Maps
-                    </div>
+                    </span>
 
-                    <div class="stat-icon">
+                    <div class="stat-icon purple">
                         ▧
                     </div>
 
                 </div>
 
                 <div class="stat-number">
-                    {{ \App\Models\Map::count() }}
+
+                    {{ number_format($totalMaps) }}
+
                 </div>
 
                 <div class="stat-note">
-                    PDF maps uploaded
-                </div>
-
-            </div>
-
-
-
-            <!-- ORDERS -->
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <div class="stat-label">
-                        Total Orders
-                    </div>
-
-                    <div class="stat-icon">
-                        🛒
-                    </div>
-
-                </div>
-
-                <div class="stat-number">
-                    {{ \App\Models\Order::count() }}
-                </div>
-
-                <div class="stat-note">
-                    Customer orders
-                </div>
-
-            </div>
-
-
-
-            <!-- REVENUE -->
-
-            <div class="stat-card">
-
-                <div class="stat-top">
-
-                    <div class="stat-label">
-                        Total Revenue
-                    </div>
-
-                    <div class="stat-icon">
-                        ৳
-                    </div>
-
-                </div>
-
-                <div class="stat-number">
-                    ৳{{ number_format(\App\Models\Order::where('status', 'completed')->sum('amount'), 2) }}
-                </div>
-
-                <div class="stat-note">
-                    Completed order revenue
+                    Maps / PDFs in inventory
                 </div>
 
             </div>
@@ -1043,89 +2003,151 @@
 
 
 
-        <!-- =========================
-             SECONDARY STATS
-        ========================= -->
+        <!-- =================================================
+             SALES OVERVIEW
+        ================================================== -->
 
-        <section class="panel" style="margin-bottom:30px;">
-
-            <div class="panel-title">
-                Sales Overview
-            </div>
+        <section class="panel sales-panel">
 
 
-            <div class="map-status">
+            <div class="section-header">
 
+                <h2>
+                    Sales Overview
+                </h2>
 
-                <div class="status-box">
-
-                    <span>
-                        Completed Orders
-                    </span>
-
-                    <strong class="active">
-                        {{ \App\Models\Order::where('status', 'completed')->count() }}
-                    </strong>
-
-                </div>
-
-
-
-                <div class="status-box">
-
-                    <span>
-                        Pending Orders
-                    </span>
-
-                    <strong style="color:#d97706;">
-                        {{ \App\Models\Order::where('status', 'pending')->count() }}
-                    </strong>
-
-                </div>
-
-
-
-                <div class="status-box">
-
-                    <span>
-                        Downloads
-                    </span>
-
-                    <strong>
-                        {{ \App\Models\Order::sum('download_count') }}
-                    </strong>
-
-                </div>
-
-
-
-                <div class="status-box">
-
-                    <span>
-                        Paid Order Value
-                    </span>
-
-                    <strong>
-                        ৳{{ number_format(\App\Models\Order::where('status', 'completed')->sum('amount'), 2) }}
-                    </strong>
-
-                </div>
-
+                <span>
+                    Completed orders only
+                </span>
 
             </div>
+
+
+            <div class="sales-grid">
+
+
+                <!-- TODAY -->
+
+                <div class="sales-card">
+
+                    <div class="sales-top">
+
+                        <span>
+                            Today
+                        </span>
+
+                        <span>
+                            📅
+                        </span>
+
+                    </div>
+
+                    <div class="sales-value">
+
+                        ৳{{ number_format($todaySales, 2) }}
+
+                    </div>
+
+                    <div class="sales-orders">
+
+                        <strong>
+                            {{ number_format($todayOrders) }}
+                        </strong>
+
+                        completed orders
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- WEEK -->
+
+                <div class="sales-card">
+
+                    <div class="sales-top">
+
+                        <span>
+                            This Week
+                        </span>
+
+                        <span>
+                            📈
+                        </span>
+
+                    </div>
+
+                    <div class="sales-value">
+
+                        ৳{{ number_format($weekSales, 2) }}
+
+                    </div>
+
+                    <div class="sales-orders">
+
+                        <strong>
+                            {{ number_format($weekOrders) }}
+                        </strong>
+
+                        completed orders
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- MONTH -->
+
+                <div class="sales-card">
+
+                    <div class="sales-top">
+
+                        <span>
+                            This Month
+                        </span>
+
+                        <span>
+                            📊
+                        </span>
+
+                    </div>
+
+                    <div class="sales-value">
+
+                        ৳{{ number_format($monthSales, 2) }}
+
+                    </div>
+
+                    <div class="sales-orders">
+
+                        <strong>
+                            {{ number_format($monthOrders) }}
+                        </strong>
+
+                        completed orders
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
 
         </section>
 
 
 
-        <!-- =========================
-             MAIN GRID
-        ========================= -->
+        <!-- =================================================
+             MANAGEMENT + QUICK ACTIONS
+        ================================================== -->
 
-        <section class="dashboard-grid">
+        <section class="two-column">
 
 
-            <!-- ADMINISTRATIVE MANAGEMENT -->
+            <!-- MANAGEMENT -->
 
             <div class="panel">
 
@@ -1134,8 +2156,10 @@
                 </div>
 
 
-                <div class="management-list">
+                <div class="management-grid">
 
+
+                    <!-- DIVISIONS -->
 
                     <div class="management-item">
 
@@ -1152,7 +2176,8 @@
                                 </div>
 
                                 <div class="management-count">
-                                    {{ \App\Models\Division::count() }} records
+                                    {{ number_format($totalDivisions) }}
+                                    records
                                 </div>
 
                             </div>
@@ -1160,14 +2185,18 @@
                         </div>
 
 
-                        <a href="{{ route('admin.divisions.index') }}"
-                           class="manage-btn">
+                        <a
+                            href="{{ route('admin.divisions.index') }}"
+                            class="manage-link"
+                        >
                             Manage →
                         </a>
 
                     </div>
 
 
+
+                    <!-- DISTRICTS -->
 
                     <div class="management-item">
 
@@ -1184,7 +2213,8 @@
                                 </div>
 
                                 <div class="management-count">
-                                    {{ \App\Models\District::count() }} records
+                                    {{ number_format($totalDistricts) }}
+                                    records
                                 </div>
 
                             </div>
@@ -1192,14 +2222,18 @@
                         </div>
 
 
-                        <a href="{{ route('admin.districts.index') }}"
-                           class="manage-btn">
+                        <a
+                            href="{{ route('admin.districts.index') }}"
+                            class="manage-link"
+                        >
                             Manage →
                         </a>
 
                     </div>
 
 
+
+                    <!-- UPAZILAS -->
 
                     <div class="management-item">
 
@@ -1216,7 +2250,8 @@
                                 </div>
 
                                 <div class="management-count">
-                                    {{ \App\Models\Upazila::count() }} records
+                                    {{ number_format($totalUpazilas) }}
+                                    records
                                 </div>
 
                             </div>
@@ -1224,14 +2259,18 @@
                         </div>
 
 
-                        <a href="{{ route('admin.upazilas.index') }}"
-                           class="manage-btn">
+                        <a
+                            href="{{ route('admin.upazilas.index') }}"
+                            class="manage-link"
+                        >
                             Manage →
                         </a>
 
                     </div>
 
 
+
+                    <!-- MOUZAS -->
 
                     <div class="management-item">
 
@@ -1248,7 +2287,8 @@
                                 </div>
 
                                 <div class="management-count">
-                                    {{ \App\Models\Mouza::count() }} records
+                                    {{ number_format($totalMouzas) }}
+                                    records
                                 </div>
 
                             </div>
@@ -1256,14 +2296,18 @@
                         </div>
 
 
-                        <a href="{{ route('admin.mouzas.index') }}"
-                           class="manage-btn">
+                        <a
+                            href="{{ route('admin.mouzas.index') }}"
+                            class="manage-link"
+                        >
                             Manage →
                         </a>
 
                     </div>
 
 
+
+                    <!-- SURVEY -->
 
                     <div class="management-item">
 
@@ -1280,7 +2324,8 @@
                                 </div>
 
                                 <div class="management-count">
-                                    {{ \App\Models\SurveyType::count() }} types
+                                    {{ number_format($totalSurveyTypes) }}
+                                    types
                                 </div>
 
                             </div>
@@ -1290,6 +2335,8 @@
                     </div>
 
 
+
+                    <!-- MAPS -->
 
                     <div class="management-item">
 
@@ -1306,7 +2353,8 @@
                                 </div>
 
                                 <div class="management-count">
-                                    {{ \App\Models\Map::count() }} maps
+                                    {{ number_format($totalMaps) }}
+                                    maps
                                 </div>
 
                             </div>
@@ -1314,13 +2362,14 @@
                         </div>
 
 
-                        <a href="{{ route('admin.maps.index') }}"
-                           class="manage-btn">
+                        <a
+                            href="{{ route('admin.maps.index') }}"
+                            class="manage-link"
+                        >
                             Manage →
                         </a>
 
                     </div>
-
 
 
                 </div>
@@ -1338,11 +2387,13 @@
                 </div>
 
 
-                <div class="quick-action">
+                <div class="quick-actions">
 
 
-                    <a href="{{ route('admin.divisions.create') }}"
-                       class="action-btn">
+                    <a
+                        href="{{ route('admin.divisions.create') }}"
+                        class="action"
+                    >
 
                         <div class="action-icon">
                             +
@@ -1364,8 +2415,10 @@
 
 
 
-                    <a href="{{ route('admin.districts.create') }}"
-                       class="action-btn">
+                    <a
+                        href="{{ route('admin.districts.create') }}"
+                        class="action"
+                    >
 
                         <div class="action-icon">
                             +
@@ -1378,7 +2431,7 @@
                             </strong>
 
                             <span>
-                                Register a district
+                                Register a new district
                             </span>
 
                         </div>
@@ -1387,8 +2440,10 @@
 
 
 
-                    <a href="{{ route('admin.upazilas.create') }}"
-                       class="action-btn">
+                    <a
+                        href="{{ route('admin.upazilas.create') }}"
+                        class="action"
+                    >
 
                         <div class="action-icon">
                             +
@@ -1410,8 +2465,10 @@
 
 
 
-                    <a href="{{ route('admin.mouzas.create') }}"
-                       class="action-btn">
+                    <a
+                        href="{{ route('admin.mouzas.create') }}"
+                        class="action"
+                    >
 
                         <div class="action-icon">
                             +
@@ -1433,8 +2490,10 @@
 
 
 
-                    <a href="{{ route('admin.maps.create') }}"
-                       class="action-btn">
+                    <a
+                        href="{{ route('admin.maps.create') }}"
+                        class="action"
+                    >
 
                         <div class="action-icon">
                             ↑
@@ -1464,11 +2523,12 @@
 
 
 
-        <!-- =========================
+        <!-- =================================================
              RECENT ORDERS
-        ========================= -->
+        ================================================== -->
 
-        <section class="panel" style="margin-bottom:30px;">
+        <section class="panel orders-panel">
+
 
             <div class="section-header">
 
@@ -1477,19 +2537,25 @@
                 </h2>
 
                 <span>
-                    Latest customer purchases
+                    Latest 10 customer purchases
                 </span>
 
             </div>
 
 
-            <div class="order-table-wrapper">
+            <div class="table-wrapper">
 
-                <table class="order-table">
+
+                <table class="orders-table">
+
 
                     <thead>
 
                         <tr>
+
+                            <th>
+                                Order
+                            </th>
 
                             <th>
                                 Customer
@@ -1523,24 +2589,16 @@
                     <tbody>
 
 
-                        @forelse(
-                            \App\Models\Order::with('map')
-                                ->latest()
-                                ->limit(5)
-                                ->get()
-                            as $order
-                        )
+                        @forelse($recentOrders as $order)
+
 
                             <tr>
 
+
                                 <td>
 
-                                    <div class="customer-name">
-                                        {{ $order->customer_name }}
-                                    </div>
-
-                                    <div class="customer-phone">
-                                        {{ $order->phone }}
+                                    <div class="order-id">
+                                        #{{ $order->id }}
                                     </div>
 
                                 </td>
@@ -1548,7 +2606,28 @@
 
                                 <td>
 
-                                    {{ $order->map?->title ?? 'Map unavailable' }}
+                                    <div class="customer-name">
+
+                                        {{ $order->customer_name }}
+
+                                    </div>
+
+                                    <div class="customer-phone">
+
+                                        {{ $order->phone }}
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="map-title">
+
+                                        {{ $order->map?->title ?? 'Map unavailable' }}
+
+                                    </div>
 
                                 </td>
 
@@ -1556,7 +2635,9 @@
                                 <td>
 
                                     <span class="amount">
+
                                         ৳{{ number_format($order->amount, 2) }}
+
                                     </span>
 
                                 </td>
@@ -1564,12 +2645,17 @@
 
                                 <td>
 
-                                    {{ $order->payment_method }}
+                                    <span class="payment">
+
+                                        {{ ucfirst($order->payment_method ?? 'N/A') }}
+
+                                    </span>
 
                                 </td>
 
 
                                 <td>
+
 
                                     @if($order->status === 'completed')
 
@@ -1586,128 +2672,400 @@
                                     @else
 
                                         <span class="badge badge-danger">
+
                                             {{ ucfirst($order->status) }}
+
                                         </span>
 
                                     @endif
+
 
                                 </td>
 
 
                                 <td>
 
-                                    {{ $order->created_at->format('d M Y') }}
+                                    {{ $order->created_at?->format('d M Y') }}
 
                                 </td>
 
+
                             </tr>
+
 
                         @empty
 
+
                             <tr>
 
-                                <td colspan="6"
-                                    style="text-align:center;color:#6b7280;padding:25px;">
+                                <td colspan="7">
 
-                                    No orders found.
+                                    <div class="empty-state">
+
+                                        <div class="empty-icon">
+                                            🛒
+                                        </div>
+
+                                        No orders found yet.
+
+                                    </div>
 
                                 </td>
 
                             </tr>
+
 
                         @endforelse
 
 
                     </tbody>
 
+
                 </table>
 
+
             </div>
+
 
         </section>
 
 
 
-        <!-- =========================
-             MAP INVENTORY
-        ========================= -->
+        <!-- =================================================
+             TOP MAPS + INVENTORY
+        ================================================== -->
 
-        <section class="panel">
+        <section class="lower-grid">
 
-            <div class="panel-title">
-                Map Inventory
+
+            <!-- TOP SELLING -->
+
+            <div class="panel">
+
+
+                <div class="section-header">
+
+                    <h2>
+                        Top Selling Maps
+                    </h2>
+
+                    <span>
+                        Completed orders
+                    </span>
+
+                </div>
+
+
+                @forelse($topMaps as $index => $topMap)
+
+
+                    <div class="top-map">
+
+
+                        <div class="rank">
+
+                            #{{ $index + 1 }}
+
+                        </div>
+
+
+                        <div class="map-info">
+
+                            <strong>
+
+                                {{ $topMap->map?->title ?? 'Map unavailable' }}
+
+                            </strong>
+
+                            <span>
+
+                                {{ number_format($topMap->total_orders) }}
+
+                                {{ $topMap->total_orders == 1 ? 'order' : 'orders' }}
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="map-sales">
+
+                            ৳{{ number_format($topMap->total_sales, 2) }}
+
+                            <span>
+                                Total sales
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                @empty
+
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            ▧
+                        </div>
+
+                        No completed map sales yet.
+
+                    </div>
+
+
+                @endforelse
+
+
             </div>
 
 
-            <div class="map-status">
+
+            <!-- INVENTORY -->
+
+            <div class="panel">
 
 
-                <div class="status-box">
+                <div class="section-header">
+
+                    <h2>
+                        Map Inventory
+                    </h2>
 
                     <span>
-                        Active Maps
+                        Current map status
                     </span>
 
-                    <strong class="active">
-                        {{ \App\Models\Map::where('is_active', true)->count() }}
-                    </strong>
+                </div>
+
+
+                <div class="inventory-grid">
+
+
+                    <div class="inventory-card active">
+
+                        <span>
+                            Active Maps
+                        </span>
+
+                        <strong>
+                            {{ number_format($activeMaps) }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="inventory-card inactive">
+
+                        <span>
+                            Inactive Maps
+                        </span>
+
+                        <strong>
+                            {{ number_format($inactiveMaps) }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="inventory-card">
+
+                        <span>
+                            Free Maps
+                        </span>
+
+                        <strong>
+                            {{ number_format($freeMaps) }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="inventory-card">
+
+                        <span>
+                            Paid Maps
+                        </span>
+
+                        <strong>
+                            {{ number_format($paidMaps) }}
+                        </strong>
+
+                    </div>
+
 
                 </div>
 
 
 
-                <div class="status-box">
+                <!-- ORDER STATUS -->
 
-                    <span>
-                        Inactive Maps
-                    </span>
+                <div class="subsection">
 
-                    <strong class="inactive">
-                        {{ \App\Models\Map::where('is_active', false)->count() }}
-                    </strong>
+
+                    <div class="subsection-title">
+                        Order Status
+                    </div>
+
+
+                    <div class="inventory-grid">
+
+
+                        <div class="inventory-card">
+
+                            <span>
+                                Completed
+                            </span>
+
+                            <strong style="color:var(--success);">
+
+                                {{ number_format($completedOrders) }}
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="inventory-card">
+
+                            <span>
+                                Cancelled
+                            </span>
+
+                            <strong style="color:var(--danger);">
+
+                                {{ number_format($cancelledOrders) }}
+
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
 
                 </div>
 
 
 
-                <div class="status-box">
+                <!-- DOWNLOAD -->
 
-                    <span>
-                        Free Maps
-                    </span>
+                <div class="download-box">
 
-                    <strong>
-                        {{ \App\Models\Map::where('price', 0)->count() }}
-                    </strong>
+                    <div class="download-label">
+                        Total Downloads
+                    </div>
 
-                </div>
+                    <div class="download-value">
 
+                        {{ number_format($totalDownloads) }}
 
-
-                <div class="status-box">
-
-                    <span>
-                        Paid Maps
-                    </span>
-
-                    <strong>
-                        {{ \App\Models\Map::where('price', '>', 0)->count() }}
-                    </strong>
+                    </div>
 
                 </div>
 
 
             </div>
+
 
         </section>
 
 
     </div>
 
+
 </main>
+
+
+
+<!-- =========================================================
+     MOBILE SIDEBAR SCRIPT
+========================================================= -->
+
+<script>
+
+    const sidebar =
+        document.getElementById('sidebar');
+
+    const overlay =
+        document.getElementById('sidebarOverlay');
+
+    const menuButton =
+        document.getElementById('mobileMenuBtn');
+
+
+    function openSidebar() {
+
+        sidebar.classList.add('open');
+
+        overlay.classList.add('active');
+
+        document.body.style.overflow = 'hidden';
+
+    }
+
+
+    function closeSidebar() {
+
+        sidebar.classList.remove('open');
+
+        overlay.classList.remove('active');
+
+        document.body.style.overflow = '';
+
+    }
+
+
+    menuButton.addEventListener(
+        'click',
+        openSidebar
+    );
+
+
+    overlay.addEventListener(
+        'click',
+        closeSidebar
+    );
+
+
+    document
+        .querySelectorAll('.sidebar a')
+        .forEach(function(link) {
+
+            link.addEventListener(
+                'click',
+                function() {
+
+                    if (window.innerWidth <= 900) {
+
+                        closeSidebar();
+
+                    }
+
+                }
+            );
+
+        });
+
+
+    window.addEventListener(
+        'resize',
+        function() {
+
+            if (window.innerWidth > 900) {
+
+                closeSidebar();
+
+            }
+
+        }
+    );
+
+</script>
 
 
 </body>
 
 </html>
-
