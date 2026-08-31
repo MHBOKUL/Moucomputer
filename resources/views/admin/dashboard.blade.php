@@ -1,7 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -76,7 +78,6 @@
 
             background: var(--bg);
             color: var(--text);
-
             line-height: 1.5;
         }
 
@@ -98,7 +99,6 @@
 
         .sidebar {
             position: fixed;
-
             top: 0;
             left: 0;
 
@@ -106,7 +106,6 @@
             height: 100vh;
 
             background: var(--dark);
-
             color: #fff;
 
             padding: 20px 14px;
@@ -127,7 +126,6 @@
         .brand {
             display: flex;
             align-items: center;
-
             gap: 11px;
 
             padding: 0 10px 22px;
@@ -163,7 +161,6 @@
         .brand-name {
             font-size: 17px;
             font-weight: 750;
-
             letter-spacing: -.3px;
         }
 
@@ -184,7 +181,6 @@
             color: #64748b;
 
             font-size: 9px;
-
             font-weight: 800;
 
             text-transform: uppercase;
@@ -199,7 +195,6 @@
         .nav {
             display: flex;
             flex-direction: column;
-
             gap: 3px;
         }
 
@@ -216,7 +211,6 @@
             color: #cbd5e1;
 
             font-size: 12px;
-
             font-weight: 550;
 
             transition:
@@ -227,7 +221,6 @@
 
         .nav-link:hover {
             background: rgba(255,255,255,.06);
-
             color: #fff;
 
             transform: translateX(2px);
@@ -235,7 +228,6 @@
 
         .nav-link.active {
             background: var(--primary);
-
             color: #fff;
 
             box-shadow:
@@ -257,7 +249,6 @@
 
         .sidebar-footer {
             margin-top: auto;
-
             padding-top: 20px;
         }
 
@@ -268,7 +259,6 @@
             gap: 9px;
 
             padding: 10px;
-
             margin-bottom: 10px;
 
             background: rgba(255,255,255,.04);
@@ -344,7 +334,6 @@
 
         .logout:hover {
             background: #1f2937;
-
             color: #fff;
 
             border-color: #475569;
@@ -359,7 +348,6 @@
             display: none;
 
             position: fixed;
-
             inset: 0;
 
             background: rgba(15,23,42,.48);
@@ -395,15 +383,13 @@
             border-bottom:
                 1px solid var(--border);
 
-            padding:
-                0 30px;
+            padding: 0 30px;
 
             display: flex;
             align-items: center;
             justify-content: space-between;
 
             position: sticky;
-
             top: 0;
 
             z-index: 800;
@@ -479,7 +465,6 @@
             justify-content: center;
 
             font-size: 12px;
-
             font-weight: 800;
         }
 
@@ -487,7 +472,6 @@
             display: block;
 
             font-size: 11px;
-
             font-weight: 750;
         }
 
@@ -511,8 +495,7 @@
 
             margin: 0 auto;
 
-            padding:
-                27px 30px 45px;
+            padding: 27px 30px 45px;
         }
 
 
@@ -533,8 +516,7 @@
 
             border-radius: 13px;
 
-            padding:
-                23px 25px;
+            padding: 23px 25px;
 
             margin-bottom: 25px;
 
@@ -562,8 +544,7 @@
         }
 
         .date-box {
-            padding:
-                8px 12px;
+            padding: 8px 12px;
 
             border:
                 1px solid var(--border);
@@ -679,19 +660,16 @@
 
         .stat-icon.green {
             background: var(--success-bg);
-
             color: var(--success);
         }
 
         .stat-icon.orange {
             background: var(--warning-bg);
-
             color: var(--warning);
         }
 
         .stat-icon.purple {
             background: var(--purple-bg);
-
             color: var(--purple);
         }
 
@@ -844,9 +822,7 @@
 
         .management-item {
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
 
             gap: 10px;
@@ -869,7 +845,6 @@
 
         .management-left {
             display: flex;
-
             align-items: center;
 
             gap: 9px;
@@ -888,7 +863,6 @@
             background: #f1f5f9;
 
             display: flex;
-
             align-items: center;
             justify-content: center;
 
@@ -935,7 +909,6 @@
 
         .action {
             display: flex;
-
             align-items: center;
 
             gap: 9px;
@@ -971,7 +944,6 @@
             color: var(--primary);
 
             display: flex;
-
             align-items: center;
             justify-content: center;
 
@@ -1024,8 +996,7 @@
         .orders-table th {
             text-align: left;
 
-            padding:
-                9px 10px;
+            padding: 9px 10px;
 
             background: #fafbfc;
 
@@ -1044,8 +1015,7 @@
         }
 
         .orders-table td {
-            padding:
-                11px 10px;
+            padding: 11px 10px;
 
             border-bottom:
                 1px solid var(--border-light);
@@ -1119,8 +1089,7 @@
 
             align-items: center;
 
-            padding:
-                4px 7px;
+            padding: 4px 7px;
 
             border-radius: 5px;
 
@@ -1168,13 +1137,11 @@
 
         .top-map {
             display: flex;
-
             align-items: center;
 
             gap: 10px;
 
-            padding:
-                10px 0;
+            padding: 10px 0;
 
             border-bottom:
                 1px solid var(--border-light);
@@ -1197,7 +1164,6 @@
             color: var(--primary);
 
             display: flex;
-
             align-items: center;
             justify-content: center;
 
@@ -1253,7 +1219,48 @@
 
             font-weight: 500;
         }
+/* =========================================================
+   RECENT ORDERS - 5 ROW SCROLL
+========================================================= */
 
+.orders-panel .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+
+    /* Approximately 5 orders visible */
+    max-height: 285px;
+
+    border-radius: 8px;
+}
+
+/* Keep table header visible while scrolling */
+.orders-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #fafbfc;
+}
+
+/* Custom scrollbar */
+.orders-panel .table-wrapper::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.orders-panel .table-wrapper::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+.orders-panel .table-wrapper::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.orders-panel .table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
 
         /* =========================================================
            INVENTORY
@@ -1360,8 +1367,7 @@
         .empty-state {
             text-align: center;
 
-            padding:
-                30px 15px;
+            padding: 30px 15px;
 
             color: var(--muted);
 
@@ -1402,13 +1408,11 @@
             }
 
             .sidebar {
-                transform:
-                    translateX(-100%);
+                transform: translateX(-100%);
             }
 
             .sidebar.open {
-                transform:
-                    translateX(0);
+                transform: translateX(0);
             }
 
             .main {
@@ -1419,18 +1423,15 @@
                 display: flex;
 
                 align-items: center;
-
                 justify-content: center;
             }
 
             .topbar {
-                padding:
-                    0 18px;
+                padding: 0 18px;
             }
 
             .content {
-                padding:
-                    22px 18px 35px;
+                padding: 22px 18px 35px;
             }
 
         }
@@ -1484,8 +1485,7 @@
         @media (max-width: 420px) {
 
             .content {
-                padding:
-                    17px 12px 30px;
+                padding: 17px 12px 30px;
             }
 
             .panel {
@@ -1510,1388 +1510,936 @@
 <body>
 
 
-<!-- =========================================================
-     SIDEBAR OVERLAY
-========================================================= -->
+    <!-- =========================================================
+         SIDEBAR OVERLAY
+    ========================================================= -->
 
-<div
-    class="sidebar-overlay"
-    id="sidebarOverlay"
-></div>
-
-
-<!-- =========================================================
-     SIDEBAR
-========================================================= -->
-
-<aside
-    class="sidebar"
-    id="sidebar"
->
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
 
 
-    <!-- BRAND -->
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================= -->
 
-    <div class="brand">
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
 
-        <div class="brand-logo">
-            M
-        </div>
 
-        <div>
+        <!-- BRAND -->
 
-            <div class="brand-name">
-                MoujaMap
+        <div class="brand">
+
+            <div class="brand-logo">
+                M
             </div>
-
-            <span class="brand-subtitle">
-                Administration Panel
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <!-- MAIN MENU -->
-
-    <div class="menu-title">
-        Main Menu
-    </div>
-
-
-    <nav class="nav">
-
-
-        <a
-            href="{{ route('admin.dashboard') }}"
-            class="nav-link active"
-        >
-
-            <span class="nav-icon">
-                ▦
-            </span>
-
-            <span>
-                Dashboard
-            </span>
-
-        </a>
-
-
-        <a
-            href="{{ route('admin.divisions.index') }}"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                ◈
-            </span>
-
-            <span>
-                Divisions
-            </span>
-
-        </a>
-
-
-        <a
-            href="{{ route('admin.districts.index') }}"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                ◇
-            </span>
-
-            <span>
-                Districts
-            </span>
-
-        </a>
-
-
-        <a
-            href="{{ route('admin.upazilas.index') }}"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                ⌂
-            </span>
-
-            <span>
-                Upazilas
-            </span>
-
-        </a>
-
-
-        <a
-            href="{{ route('admin.mouzas.index') }}"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                ▤
-            </span>
-
-            <span>
-                Mouzas
-            </span>
-
-        </a>
-
-
-        <a
-            href="{{ route('admin.maps.index') }}"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                ▧
-            </span>
-
-            <span>
-                Maps / PDFs
-            </span>
-
-        </a>
-
-
-    </nav>
-
-
-    <!-- SYSTEM -->
-
-    <div class="menu-title">
-        System
-    </div>
-
-
-    <nav class="nav">
-
-        <a
-            href="{{ route('profile.edit') }}"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                ⚙
-            </span>
-
-            <span>
-                Profile Settings
-            </span>
-
-        </a>
-
-    </nav>
-
-
-    <!-- SIDEBAR FOOTER -->
-
-    <div class="sidebar-footer">
-
-
-        <div class="admin-mini">
-
-            <div class="admin-mini-avatar">
-
-                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-
-            </div>
-
-            <div class="admin-mini-info">
-
-                <strong>
-                    {{ auth()->user()->name }}
-                </strong>
-
-                <span>
-                    Administrator
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <form
-            method="POST"
-            action="{{ route('logout') }}"
-        >
-
-            @csrf
-
-            <button
-                type="submit"
-                class="logout"
-            >
-
-                ↪ &nbsp; Logout
-
-            </button>
-
-        </form>
-
-
-    </div>
-
-
-</aside>
-
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
-<main class="main">
-
-
-    <!-- =====================================================
-         TOPBAR
-    ====================================================== -->
-
-    <header class="topbar">
-
-
-        <div class="topbar-left">
-
-
-            <button
-                type="button"
-                class="mobile-menu"
-                id="mobileMenuBtn"
-                aria-label="Open navigation"
-            >
-                ☰
-            </button>
-
-
-            <div class="breadcrumb">
-
-                Admin Panel
-
-                <span class="breadcrumb-separator">
-                    /
-                </span>
-
-                <strong>
-                    Dashboard
-                </strong>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- PROFILE -->
-
-        <div class="top-profile">
-
-
-            <div class="top-avatar">
-
-                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-
-            </div>
-
-
-            <div class="top-user">
-
-                <strong>
-                    {{ auth()->user()->name }}
-                </strong>
-
-                <span>
-                    Administrator
-                </span>
-
-            </div>
-
-
-        </div>
-
-
-    </header>
-
-
-
-    <!-- =====================================================
-         CONTENT
-    ====================================================== -->
-
-    <div class="content">
-
-
-        <!-- =================================================
-             WELCOME
-        ================================================== -->
-
-        <section class="welcome">
-
 
             <div>
 
-                <h1>
-                    Welcome back,
-                    {{ auth()->user()->name }}
-                    👋
-                </h1>
+                <div class="brand-name">
+                    MoujaMap
+                </div>
 
-                <p>
-                    Here's what's happening with your MoujaMap platform today.
-                </p>
+                <span class="brand-subtitle">
+                    Administration Panel
+                </span>
 
             </div>
-
-
-            <div class="date-box">
-
-                {{ now()->format('l, d F Y') }}
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =================================================
-             OVERVIEW
-        ================================================== -->
-
-        <div class="section-header">
-
-            <h2>
-                Overview
-            </h2>
-
-            <span>
-                Live platform statistics
-            </span>
 
         </div>
 
 
-        <section class="stats">
+        <!-- MAIN MENU -->
+
+        <div class="menu-title">
+            Main Menu
+        </div>
 
 
-            <!-- TOTAL SALES -->
-
-            <div class="stat-card">
-
-                <div class="stat-header">
-
-                    <span class="stat-label">
-                        Total Sales
-                    </span>
-
-                    <div class="stat-icon green">
-                        ৳
-                    </div>
-
-                </div>
-
-                <div class="stat-number">
-
-                    ৳{{ number_format($totalSales, 2) }}
-
-                </div>
-
-                <div class="stat-note">
-                    Completed order revenue
-                </div>
-
-            </div>
+        <nav class="nav">
 
 
+            <a
+                href="{{ route('admin.dashboard') }}"
+                class="nav-link active"
+            >
 
-            <!-- TOTAL ORDERS -->
-
-            <div class="stat-card">
-
-                <div class="stat-header">
-
-                    <span class="stat-label">
-                        Total Orders
-                    </span>
-
-                    <div class="stat-icon">
-                        🛒
-                    </div>
-
-                </div>
-
-                <div class="stat-number">
-
-                    {{ number_format($totalOrders) }}
-
-                </div>
-
-                <div class="stat-note">
-                    All customer orders
-                </div>
-
-            </div>
-
-
-
-            <!-- PENDING -->
-
-            <div class="stat-card">
-
-                <div class="stat-header">
-
-                    <span class="stat-label">
-                        Pending Orders
-                    </span>
-
-                    <div class="stat-icon orange">
-                        ⏳
-                    </div>
-
-                </div>
-
-                <div class="stat-number">
-
-                    {{ number_format($pendingOrders) }}
-
-                </div>
-
-                <div class="stat-note">
-                    Orders waiting for processing
-                </div>
-
-            </div>
-
-
-
-            <!-- MAPS -->
-
-            <div class="stat-card">
-
-                <div class="stat-header">
-
-                    <span class="stat-label">
-                        Total Maps
-                    </span>
-
-                    <div class="stat-icon purple">
-                        ▧
-                    </div>
-
-                </div>
-
-                <div class="stat-number">
-
-                    {{ number_format($totalMaps) }}
-
-                </div>
-
-                <div class="stat-note">
-                    Maps / PDFs in inventory
-                </div>
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =================================================
-             SALES OVERVIEW
-        ================================================== -->
-
-        <section class="panel sales-panel">
-
-
-            <div class="section-header">
-
-                <h2>
-                    Sales Overview
-                </h2>
-
-                <span>
-                    Completed orders only
+                <span class="nav-icon">
+                    ▦
                 </span>
 
-            </div>
-
-
-            <div class="sales-grid">
-
-
-                <!-- TODAY -->
-
-                <div class="sales-card">
-
-                    <div class="sales-top">
-
-                        <span>
-                            Today
-                        </span>
-
-                        <span>
-                            📅
-                        </span>
-
-                    </div>
-
-                    <div class="sales-value">
-
-                        ৳{{ number_format($todaySales, 2) }}
-
-                    </div>
-
-                    <div class="sales-orders">
-
-                        <strong>
-                            {{ number_format($todayOrders) }}
-                        </strong>
-
-                        completed orders
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- WEEK -->
-
-                <div class="sales-card">
-
-                    <div class="sales-top">
-
-                        <span>
-                            This Week
-                        </span>
-
-                        <span>
-                            📈
-                        </span>
-
-                    </div>
-
-                    <div class="sales-value">
-
-                        ৳{{ number_format($weekSales, 2) }}
-
-                    </div>
-
-                    <div class="sales-orders">
-
-                        <strong>
-                            {{ number_format($weekOrders) }}
-                        </strong>
-
-                        completed orders
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- MONTH -->
-
-                <div class="sales-card">
-
-                    <div class="sales-top">
-
-                        <span>
-                            This Month
-                        </span>
-
-                        <span>
-                            📊
-                        </span>
-
-                    </div>
-
-                    <div class="sales-value">
-
-                        ৳{{ number_format($monthSales, 2) }}
-
-                    </div>
-
-                    <div class="sales-orders">
-
-                        <strong>
-                            {{ number_format($monthOrders) }}
-                        </strong>
-
-                        completed orders
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =================================================
-             MANAGEMENT + QUICK ACTIONS
-        ================================================== -->
-
-        <section class="two-column">
-
-
-            <!-- MANAGEMENT -->
-
-            <div class="panel">
-
-                <div class="panel-title">
-                    Administrative Management
-                </div>
-
-
-                <div class="management-grid">
-
-
-                    <!-- DIVISIONS -->
-
-                    <div class="management-item">
-
-                        <div class="management-left">
-
-                            <div class="management-icon">
-                                ◈
-                            </div>
-
-                            <div>
-
-                                <div class="management-name">
-                                    Divisions
-                                </div>
-
-                                <div class="management-count">
-                                    {{ number_format($totalDivisions) }}
-                                    records
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <a
-                            href="{{ route('admin.divisions.index') }}"
-                            class="manage-link"
-                        >
-                            Manage →
-                        </a>
-
-                    </div>
-
-
-
-                    <!-- DISTRICTS -->
-
-                    <div class="management-item">
-
-                        <div class="management-left">
-
-                            <div class="management-icon">
-                                ◇
-                            </div>
-
-                            <div>
-
-                                <div class="management-name">
-                                    Districts
-                                </div>
-
-                                <div class="management-count">
-                                    {{ number_format($totalDistricts) }}
-                                    records
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <a
-                            href="{{ route('admin.districts.index') }}"
-                            class="manage-link"
-                        >
-                            Manage →
-                        </a>
-
-                    </div>
-
-
-
-                    <!-- UPAZILAS -->
-
-                    <div class="management-item">
-
-                        <div class="management-left">
-
-                            <div class="management-icon">
-                                ⌂
-                            </div>
-
-                            <div>
-
-                                <div class="management-name">
-                                    Upazilas
-                                </div>
-
-                                <div class="management-count">
-                                    {{ number_format($totalUpazilas) }}
-                                    records
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <a
-                            href="{{ route('admin.upazilas.index') }}"
-                            class="manage-link"
-                        >
-                            Manage →
-                        </a>
-
-                    </div>
-
-
-
-                    <!-- MOUZAS -->
-
-                    <div class="management-item">
-
-                        <div class="management-left">
-
-                            <div class="management-icon">
-                                ▤
-                            </div>
-
-                            <div>
-
-                                <div class="management-name">
-                                    Mouzas
-                                </div>
-
-                                <div class="management-count">
-                                    {{ number_format($totalMouzas) }}
-                                    records
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <a
-                            href="{{ route('admin.mouzas.index') }}"
-                            class="manage-link"
-                        >
-                            Manage →
-                        </a>
-
-                    </div>
-
-
-
-                    <!-- SURVEY -->
-
-                    <div class="management-item">
-
-                        <div class="management-left">
-
-                            <div class="management-icon">
-                                ≡
-                            </div>
-
-                            <div>
-
-                                <div class="management-name">
-                                    Survey Types
-                                </div>
-
-                                <div class="management-count">
-                                    {{ number_format($totalSurveyTypes) }}
-                                    types
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- MAPS -->
-
-                    <div class="management-item">
-
-                        <div class="management-left">
-
-                            <div class="management-icon">
-                                ▧
-                            </div>
-
-                            <div>
-
-                                <div class="management-name">
-                                    Maps / PDFs
-                                </div>
-
-                                <div class="management-count">
-                                    {{ number_format($totalMaps) }}
-                                    maps
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <a
-                            href="{{ route('admin.maps.index') }}"
-                            class="manage-link"
-                        >
-                            Manage →
-                        </a>
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-
-            <!-- QUICK ACTIONS -->
-
-            <div class="panel">
-
-                <div class="panel-title">
-                    Quick Actions
-                </div>
-
-
-                <div class="quick-actions">
-
-
-                    <a
-                        href="{{ route('admin.divisions.create') }}"
-                        class="action"
-                    >
-
-                        <div class="action-icon">
-                            +
-                        </div>
-
-                        <div class="action-text">
-
-                            <strong>
-                                Add Division
-                            </strong>
-
-                            <span>
-                                Create a new division
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-
-                    <a
-                        href="{{ route('admin.districts.create') }}"
-                        class="action"
-                    >
-
-                        <div class="action-icon">
-                            +
-                        </div>
-
-                        <div class="action-text">
-
-                            <strong>
-                                Add District
-                            </strong>
-
-                            <span>
-                                Register a new district
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-
-                    <a
-                        href="{{ route('admin.upazilas.create') }}"
-                        class="action"
-                    >
-
-                        <div class="action-icon">
-                            +
-                        </div>
-
-                        <div class="action-text">
-
-                            <strong>
-                                Add Upazila
-                            </strong>
-
-                            <span>
-                                Register a new upazila
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-
-                    <a
-                        href="{{ route('admin.mouzas.create') }}"
-                        class="action"
-                    >
-
-                        <div class="action-icon">
-                            +
-                        </div>
-
-                        <div class="action-text">
-
-                            <strong>
-                                Add Mouza
-                            </strong>
-
-                            <span>
-                                Add mouza information
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-
-                    <a
-                        href="{{ route('admin.maps.create') }}"
-                        class="action"
-                    >
-
-                        <div class="action-icon">
-                            ↑
-                        </div>
-
-                        <div class="action-text">
-
-                            <strong>
-                                Upload Map PDF
-                            </strong>
-
-                            <span>
-                                Add a downloadable map
-                            </span>
-
-                        </div>
-
-                    </a>
-
-
-                </div>
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =================================================
-             RECENT ORDERS
-        ================================================== -->
-
-        <section class="panel orders-panel">
-
-
-            <div class="section-header">
-
-                <h2>
-                    Recent Orders
-                </h2>
-
                 <span>
-                    Latest 10 customer purchases
+                    Dashboard
                 </span>
 
-            </div>
+            </a>
 
 
-            <div class="table-wrapper">
+            <a
+                href="{{ route('admin.divisions.index') }}"
+                class="nav-link"
+            >
 
+                <span class="nav-icon">
+                    ◈
+                </span>
 
-                <table class="orders-table">
+                <span>
+                    Divisions
+                </span>
 
+            </a>
 
-                    <thead>
 
-                        <tr>
+            <a
+                href="{{ route('admin.districts.index') }}"
+                class="nav-link"
+            >
 
-                            <th>
-                                Order
-                            </th>
+                <span class="nav-icon">
+                    ◇
+                </span>
 
-                            <th>
-                                Customer
-                            </th>
+                <span>
+                    Districts
+                </span>
 
-                            <th>
-                                Map
-                            </th>
+            </a>
 
-                            <th>
-                                Amount
-                            </th>
 
-                            <th>
-                                Payment
-                            </th>
+            <a
+                href="{{ route('admin.upazilas.index') }}"
+                class="nav-link"
+            >
 
-                            <th>
-                                Status
-                            </th>
+                <span class="nav-icon">
+                    ⌂
+                </span>
 
-                            <th>
-                                Date
-                            </th>
+                <span>
+                    Upazilas
+                </span>
 
-                        </tr>
+            </a>
 
-                    </thead>
 
+            <a
+                href="{{ route('admin.mouzas.index') }}"
+                class="nav-link"
+            >
 
-                    <tbody>
+                <span class="nav-icon">
+                    ▤
+                </span>
 
+                <span>
+                    Mouzas
+                </span>
 
-                        @forelse($recentOrders as $order)
+            </a>
 
 
-                            <tr>
+            <a
+                href="{{ route('admin.maps.index') }}"
+                class="nav-link"
+            >
 
+                <span class="nav-icon">
+                    ▧
+                </span>
 
-                                <td>
+                <span>
+                    Maps / PDFs
+                </span>
 
-                                    <div class="order-id">
-                                        #{{ $order->id }}
-                                    </div>
+            </a>
 
-                                </td>
 
+            <a
+                href="{{ route('admin.orders.index') }}"
+                class="nav-link"
+            >
 
-                                <td>
+                <span class="nav-icon">
+                    🛒
+                </span>
 
-                                    <div class="customer-name">
+                <span>
+                    Orders
+                </span>
 
-                                        {{ $order->customer_name }}
+            </a>
 
-                                    </div>
 
-                                    <div class="customer-phone">
+        </nav>
 
-                                        {{ $order->phone }}
 
-                                    </div>
+        <!-- SYSTEM -->
 
-                                </td>
+        <div class="menu-title">
+            System
+        </div>
 
 
-                                <td>
+        <nav class="nav">
 
-                                    <div class="map-title">
+            <a
+                href="{{ route('profile.edit') }}"
+                class="nav-link"
+            >
 
-                                        {{ $order->map?->title ?? 'Map unavailable' }}
+                <span class="nav-icon">
+                    ⚙
+                </span>
 
-                                    </div>
+                <span>
+                    Profile Settings
+                </span>
 
-                                </td>
+            </a>
 
+        </nav>
 
-                                <td>
 
-                                    <span class="amount">
+        <!-- SIDEBAR FOOTER -->
 
-                                        ৳{{ number_format($order->amount, 2) }}
+        <div class="sidebar-footer">
 
-                                    </span>
 
-                                </td>
+            <div class="admin-mini">
 
+                <div class="admin-mini-avatar">
 
-                                <td>
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
 
-                                    <span class="payment">
+                </div>
 
-                                        {{ ucfirst($order->payment_method ?? 'N/A') }}
 
-                                    </span>
+                <div class="admin-mini-info">
 
-                                </td>
+                    <strong>
 
+                        {{ auth()->user()->name }}
 
-                                <td>
-
-
-                                    @if($order->status === 'completed')
-
-                                        <span class="badge badge-success">
-                                            Completed
-                                        </span>
-
-                                    @elseif($order->status === 'pending')
-
-                                        <span class="badge badge-warning">
-                                            Pending
-                                        </span>
-
-                                    @else
-
-                                        <span class="badge badge-danger">
-
-                                            {{ ucfirst($order->status) }}
-
-                                        </span>
-
-                                    @endif
-
-
-                                </td>
-
-
-                                <td>
-
-                                    {{ $order->created_at?->format('d M Y') }}
-
-                                </td>
-
-
-                            </tr>
-
-
-                        @empty
-
-
-                            <tr>
-
-                                <td colspan="7">
-
-                                    <div class="empty-state">
-
-                                        <div class="empty-icon">
-                                            🛒
-                                        </div>
-
-                                        No orders found yet.
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-
-                        @endforelse
-
-
-                    </tbody>
-
-
-                </table>
-
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =================================================
-             TOP MAPS + INVENTORY
-        ================================================== -->
-
-        <section class="lower-grid">
-
-
-            <!-- TOP SELLING -->
-
-            <div class="panel">
-
-
-                <div class="section-header">
-
-                    <h2>
-                        Top Selling Maps
-                    </h2>
+                    </strong>
 
                     <span>
-                        Completed orders
+
+                        Administrator
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ route('logout') }}"
+            >
+
+                @csrf
+
+                <button
+                    type="submit"
+                    class="logout"
+                >
+
+                    ↪ &nbsp; Logout
+
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================= -->
+
+    <main class="main">
+
+
+        <!-- =====================================================
+             TOPBAR
+        ====================================================== -->
+
+        <header class="topbar">
+
+
+            <div class="topbar-left">
+
+
+                <button
+                    type="button"
+                    class="mobile-menu"
+                    id="mobileMenuBtn"
+                    aria-label="Open navigation"
+                >
+
+                    ☰
+
+                </button>
+
+
+                <div class="breadcrumb">
+
+                    Admin Panel
+
+                    <span class="breadcrumb-separator">
+                        /
+                    </span>
+
+                    <strong>
+                        Dashboard
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- PROFILE -->
+
+            <div class="top-profile">
+
+
+                <div class="top-avatar">
+
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+
+                </div>
+
+
+                <div class="top-user">
+
+                    <strong>
+
+                        {{ auth()->user()->name }}
+
+                    </strong>
+
+                    <span>
+
+                        Administrator
+
                     </span>
 
                 </div>
 
 
-                @forelse($topMaps as $index => $topMap)
+            </div>
 
 
-                    <div class="top-map">
+        </header>
 
 
-                        <div class="rank">
 
-                            #{{ $index + 1 }}
+        <!-- =====================================================
+             CONTENT
+        ====================================================== -->
 
+        <div class="content">
+
+
+            <!-- =================================================
+                 WELCOME
+            ================================================== -->
+
+            <section class="welcome">
+
+
+                <div>
+
+                    <h1>
+
+                        Welcome back,
+                        {{ auth()->user()->name }}
+                        👋
+
+                    </h1>
+
+
+                    <p>
+
+                        Here's what's happening with your MoujaMap platform today.
+
+                    </p>
+
+                </div>
+
+
+                <div class="date-box">
+
+                    {{ now()->format('l, d F Y') }}
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 OVERVIEW
+            ================================================== -->
+
+            <div class="section-header">
+
+                <h2>
+                    Overview
+                </h2>
+
+                <span>
+                    Live platform statistics
+                </span>
+
+            </div>
+
+
+            <section class="stats">
+
+
+                <!-- TOTAL SALES -->
+
+                <div class="stat-card">
+
+                    <div class="stat-header">
+
+                        <span class="stat-label">
+                            Total Sales
+                        </span>
+
+                        <div class="stat-icon green">
+                            ৳
                         </div>
-
-
-                        <div class="map-info">
-
-                            <strong>
-
-                                {{ $topMap->map?->title ?? 'Map unavailable' }}
-
-                            </strong>
-
-                            <span>
-
-                                {{ number_format($topMap->total_orders) }}
-
-                                {{ $topMap->total_orders == 1 ? 'order' : 'orders' }}
-
-                            </span>
-
-                        </div>
-
-
-                        <div class="map-sales">
-
-                            ৳{{ number_format($topMap->total_sales, 2) }}
-
-                            <span>
-                                Total sales
-                            </span>
-
-                        </div>
-
 
                     </div>
 
 
-                @empty
+                    <div class="stat-number">
+
+                        ৳{{ number_format($totalSales, 2) }}
+
+                    </div>
 
 
-                    <div class="empty-state">
+                    <div class="stat-note">
 
-                        <div class="empty-icon">
+                        Completed order revenue
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TOTAL ORDERS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-header">
+
+                        <span class="stat-label">
+                            Total Orders
+                        </span>
+
+                        <div class="stat-icon">
+                            🛒
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-number">
+
+                        {{ number_format($totalOrders) }}
+
+                    </div>
+
+
+                    <div class="stat-note">
+
+                        All customer orders
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PENDING -->
+
+                <div class="stat-card">
+
+                    <div class="stat-header">
+
+                        <span class="stat-label">
+                            Pending Orders
+                        </span>
+
+                        <div class="stat-icon orange">
+                            ⏳
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-number">
+
+                        {{ number_format($pendingOrders) }}
+
+                    </div>
+
+
+                    <div class="stat-note">
+
+                        Orders waiting for processing
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- MAPS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-header">
+
+                        <span class="stat-label">
+                            Total Maps
+                        </span>
+
+                        <div class="stat-icon purple">
                             ▧
                         </div>
 
-                        No completed map sales yet.
+                    </div>
+
+
+                    <div class="stat-number">
+
+                        {{ number_format($totalMaps) }}
 
                     </div>
 
 
-                @endforelse
+                    <div class="stat-note">
+
+                        Maps / PDFs in inventory
+
+                    </div>
+
+                </div>
 
 
-            </div>
+            </section>
 
 
 
-            <!-- INVENTORY -->
+            <!-- =================================================
+                 SALES OVERVIEW
+            ================================================== -->
 
-            <div class="panel">
+            <section class="panel sales-panel">
 
 
                 <div class="section-header">
 
                     <h2>
-                        Map Inventory
+                        Sales Overview
                     </h2>
 
                     <span>
-                        Current map status
+                        Completed orders only
                     </span>
 
                 </div>
 
 
-                <div class="inventory-grid">
+                <div class="sales-grid">
 
 
-                    <div class="inventory-card active">
+                    <!-- TODAY -->
 
-                        <span>
-                            Active Maps
-                        </span>
+                    <div class="sales-card">
 
-                        <strong>
-                            {{ number_format($activeMaps) }}
-                        </strong>
+                        <div class="sales-top">
 
-                    </div>
+                            <span>
+                                Today
+                            </span>
 
+                            <span>
+                                📅
+                            </span>
 
-                    <div class="inventory-card inactive">
-
-                        <span>
-                            Inactive Maps
-                        </span>
-
-                        <strong>
-                            {{ number_format($inactiveMaps) }}
-                        </strong>
-
-                    </div>
+                        </div>
 
 
-                    <div class="inventory-card">
+                        <div class="sales-value">
 
-                        <span>
-                            Free Maps
-                        </span>
+                            ৳{{ number_format($todaySales, 2) }}
 
-                        <strong>
-                            {{ number_format($freeMaps) }}
-                        </strong>
+                        </div>
+
+
+                        <div class="sales-orders">
+
+                            <strong>
+                                {{ number_format($todayOrders) }}
+                            </strong>
+
+                            completed orders
+
+                        </div>
 
                     </div>
 
 
-                    <div class="inventory-card">
 
-                        <span>
-                            Paid Maps
-                        </span>
+                    <!-- WEEK -->
 
-                        <strong>
-                            {{ number_format($paidMaps) }}
-                        </strong>
+                    <div class="sales-card">
+
+                        <div class="sales-top">
+
+                            <span>
+                                This Week
+                            </span>
+
+                            <span>
+                                📈
+                            </span>
+
+                        </div>
+
+
+                        <div class="sales-value">
+
+                            ৳{{ number_format($weekSales, 2) }}
+
+                        </div>
+
+
+                        <div class="sales-orders">
+
+                            <strong>
+                                {{ number_format($weekOrders) }}
+                            </strong>
+
+                            completed orders
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- MONTH -->
+
+                    <div class="sales-card">
+
+                        <div class="sales-top">
+
+                            <span>
+                                This Month
+                            </span>
+
+                            <span>
+                                📊
+                            </span>
+
+                        </div>
+
+
+                        <div class="sales-value">
+
+                            ৳{{ number_format($monthSales, 2) }}
+
+                        </div>
+
+
+                        <div class="sales-orders">
+
+                            <strong>
+                                {{ number_format($monthOrders) }}
+                            </strong>
+
+                            completed orders
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 MANAGEMENT + QUICK ACTIONS
+            ================================================== -->
+
+            <section class="two-column">
+
+
+                <!-- MANAGEMENT -->
+
+                <div class="panel">
+
+
+                    <div class="panel-title">
+
+                        Administrative Management
+
+                    </div>
+
+
+                    <div class="management-grid">
+
+
+                        <!-- DIVISIONS -->
+
+                        <div class="management-item">
+
+                            <div class="management-left">
+
+                                <div class="management-icon">
+                                    ◈
+                                </div>
+
+                                <div>
+
+                                    <div class="management-name">
+                                        Divisions
+                                    </div>
+
+                                    <div class="management-count">
+
+                                        {{ number_format($totalDivisions) }}
+                                        records
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <a
+                                href="{{ route('admin.divisions.index') }}"
+                                class="manage-link"
+                            >
+                                Manage →
+                            </a>
+
+                        </div>
+
+
+
+                        <!-- DISTRICTS -->
+
+                        <div class="management-item">
+
+                            <div class="management-left">
+
+                                <div class="management-icon">
+                                    ◇
+                                </div>
+
+                                <div>
+
+                                    <div class="management-name">
+                                        Districts
+                                    </div>
+
+                                    <div class="management-count">
+
+                                        {{ number_format($totalDistricts) }}
+                                        records
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <a
+                                href="{{ route('admin.districts.index') }}"
+                                class="manage-link"
+                            >
+                                Manage →
+                            </a>
+
+                        </div>
+
+
+
+                        <!-- UPAZILAS -->
+
+                        <div class="management-item">
+
+                            <div class="management-left">
+
+                                <div class="management-icon">
+                                    ⌂
+                                </div>
+
+                                <div>
+
+                                    <div class="management-name">
+                                        Upazilas
+                                    </div>
+
+                                    <div class="management-count">
+
+                                        {{ number_format($totalUpazilas) }}
+                                        records
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <a
+                                href="{{ route('admin.upazilas.index') }}"
+                                class="manage-link"
+                            >
+                                Manage →
+                            </a>
+
+                        </div>
+
+
+
+                        <!-- MOUZAS -->
+
+                        <div class="management-item">
+
+                            <div class="management-left">
+
+                                <div class="management-icon">
+                                    ▤
+                                </div>
+
+                                <div>
+
+                                    <div class="management-name">
+                                        Mouzas
+                                    </div>
+
+                                    <div class="management-count">
+
+                                        {{ number_format($totalMouzas) }}
+                                        records
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <a
+                                href="{{ route('admin.mouzas.index') }}"
+                                class="manage-link"
+                            >
+                                Manage →
+                            </a>
+
+                        </div>
+
+
+
+                        <!-- SURVEY -->
+
+                        <div class="management-item">
+
+                            <div class="management-left">
+
+                                <div class="management-icon">
+                                    ≡
+                                </div>
+
+                                <div>
+
+                                    <div class="management-name">
+                                        Survey Types
+                                    </div>
+
+                                    <div class="management-count">
+
+                                        {{ number_format($totalSurveyTypes) }}
+                                        types
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- MAPS -->
+
+                        <div class="management-item">
+
+                            <div class="management-left">
+
+                                <div class="management-icon">
+                                    ▧
+                                </div>
+
+                                <div>
+
+                                    <div class="management-name">
+                                        Maps / PDFs
+                                    </div>
+
+                                    <div class="management-count">
+
+                                        {{ number_format($totalMaps) }}
+                                        maps
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <a
+                                href="{{ route('admin.maps.index') }}"
+                                class="manage-link"
+                            >
+                                Manage →
+                            </a>
+
+                        </div>
+
 
                     </div>
 
@@ -2900,28 +2448,531 @@
 
 
 
-                <!-- ORDER STATUS -->
+                <!-- QUICK ACTIONS -->
 
-                <div class="subsection">
+                <div class="panel">
 
 
-                    <div class="subsection-title">
-                        Order Status
+                    <div class="panel-title">
+
+                        Quick Actions
+
+                    </div>
+
+
+                    <div class="quick-actions">
+
+
+                        <a
+                            href="{{ route('admin.divisions.create') }}"
+                            class="action"
+                        >
+
+                            <div class="action-icon">
+                                +
+                            </div>
+
+                            <div class="action-text">
+
+                                <strong>
+                                    Add Division
+                                </strong>
+
+                                <span>
+                                    Create a new division
+                                </span>
+
+                            </div>
+
+                        </a>
+
+
+
+                        <a
+                            href="{{ route('admin.districts.create') }}"
+                            class="action"
+                        >
+
+                            <div class="action-icon">
+                                +
+                            </div>
+
+                            <div class="action-text">
+
+                                <strong>
+                                    Add District
+                                </strong>
+
+                                <span>
+                                    Register a new district
+                                </span>
+
+                            </div>
+
+                        </a>
+
+
+
+                        <a
+                            href="{{ route('admin.upazilas.create') }}"
+                            class="action"
+                        >
+
+                            <div class="action-icon">
+                                +
+                            </div>
+
+                            <div class="action-text">
+
+                                <strong>
+                                    Add Upazila
+                                </strong>
+
+                                <span>
+                                    Register a new upazila
+                                </span>
+
+                            </div>
+
+                        </a>
+
+
+
+                        <a
+                            href="{{ route('admin.mouzas.create') }}"
+                            class="action"
+                        >
+
+                            <div class="action-icon">
+                                +
+                            </div>
+
+                            <div class="action-text">
+
+                                <strong>
+                                    Add Mouza
+                                </strong>
+
+                                <span>
+                                    Add mouza information
+                                </span>
+
+                            </div>
+
+                        </a>
+
+
+
+                        <a
+                            href="{{ route('admin.maps.create') }}"
+                            class="action"
+                        >
+
+                            <div class="action-icon">
+                                ↑
+                            </div>
+
+                            <div class="action-text">
+
+                                <strong>
+                                    Upload Map PDF
+                                </strong>
+
+                                <span>
+                                    Add a downloadable map
+                                </span>
+
+                            </div>
+
+                        </a>
+
+
+
+                        <a
+                            href="{{ route('admin.orders.index') }}"
+                            class="action"
+                        >
+
+                            <div class="action-icon">
+                                🛒
+                            </div>
+
+                            <div class="action-text">
+
+                                <strong>
+                                    Manage Orders
+                                </strong>
+
+                                <span>
+                                    View and process orders
+                                </span>
+
+                            </div>
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 RECENT ORDERS
+            ================================================== -->
+
+            <section class="panel orders-panel">
+
+
+                <div class="section-header">
+
+                    <h2>
+                        Recent Orders
+                    </h2>
+
+                    <span>
+                        Latest 10 customer purchases
+                    </span>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+
+                    <table class="orders-table">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Order
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Map
+                                </th>
+
+                                <th>
+                                    Amount
+                                </th>
+
+                                <th>
+                                    Payment
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            @forelse($recentOrders as $order)
+
+
+                                <tr>
+
+
+                                    <td>
+
+                                        <div class="order-id">
+
+                                            #{{ $order->id }}
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="customer-name">
+
+                                            {{ $order->customer_name }}
+
+                                        </div>
+
+                                        <div class="customer-phone">
+
+                                            {{ $order->phone }}
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="map-title">
+
+                                            {{ $order->map?->title ?? 'Map unavailable' }}
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="amount">
+
+                                            ৳{{ number_format($order->amount, 2) }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="payment">
+
+                                            {{ ucfirst($order->payment_method ?? 'N/A') }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+
+                                        @if($order->status === 'completed')
+
+                                            <span class="badge badge-success">
+
+                                                Completed
+
+                                            </span>
+
+                                        @elseif($order->status === 'pending')
+
+                                            <span class="badge badge-warning">
+
+                                                Pending
+
+                                            </span>
+
+                                        @else
+
+                                            <span class="badge badge-danger">
+
+                                                {{ ucfirst($order->status) }}
+
+                                            </span>
+
+                                        @endif
+
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {{ $order->created_at?->format('d M Y') }}
+
+                                    </td>
+
+
+                                </tr>
+
+
+                            @empty
+
+
+                                <tr>
+
+                                    <td colspan="7">
+
+                                        <div class="empty-state">
+
+                                            <div class="empty-icon">
+                                                🛒
+                                            </div>
+
+                                            No orders found yet.
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+
+                            @endforelse
+
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 TOP MAPS + INVENTORY
+            ================================================== -->
+
+            <section class="lower-grid">
+
+
+                <!-- TOP SELLING -->
+
+                <div class="panel">
+
+
+                    <div class="section-header">
+
+                        <h2>
+                            Top Selling Maps
+                        </h2>
+
+                        <span>
+                            Completed orders
+                        </span>
+
+                    </div>
+
+
+                    @forelse($topMaps as $index => $topMap)
+
+
+                        <div class="top-map">
+
+
+                            <div class="rank">
+
+                                #{{ $index + 1 }}
+
+                            </div>
+
+
+                            <div class="map-info">
+
+                                <strong>
+
+                                    {{ $topMap->map?->title ?? 'Map unavailable' }}
+
+                                </strong>
+
+                                <span>
+
+                                    {{ number_format($topMap->total_orders) }}
+
+                                    {{ $topMap->total_orders == 1 ? 'order' : 'orders' }}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="map-sales">
+
+                                ৳{{ number_format($topMap->total_sales, 2) }}
+
+                                <span>
+                                    Total sales
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+
+                    @empty
+
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+                                ▧
+                            </div>
+
+                            No completed map sales yet.
+
+                        </div>
+
+
+                    @endforelse
+
+
+                </div>
+
+
+
+                <!-- INVENTORY -->
+
+                <div class="panel">
+
+
+                    <div class="section-header">
+
+                        <h2>
+                            Map Inventory
+                        </h2>
+
+                        <span>
+                            Current map status
+                        </span>
+
                     </div>
 
 
                     <div class="inventory-grid">
 
 
-                        <div class="inventory-card">
+                        <div class="inventory-card active">
 
                             <span>
-                                Completed
+                                Active Maps
                             </span>
 
-                            <strong style="color:var(--success);">
+                            <strong>
 
-                                {{ number_format($completedOrders) }}
+                                {{ number_format($activeMaps) }}
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="inventory-card inactive">
+
+                            <span>
+                                Inactive Maps
+                            </span>
+
+                            <strong>
+
+                                {{ number_format($inactiveMaps) }}
 
                             </strong>
 
@@ -2931,14 +2982,104 @@
                         <div class="inventory-card">
 
                             <span>
-                                Cancelled
+                                Free Maps
                             </span>
 
-                            <strong style="color:var(--danger);">
+                            <strong>
 
-                                {{ number_format($cancelledOrders) }}
+                                {{ number_format($freeMaps) }}
 
                             </strong>
+
+                        </div>
+
+
+                        <div class="inventory-card">
+
+                            <span>
+                                Paid Maps
+                            </span>
+
+                            <strong>
+
+                                {{ number_format($paidMaps) }}
+
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- ORDER STATUS -->
+
+                    <div class="subsection">
+
+
+                        <div class="subsection-title">
+
+                            Order Status
+
+                        </div>
+
+
+                        <div class="inventory-grid">
+
+
+                            <div class="inventory-card">
+
+                                <span>
+                                    Completed
+                                </span>
+
+                                <strong style="color:var(--success);">
+
+                                    {{ number_format($completedOrders) }}
+
+                                </strong>
+
+                            </div>
+
+
+                            <div class="inventory-card">
+
+                                <span>
+                                    Cancelled
+                                </span>
+
+                                <strong style="color:var(--danger);">
+
+                                    {{ number_format($cancelledOrders) }}
+
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- DOWNLOAD -->
+
+                    <div class="download-box">
+
+
+                        <div class="download-label">
+
+                            Total Downloads
+
+                        </div>
+
+
+                        <div class="download-value">
+
+                            {{ number_format($totalDownloads) }}
 
                         </div>
 
@@ -2949,123 +3090,103 @@
                 </div>
 
 
-
-                <!-- DOWNLOAD -->
-
-                <div class="download-box">
-
-                    <div class="download-label">
-                        Total Downloads
-                    </div>
-
-                    <div class="download-value">
-
-                        {{ number_format($totalDownloads) }}
-
-                    </div>
-
-                </div>
+            </section>
 
 
-            </div>
+        </div>
 
 
-        </section>
-
-
-    </div>
-
-
-</main>
+    </main>
 
 
 
-<!-- =========================================================
-     MOBILE SIDEBAR SCRIPT
-========================================================= -->
+    <!-- =========================================================
+         MOBILE SIDEBAR SCRIPT
+    ========================================================= -->
 
-<script>
+    <script>
 
-    const sidebar =
-        document.getElementById('sidebar');
+        const sidebar =
+            document.getElementById('sidebar');
 
-    const overlay =
-        document.getElementById('sidebarOverlay');
+        const overlay =
+            document.getElementById('sidebarOverlay');
 
-    const menuButton =
-        document.getElementById('mobileMenuBtn');
-
-
-    function openSidebar() {
-
-        sidebar.classList.add('open');
-
-        overlay.classList.add('active');
-
-        document.body.style.overflow = 'hidden';
-
-    }
+        const menuButton =
+            document.getElementById('mobileMenuBtn');
 
 
-    function closeSidebar() {
+        function openSidebar() {
 
-        sidebar.classList.remove('open');
+            sidebar.classList.add('open');
 
-        overlay.classList.remove('active');
+            overlay.classList.add('active');
 
-        document.body.style.overflow = '';
-
-    }
-
-
-    menuButton.addEventListener(
-        'click',
-        openSidebar
-    );
-
-
-    overlay.addEventListener(
-        'click',
-        closeSidebar
-    );
-
-
-    document
-        .querySelectorAll('.sidebar a')
-        .forEach(function(link) {
-
-            link.addEventListener(
-                'click',
-                function() {
-
-                    if (window.innerWidth <= 900) {
-
-                        closeSidebar();
-
-                    }
-
-                }
-            );
-
-        });
-
-
-    window.addEventListener(
-        'resize',
-        function() {
-
-            if (window.innerWidth > 900) {
-
-                closeSidebar();
-
-            }
+            document.body.style.overflow = 'hidden';
 
         }
-    );
 
-</script>
+
+        function closeSidebar() {
+
+            sidebar.classList.remove('open');
+
+            overlay.classList.remove('active');
+
+            document.body.style.overflow = '';
+
+        }
+
+
+        menuButton.addEventListener(
+            'click',
+            openSidebar
+        );
+
+
+        overlay.addEventListener(
+            'click',
+            closeSidebar
+        );
+
+
+        document
+            .querySelectorAll('.sidebar a')
+            .forEach(function(link) {
+
+                link.addEventListener(
+                    'click',
+                    function() {
+
+                        if (window.innerWidth <= 900) {
+
+                            closeSidebar();
+
+                        }
+
+                    }
+                );
+
+            });
+
+
+        window.addEventListener(
+            'resize',
+            function() {
+
+                if (window.innerWidth > 900) {
+
+                    closeSidebar();
+
+                }
+
+            }
+        );
+
+    </script>
 
 
 </body>
 
 </html>
+

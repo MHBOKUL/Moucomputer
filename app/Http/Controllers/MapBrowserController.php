@@ -13,7 +13,7 @@ use Illuminate\View\View;
 class MapBrowserController extends Controller
 {
     /**
-     * Display the Mouza Map Browser.
+     * Display all active divisions.
      */
     public function index(): View
     {
@@ -32,11 +32,12 @@ class MapBrowserController extends Controller
 
 
     /**
-     * Get districts by division.
+     * Get active districts of a division.
      */
     public function districts(Division $division): JsonResponse
     {
-        $districts = $division->districts()
+        $districts = District::query()
+            ->where('division_id', $division->id)
             ->where('is_active', true)
             ->orderBy('name')
             ->get([
@@ -51,11 +52,16 @@ class MapBrowserController extends Controller
 
 
     /**
-     * Get upazilas by district.
+     * Get upazilas of a district.
+     *
+     * NOTE:
+     * The upazilas table currently does not contain
+     * an is_active column.
      */
     public function upazilas(District $district): JsonResponse
     {
-        $upazilas = $district->upazilas()
+        $upazilas = Upazila::query()
+            ->where('district_id', $district->id)
             ->orderBy('name')
             ->get([
                 'id',
@@ -69,15 +75,23 @@ class MapBrowserController extends Controller
 
 
     /**
-     * Get mouzas by upazila.
+     * Get active mouzas of an upazila.
      */
     public function mouzas(Upazila $upazila): JsonResponse
     {
-        $mouzas = $upazila->mouzas()
+        $mouzas = Mouza::query()
+            ->where('upazila_id', $upazila->id)
             ->where('is_active', true)
             ->with('surveyType')
             ->orderBy('name')
-            ->get();
+            ->get([
+                'id',
+                'upazila_id',
+                'survey_type_id',
+                'name',
+                'name_bn',
+                'jl_number',
+            ]);
 
         return response()->json(
             $mouzas->map(function ($mouza) {
@@ -95,13 +109,17 @@ class MapBrowserController extends Controller
 
 
     /**
-     * Get available maps.
+     * Get active maps of a mouza.
      */
     public function maps(Mouza $mouza): JsonResponse
     {
-        $maps = $mouza->maps()
+        $maps = Map::query()
+            ->where('mouza_id', $mouza->id)
             ->where('is_active', true)
-            ->with('mouza.surveyType')
+            ->with([
+                'mouza',
+                'mouza.surveyType',
+            ])
             ->latest()
             ->get();
 
@@ -111,13 +129,19 @@ class MapBrowserController extends Controller
                     'id' => $map->id,
                     'title' => $map->title,
                     'price' => $map->price,
-                    'file_name' => $map->file_name,
+
                     'mouza' => $map->mouza?->name,
-                    'mouza_bn' => $map->mouza?->name_bn,
+
                     'jl_number' => $map->mouza?->jl_number,
-                    'survey_type' => $map->mouza?->surveyType?->name,
-                    'view_url' => route('maps.show', $map),
-                    'order_url' => route('orders.create', $map),
+
+                    'survey_type' =>
+                        $map->mouza?->surveyType?->name,
+
+                    'view_url' =>
+                        route('maps.show', $map),
+
+                    'order_url' =>
+                        route('orders.create', $map),
                 ];
             })
         );

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UpazilaController;
 use App\Http\Controllers\MapBrowserController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Division;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,10 +24,25 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Homepage
 |--------------------------------------------------------------------------
+|
+| Loads active divisions for the Mouza Map search section.
+|
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
+    $divisions = Division::query()
+        ->where('status', true)
+        ->withCount([
+            'districts' => function ($query) {
+                $query->where('is_active', true);
+            }
+        ])
+        ->orderBy('name')
+        ->get();
+
+    return view('welcome', compact('divisions'));
+
 })->name('home');
 
 
@@ -57,8 +73,7 @@ Route::get('/', function () {
 | Browse Divisions
 |--------------------------------------------------------------------------
 |
-| Example:
-| /maps/browse
+| GET /maps/browse
 |
 */
 
@@ -73,8 +88,7 @@ Route::get(
 | Browse Districts
 |--------------------------------------------------------------------------
 |
-| Example:
-| /maps/browse/divisions/1/districts
+| GET /maps/browse/divisions/{division}/districts
 |
 */
 
@@ -89,8 +103,7 @@ Route::get(
 | Browse Upazilas
 |--------------------------------------------------------------------------
 |
-| Example:
-| /maps/browse/districts/1/upazilas
+| GET /maps/browse/districts/{district}/upazilas
 |
 */
 
@@ -105,8 +118,7 @@ Route::get(
 | Browse Mouzas
 |--------------------------------------------------------------------------
 |
-| Example:
-| /maps/browse/upazilas/1/mouzas
+| GET /maps/browse/upazilas/{upazila}/mouzas
 |
 */
 
@@ -121,8 +133,7 @@ Route::get(
 | Browse Maps
 |--------------------------------------------------------------------------
 |
-| Example:
-| /maps/browse/mouzas/1/maps
+| GET /maps/browse/mouzas/{mouza}/maps
 |
 */
 
@@ -137,10 +148,9 @@ Route::get(
 | Public Map Details
 |--------------------------------------------------------------------------
 |
-| Example:
-| /maps/1
+| GET /maps/{map}
 |
-| Only active maps are publicly accessible.
+| Only active maps should be publicly accessible.
 |
 */
 
@@ -152,7 +162,7 @@ Route::get(
 
 /*
 |--------------------------------------------------------------------------
-| Public Order
+| Public Order Routes
 |--------------------------------------------------------------------------
 |
 | GET  /orders/create/{map}
@@ -165,7 +175,7 @@ Route::get(
 
 /*
 |--------------------------------------------------------------------------
-| Create Order
+| Create Public Order
 |--------------------------------------------------------------------------
 */
 
@@ -177,7 +187,7 @@ Route::get(
 
 /*
 |--------------------------------------------------------------------------
-| Store Order
+| Store Public Order
 |--------------------------------------------------------------------------
 */
 
@@ -203,9 +213,6 @@ Route::get(
 |--------------------------------------------------------------------------
 | Customer PDF Download
 |--------------------------------------------------------------------------
-|
-| Download is protected inside OrderController.
-|
 */
 
 Route::get(
@@ -216,12 +223,14 @@ Route::get(
 
 /*
 |--------------------------------------------------------------------------
-| User Dashboard
+| Authenticated User Dashboard
 |--------------------------------------------------------------------------
 */
 
 Route::get('/dashboard', function () {
+
     return view('dashboard');
+
 })
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -231,6 +240,12 @@ Route::get('/dashboard', function () {
 |--------------------------------------------------------------------------
 | Admin Routes
 |--------------------------------------------------------------------------
+|
+| All admin routes require:
+|
+| auth
+| admin
+|
 */
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -298,7 +313,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Map Management
+    | Admin Map Management
     |--------------------------------------------------------------------------
     */
 
@@ -308,7 +323,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     | Admin Map PDF Download
     |--------------------------------------------------------------------------
     |
-    | Must be before the Map resource route.
+    | Keep this route before the Map resource route.
     |
     */
 
@@ -332,7 +347,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Order Management
+    | Admin Order Management
     |--------------------------------------------------------------------------
     */
 
@@ -341,15 +356,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     |--------------------------------------------------------------------------
     | Admin Order CRUD
     |--------------------------------------------------------------------------
-    |
-    | GET       /admin/orders
-    | POST      /admin/orders
-    | GET       /admin/orders/create
-    | GET       /admin/orders/{order}
-    | PUT/PATCH /admin/orders/{order}
-    | DELETE    /admin/orders/{order}
-    | GET       /admin/orders/{order}/edit
-    |
     */
 
     Route::resource(
@@ -376,6 +382,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 |--------------------------------------------------------------------------
 | Profile Routes
 |--------------------------------------------------------------------------
+|
+| Requires authentication.
+|
 */
 
 Route::middleware('auth')->group(function () {
