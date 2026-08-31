@@ -7,6 +7,7 @@ use App\Models\District;
 use App\Models\Upazila;
 use App\Models\Mouza;
 use App\Models\Map;
+use App\Models\Khatian;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 
@@ -95,6 +96,7 @@ class MapBrowserController extends Controller
 
         return response()->json(
             $mouzas->map(function ($mouza) {
+
                 return [
                     'id' => $mouza->id,
                     'name' => $mouza->name,
@@ -125,9 +127,12 @@ class MapBrowserController extends Controller
 
         return response()->json(
             $maps->map(function ($map) {
+
                 return [
                     'id' => $map->id,
+
                     'title' => $map->title,
+
                     'price' => $map->price,
 
                     'mouza' => $map->mouza?->name,
@@ -142,6 +147,66 @@ class MapBrowserController extends Controller
 
                     'order_url' =>
                         route('orders.create', $map),
+                ];
+            })
+        );
+    }
+
+
+    /**
+     * Get active khatians of a mouza.
+     *
+     * Customer flow:
+     *
+     * Division
+     *     ↓
+     * District
+     *     ↓
+     * Upazila
+     *     ↓
+     * Mouza
+     *     ↓
+     * Khatians
+     */
+    public function khatians(Mouza $mouza): JsonResponse
+    {
+        $khatians = Khatian::query()
+            ->where('mouza_id', $mouza->id)
+            ->where('is_active', true)
+            ->with([
+                'mouza',
+                'mouza.surveyType',
+                'surveyType',
+            ])
+            ->latest()
+            ->get();
+
+        return response()->json(
+            $khatians->map(function ($khatian) {
+
+                return [
+                    'id' => $khatian->id,
+
+                    'khatian_number' =>
+                        $khatian->khatian_number,
+
+                    'owner_name' =>
+                        $khatian->owner_name,
+
+                    'price' =>
+                        $khatian->price,
+
+                    'mouza' =>
+                        $khatian->mouza?->name,
+
+                    'jl_number' =>
+                        $khatian->mouza?->jl_number,
+
+                    'survey_type' =>
+                        $khatian->surveyType?->name,
+
+                    'view_url' =>
+                        route('khatians.show', $khatian),
                 ];
             })
         );

@@ -3,19 +3,23 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\DivisionController;
 use App\Http\Controllers\Admin\DistrictController;
+use App\Http\Controllers\Admin\KhatianController;
 use App\Http\Controllers\Admin\MapController;
 use App\Http\Controllers\Admin\MouzaController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UpazilaController;
+use App\Http\Controllers\Admin\SurveyTypeController;
+use App\Http\Controllers\KhatianBrowserController;
 use App\Http\Controllers\MapBrowserController;
 use App\Http\Controllers\ProfileController;
+
 use App\Models\Division;
 use Illuminate\Support\Facades\Route;
 
 
 /*
 |--------------------------------------------------------------------------
-| Public Routes
+| PUBLIC ROUTES
 |--------------------------------------------------------------------------
 */
 
@@ -24,9 +28,6 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Homepage
 |--------------------------------------------------------------------------
-|
-| Loads active divisions for the Mouza Map search section.
-|
 */
 
 Route::get('/', function () {
@@ -48,10 +49,8 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Public Map Browser
+| PUBLIC MAP BROWSER
 |--------------------------------------------------------------------------
-|
-| Customer flow:
 |
 | Division
 |     ↓
@@ -61,7 +60,7 @@ Route::get('/', function () {
 |     ↓
 | Mouza
 |     ↓
-| Available Maps
+| Maps
 |     ↓
 | Map Details
 |
@@ -70,11 +69,8 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Browse Divisions
+| Browse Map Divisions
 |--------------------------------------------------------------------------
-|
-| GET /maps/browse
-|
 */
 
 Route::get(
@@ -85,11 +81,8 @@ Route::get(
 
 /*
 |--------------------------------------------------------------------------
-| Browse Districts
+| Browse Map Districts
 |--------------------------------------------------------------------------
-|
-| GET /maps/browse/divisions/{division}/districts
-|
 */
 
 Route::get(
@@ -100,11 +93,8 @@ Route::get(
 
 /*
 |--------------------------------------------------------------------------
-| Browse Upazilas
+| Browse Map Upazilas
 |--------------------------------------------------------------------------
-|
-| GET /maps/browse/districts/{district}/upazilas
-|
 */
 
 Route::get(
@@ -115,11 +105,8 @@ Route::get(
 
 /*
 |--------------------------------------------------------------------------
-| Browse Mouzas
+| Browse Map Mouzas
 |--------------------------------------------------------------------------
-|
-| GET /maps/browse/upazilas/{upazila}/mouzas
-|
 */
 
 Route::get(
@@ -132,9 +119,6 @@ Route::get(
 |--------------------------------------------------------------------------
 | Browse Maps
 |--------------------------------------------------------------------------
-|
-| GET /maps/browse/mouzas/{mouza}/maps
-|
 */
 
 Route::get(
@@ -145,13 +129,100 @@ Route::get(
 
 /*
 |--------------------------------------------------------------------------
-| Public Map Details
+| PUBLIC KHATIAN BROWSER
 |--------------------------------------------------------------------------
 |
-| GET /maps/{map}
+| Division
+|     ↓
+| District
+|     ↓
+| Upazila
+|     ↓
+| Mouza
+|     ↓
+| Khatians
+|     ↓
+| Khatian Details
 |
-| Only active maps should be publicly accessible.
-|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| Browse Khatian Divisions
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/khatians/browse',
+    [KhatianBrowserController::class, 'index']
+)->name('khatians.browse');
+
+
+/*
+|--------------------------------------------------------------------------
+| Browse Khatian Districts
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/khatians/browse/divisions/{division}/districts',
+    [KhatianBrowserController::class, 'districts']
+)->name('khatians.browse.districts');
+
+
+/*
+|--------------------------------------------------------------------------
+| Browse Khatian Upazilas
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/khatians/browse/districts/{district}/upazilas',
+    [KhatianBrowserController::class, 'upazilas']
+)->name('khatians.browse.upazilas');
+
+
+/*
+|--------------------------------------------------------------------------
+| Browse Khatian Mouzas
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/khatians/browse/upazilas/{upazila}/mouzas',
+    [KhatianBrowserController::class, 'mouzas']
+)->name('khatians.browse.mouzas');
+
+
+/*
+|--------------------------------------------------------------------------
+| Browse Khatians
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/khatians/browse/mouzas/{mouza}/khatians',
+    [KhatianBrowserController::class, 'khatians']
+)->name('khatians.browse.list');
+
+
+/*
+|--------------------------------------------------------------------------
+| Public Khatian Details
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/khatians/{khatian}',
+    [KhatianBrowserController::class, 'show']
+)->name('khatians.show');
+
+
+/*
+|--------------------------------------------------------------------------
+| Public Map Details
+|--------------------------------------------------------------------------
 */
 
 Route::get(
@@ -162,39 +233,45 @@ Route::get(
 
 /*
 |--------------------------------------------------------------------------
-| Public Order Routes
+| PUBLIC ORDER ROUTES
 |--------------------------------------------------------------------------
-|
-| GET  /orders/create/{map}
-| POST /orders
-| GET  /orders/{order}/success
-| GET  /orders/{order}/download
-|
 */
 
 
 /*
 |--------------------------------------------------------------------------
-| Create Public Order
+| Public Map Order
 |--------------------------------------------------------------------------
 */
 
 Route::get(
-    '/orders/create/{map}',
+    '/orders/create/map/{map}',
     [OrderController::class, 'createPublic']
-)->name('orders.create');
+)->name('orders.map.create');
+
+
+Route::post(
+    '/orders/map',
+    [OrderController::class, 'storePublic']
+)->name('orders.map.store');
 
 
 /*
 |--------------------------------------------------------------------------
-| Store Public Order
+| Public Khatian Order
 |--------------------------------------------------------------------------
 */
 
+Route::get(
+    '/orders/create/khatian/{khatian}',
+    [OrderController::class, 'createKhatian']
+)->name('orders.khatian.create');
+
+
 Route::post(
-    '/orders',
-    [OrderController::class, 'storePublic']
-)->name('orders.store');
+    '/orders/khatian',
+    [OrderController::class, 'storeKhatian']
+)->name('orders.khatian.store');
 
 
 /*
@@ -223,7 +300,7 @@ Route::get(
 
 /*
 |--------------------------------------------------------------------------
-| Authenticated User Dashboard
+| AUTHENTICATED USER DASHBOARD
 |--------------------------------------------------------------------------
 */
 
@@ -238,7 +315,7 @@ Route::get('/dashboard', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Admin Routes
+| ADMIN ROUTES
 |--------------------------------------------------------------------------
 |
 | All admin routes require:
@@ -253,8 +330,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Admin Dashboard
+    | MAIN ADMIN DASHBOARD
     |--------------------------------------------------------------------------
+    |
+    | URL:
+    | /admin
+    |
+    | Route:
+    | admin.dashboard
+    |
     */
 
     Route::get(
@@ -265,7 +349,45 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Division Management
+    | MAP MANAGEMENT DASHBOARD
+    |--------------------------------------------------------------------------
+    |
+    | URL:
+    | /admin/map-dashboard
+    |
+    | Route:
+    | admin.map.dashboard
+    |
+    */
+
+    Route::get(
+        '/admin/map-dashboard',
+        [AdminDashboardController::class, 'mapDashboard']
+    )->name('admin.map.dashboard');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KHATIAN MANAGEMENT DASHBOARD
+    |--------------------------------------------------------------------------
+    |
+    | URL:
+    | /admin/khatian-dashboard
+    |
+    | Route:
+    | admin.khatian.dashboard
+    |
+    */
+
+    Route::get(
+        '/admin/khatian-dashboard',
+        [AdminDashboardController::class, 'khatianDashboard']
+    )->name('admin.khatian.dashboard');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DIVISION MANAGEMENT
     |--------------------------------------------------------------------------
     */
 
@@ -277,7 +399,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | District Management
+    | DISTRICT MANAGEMENT
     |--------------------------------------------------------------------------
     */
 
@@ -289,7 +411,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Upazila Management
+    | UPAZILA MANAGEMENT
     |--------------------------------------------------------------------------
     */
 
@@ -301,7 +423,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Mouza Management
+    | MOUZA MANAGEMENT
     |--------------------------------------------------------------------------
     */
 
@@ -313,17 +435,60 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Admin Map Management
+    | KHATIAN MANAGEMENT
     |--------------------------------------------------------------------------
+    |
+    | URL:
+    | /admin/khatians
+    |
     */
 
+    Route::resource(
+        '/admin/khatians',
+        KhatianController::class
+    )->names('admin.khatians');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | MAP MANAGEMENT
+    |--------------------------------------------------------------------------
+    |
+    | URL:
+    | /admin/maps
+    |
+    */
+/*
+|--------------------------------------------------------------------------
+| SURVEY TYPE MANAGEMENT
+|--------------------------------------------------------------------------
+|
+| URL:
+| /admin/survey-types
+|
+| Routes:
+| admin.survey-types.index
+| admin.survey-types.create
+| admin.survey-types.store
+| admin.survey-types.show
+| admin.survey-types.edit
+| admin.survey-types.update
+| admin.survey-types.destroy
+|
+*/
+
+Route::resource(
+    '/admin/survey-types',
+    SurveyTypeController::class
+)->names('admin.survey-types');
 
     /*
     |--------------------------------------------------------------------------
     | Admin Map PDF Download
     |--------------------------------------------------------------------------
     |
-    | Keep this route before the Map resource route.
+    | IMPORTANT:
+    | This route stays BEFORE the resource route.
     |
     */
 
@@ -335,7 +500,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Admin Map CRUD
+    | Map Management Resource
     |--------------------------------------------------------------------------
     */
 
@@ -347,15 +512,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Admin Order Management
+    | ORDER MANAGEMENT
     |--------------------------------------------------------------------------
-    */
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Admin Order CRUD
-    |--------------------------------------------------------------------------
+    |
+    | Handles:
+    |
+    | Map Orders
+    | Khatian Orders
+    |
     */
 
     Route::resource(
@@ -366,7 +530,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Quick Order Status Update
+    | QUICK ORDER STATUS UPDATE
     |--------------------------------------------------------------------------
     */
 
@@ -380,11 +544,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Profile Routes
+| PROFILE ROUTES
 |--------------------------------------------------------------------------
-|
-| Requires authentication.
-|
 */
 
 Route::middleware('auth')->group(function () {
@@ -430,7 +591,7 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Authentication Routes
+| AUTHENTICATION ROUTES
 |--------------------------------------------------------------------------
 */
 

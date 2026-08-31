@@ -15,4 +15,8 @@ class SurveyType extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+    public function khatians()
+{
+    return $this->hasMany(Khatian::class);
+}
 }

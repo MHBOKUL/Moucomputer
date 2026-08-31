@@ -11,25 +11,52 @@ class Order extends Model
         'customer_name',
         'phone',
         'email',
+
         'map_id',
+        'khatian_id',
+
         'amount',
         'payment_method',
         'status',
+
         'download_allowed',
         'download_token',
         'download_count',
         'downloaded_at',
     ];
 
+
     protected $casts = [
         'amount' => 'decimal:2',
+
         'download_allowed' => 'boolean',
+
         'download_count' => 'integer',
+
         'downloaded_at' => 'datetime',
     ];
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | MAP
+    |--------------------------------------------------------------------------
+    */
 
     public function map(): BelongsTo
     {
         return $this->belongsTo(Map::class);
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KHATIAN
+    |--------------------------------------------------------------------------
+    */
+
+    public function khatian(): BelongsTo
+    {
+        return $this->belongsTo(Khatian::class);
     }
 }

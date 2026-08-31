@@ -3,40 +3,227 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Map;
+use App\Models\Khatian;
 use App\Models\Division;
 use App\Models\District;
 use App\Models\Upazila;
 use App\Models\Mouza;
 use App\Models\SurveyType;
-use App\Models\Map;
-use App\Models\Order;
-use Carbon\Carbon;
 
 class AdminDashboardController extends Controller
 {
-    /**
-     * Display the admin dashboard.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | MAIN ADMIN DASHBOARD
+    |--------------------------------------------------------------------------
+    */
+
     public function index()
     {
         /*
         |--------------------------------------------------------------------------
-        | Date Ranges
+        | BASIC OVERVIEW
         |--------------------------------------------------------------------------
         */
 
-        $today = Carbon::today();
+        $totalMaps = Map::count();
 
-        $startOfWeek = Carbon::now()->startOfWeek();
-        $endOfWeek = Carbon::now()->endOfWeek();
+        $totalKhatians = Khatian::count();
 
-        $startOfMonth = Carbon::now()->startOfMonth();
-        $endOfMonth = Carbon::now()->endOfMonth();
+        $totalOrders = Order::count();
+
+        $pendingOrders = Order::where('status', 'pending')->count();
+
+        $completedOrders = Order::where('status', 'completed')->count();
+
+        $cancelledOrders = Order::where('status', 'cancelled')->count();
 
 
         /*
         |--------------------------------------------------------------------------
-        | Administrative Statistics
+        | TOTAL SALES
+        |--------------------------------------------------------------------------
+        */
+
+        $totalSales = Order::where('status', 'completed')
+            ->sum('amount');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | TODAY
+        |--------------------------------------------------------------------------
+        */
+
+        $todayOrders = Order::where('status', 'completed')
+            ->whereDate('created_at', today())
+            ->count();
+
+        $todaySales = Order::where('status', 'completed')
+            ->whereDate('created_at', today())
+            ->sum('amount');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | THIS WEEK
+        |--------------------------------------------------------------------------
+        */
+
+        $weekOrders = Order::where('status', 'completed')
+            ->whereBetween('created_at', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ])
+            ->count();
+
+        $weekSales = Order::where('status', 'completed')
+            ->whereBetween('created_at', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ])
+            ->sum('amount');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | THIS MONTH
+        |--------------------------------------------------------------------------
+        */
+
+        $monthOrders = Order::where('status', 'completed')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->count();
+
+        $monthSales = Order::where('status', 'completed')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('amount');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | MAP STATISTICS
+        |--------------------------------------------------------------------------
+        */
+
+        $activeMaps = Map::where('is_active', true)->count();
+
+        $inactiveMaps = Map::where('is_active', false)->count();
+
+        $freeMaps = Map::where('price', 0)->count();
+
+        $paidMaps = Map::where('price', '>', 0)->count();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | KHATIAN STATISTICS
+        |--------------------------------------------------------------------------
+        */
+
+        $activeKhatians = Khatian::where('is_active', true)->count();
+
+        $inactiveKhatians = Khatian::where('is_active', false)->count();
+
+        $freeKhatians = Khatian::where('price', 0)->count();
+
+        $paidKhatians = Khatian::where('price', '>', 0)->count();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DOWNLOAD STATISTICS
+        |--------------------------------------------------------------------------
+        |
+        | IMPORTANT:
+        |
+        | maps table does NOT currently contain download_count.
+        |
+        | Therefore we do NOT use:
+        |
+        | Map::sum('download_count')
+        |
+        | For now downloads are calculated from completed orders.
+        |
+        */
+
+        $mapDownloads = Order::whereNotNull('map_id')
+            ->where('status', 'completed')
+            ->where('download_allowed', true)
+            ->sum('download_count');
+
+
+        $khatianDownloads = Order::whereNotNull('khatian_id')
+            ->where('status', 'completed')
+            ->where('download_allowed', true)
+            ->sum('download_count');
+
+
+        $totalDownloads = $mapDownloads + $khatianDownloads;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | RECENT ORDERS
+        |--------------------------------------------------------------------------
+        */
+
+        $recentOrders = Order::with([
+            'map',
+            'khatian.mouza',
+            'khatian.surveyType'
+        ])
+            ->latest()
+            ->take(10)
+            ->get();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | TOP SELLING MAPS
+        |--------------------------------------------------------------------------
+        */
+
+        $topMaps = Order::select('map_id')
+            ->selectRaw('COUNT(*) as total_orders')
+            ->selectRaw('SUM(amount) as total_sales')
+            ->whereNotNull('map_id')
+            ->where('status', 'completed')
+            ->with('map')
+            ->groupBy('map_id')
+            ->orderByDesc('total_orders')
+            ->take(5)
+            ->get();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | TOP SELLING KHATIANS
+        |--------------------------------------------------------------------------
+        */
+
+        $topKhatians = Order::select('khatian_id')
+            ->selectRaw('COUNT(*) as total_orders')
+            ->selectRaw('SUM(amount) as total_sales')
+            ->whereNotNull('khatian_id')
+            ->where('status', 'completed')
+            ->with([
+                'khatian.mouza',
+                'khatian.surveyType'
+            ])
+            ->groupBy('khatian_id')
+            ->orderByDesc('total_orders')
+            ->take(5)
+            ->get();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | LOCATION STATISTICS
         |--------------------------------------------------------------------------
         */
 
@@ -53,7 +240,248 @@ class AdminDashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Map Statistics
+        | DASHBOARD VIEW
+        |--------------------------------------------------------------------------
+        */
+
+        return view('admin.management-dashboard', [
+
+            /*
+            |--------------------------------------------------------------------------
+            | DASHBOARD TYPE
+            |--------------------------------------------------------------------------
+            */
+
+            'managementType' => 'overview',
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | ORDERS
+            |--------------------------------------------------------------------------
+            */
+
+            'totalOrders' => $totalOrders,
+
+            'pendingOrders' => $pendingOrders,
+
+            'completedOrders' => $completedOrders,
+
+            'cancelledOrders' => $cancelledOrders,
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | SALES
+            |--------------------------------------------------------------------------
+            */
+
+            'totalSales' => $totalSales,
+
+            'todaySales' => $todaySales,
+
+            'todayOrders' => $todayOrders,
+
+            'weekSales' => $weekSales,
+
+            'weekOrders' => $weekOrders,
+
+            'monthSales' => $monthSales,
+
+            'monthOrders' => $monthOrders,
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | MAPS
+            |--------------------------------------------------------------------------
+            */
+
+            'totalMaps' => $totalMaps,
+
+            'activeMaps' => $activeMaps,
+
+            'inactiveMaps' => $inactiveMaps,
+
+            'freeMaps' => $freeMaps,
+
+            'paidMaps' => $paidMaps,
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | KHATIANS
+            |--------------------------------------------------------------------------
+            */
+
+            'totalKhatians' => $totalKhatians,
+
+            'activeKhatians' => $activeKhatians,
+
+            'inactiveKhatians' => $inactiveKhatians,
+
+            'freeKhatians' => $freeKhatians,
+
+            'paidKhatians' => $paidKhatians,
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | DOWNLOADS
+            |--------------------------------------------------------------------------
+            */
+
+            'totalDownloads' => $totalDownloads,
+
+            'mapDownloads' => $mapDownloads,
+
+            'khatianDownloads' => $khatianDownloads,
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | RECENT ORDERS
+            |--------------------------------------------------------------------------
+            */
+
+            'recentOrders' => $recentOrders,
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | TOP PRODUCTS
+            |--------------------------------------------------------------------------
+            */
+
+            'topMaps' => $topMaps,
+
+            'topKhatians' => $topKhatians,
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | LOCATION DATA
+            |--------------------------------------------------------------------------
+            */
+
+            'totalDivisions' => $totalDivisions,
+
+            'totalDistricts' => $totalDistricts,
+
+            'totalUpazilas' => $totalUpazilas,
+
+            'totalMouzas' => $totalMouzas,
+
+            'totalSurveyTypes' => $totalSurveyTypes,
+        ]);
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | MAP MANAGEMENT DASHBOARD
+    |--------------------------------------------------------------------------
+    */
+
+    public function mapDashboard()
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | MAP ORDERS ONLY
+        |--------------------------------------------------------------------------
+        */
+
+        $mapOrdersQuery = Order::whereNotNull('map_id');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SALES
+        |--------------------------------------------------------------------------
+        */
+
+        $totalSales = (clone $mapOrdersQuery)
+            ->where('status', 'completed')
+            ->sum('amount');
+
+        $totalOrders = (clone $mapOrdersQuery)
+            ->count();
+
+        $pendingOrders = (clone $mapOrdersQuery)
+            ->where('status', 'pending')
+            ->count();
+
+        $completedOrders = (clone $mapOrdersQuery)
+            ->where('status', 'completed')
+            ->count();
+
+        $cancelledOrders = (clone $mapOrdersQuery)
+            ->where('status', 'cancelled')
+            ->count();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | TODAY
+        |--------------------------------------------------------------------------
+        */
+
+        $todayOrders = (clone $mapOrdersQuery)
+            ->where('status', 'completed')
+            ->whereDate('created_at', today())
+            ->count();
+
+        $todaySales = (clone $mapOrdersQuery)
+            ->where('status', 'completed')
+            ->whereDate('created_at', today())
+            ->sum('amount');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | THIS WEEK
+        |--------------------------------------------------------------------------
+        */
+
+        $weekOrders = (clone $mapOrdersQuery)
+            ->where('status', 'completed')
+            ->whereBetween('created_at', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ])
+            ->count();
+
+        $weekSales = (clone $mapOrdersQuery)
+            ->where('status', 'completed')
+            ->whereBetween('created_at', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ])
+            ->sum('amount');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | THIS MONTH
+        |--------------------------------------------------------------------------
+        */
+
+        $monthOrders = (clone $mapOrdersQuery)
+            ->where('status', 'completed')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->count();
+
+        $monthSales = (clone $mapOrdersQuery)
+            ->where('status', 'completed')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('amount');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | MAP INVENTORY
         |--------------------------------------------------------------------------
         */
 
@@ -70,105 +498,28 @@ class AdminDashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Order Statistics
+        | MAP DOWNLOADS
         |--------------------------------------------------------------------------
+        |
+        | Do not use Map::sum('download_count')
+        | because the maps table does not have that column.
+        |
         */
 
-        $totalOrders = Order::count();
-
-        $pendingOrders = Order::where('status', 'pending')->count();
-
-        $completedOrders = Order::where('status', 'completed')->count();
-
-        $cancelledOrders = Order::where('status', 'cancelled')->count();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Revenue Statistics
-        |--------------------------------------------------------------------------
-        */
-
-        $totalSales = Order::where('status', 'completed')
-            ->sum('amount');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Today's Statistics
-        |--------------------------------------------------------------------------
-        */
-
-        $todayOrders = Order::whereDate('created_at', $today)
+        $totalDownloads = (clone $mapOrdersQuery)
             ->where('status', 'completed')
-            ->count();
-
-        $todaySales = Order::whereDate('created_at', $today)
-            ->where('status', 'completed')
-            ->sum('amount');
-
-        $todayDownloads = Order::whereDate('downloaded_at', $today)
+            ->where('download_allowed', true)
             ->sum('download_count');
 
 
         /*
         |--------------------------------------------------------------------------
-        | Weekly Statistics
+        | RECENT MAP ORDERS
         |--------------------------------------------------------------------------
         */
 
-        $weekOrders = Order::whereBetween('created_at', [
-            $startOfWeek,
-            $endOfWeek,
-        ])
-            ->where('status', 'completed')
-            ->count();
-
-        $weekSales = Order::whereBetween('created_at', [
-            $startOfWeek,
-            $endOfWeek,
-        ])
-            ->where('status', 'completed')
-            ->sum('amount');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Monthly Statistics
-        |--------------------------------------------------------------------------
-        */
-
-        $monthOrders = Order::whereBetween('created_at', [
-            $startOfMonth,
-            $endOfMonth,
-        ])
-            ->where('status', 'completed')
-            ->count();
-
-        $monthSales = Order::whereBetween('created_at', [
-            $startOfMonth,
-            $endOfMonth,
-        ])
-            ->where('status', 'completed')
-            ->sum('amount');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Download Statistics
-        |--------------------------------------------------------------------------
-        */
-
-        $totalDownloads = Order::sum('download_count');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Recent Orders
-        |--------------------------------------------------------------------------
-        */
-
-        $recentOrders = Order::with('map')
+        $recentOrders = (clone $mapOrdersQuery)
+            ->with('map')
             ->latest()
             ->take(10)
             ->get();
@@ -176,15 +527,16 @@ class AdminDashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Top Selling Maps
+        | TOP SELLING MAPS
         |--------------------------------------------------------------------------
         */
 
-        $topMaps = Order::with('map')
+        $topMaps = Order::select('map_id')
+            ->selectRaw('COUNT(*) as total_orders')
+            ->selectRaw('SUM(amount) as total_sales')
+            ->whereNotNull('map_id')
             ->where('status', 'completed')
-            ->selectRaw(
-                'map_id, COUNT(*) as total_orders, SUM(amount) as total_sales'
-            )
+            ->with('map')
             ->groupBy('map_id')
             ->orderByDesc('total_orders')
             ->take(5)
@@ -193,54 +545,324 @@ class AdminDashboardController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Return Dashboard View
+        | COMMON ADMIN DATA
         |--------------------------------------------------------------------------
         */
 
-        return view('admin.dashboard', compact(
+        $totalDivisions = Division::count();
 
-            // Administrative
-            'totalDivisions',
-            'totalDistricts',
-            'totalUpazilas',
-            'totalMouzas',
-            'totalSurveyTypes',
+        $totalDistricts = District::count();
 
-            // Maps
-            'totalMaps',
-            'activeMaps',
-            'inactiveMaps',
-            'freeMaps',
-            'paidMaps',
+        $totalUpazilas = Upazila::count();
 
-            // Orders
-            'totalOrders',
-            'pendingOrders',
-            'completedOrders',
-            'cancelledOrders',
+        $totalMouzas = Mouza::count();
 
-            // Revenue
-            'totalSales',
+        $totalSurveyTypes = SurveyType::count();
 
-            // Today
-            'todayOrders',
-            'todaySales',
-            'todayDownloads',
 
-            // Week
-            'weekOrders',
-            'weekSales',
+        /*
+        |--------------------------------------------------------------------------
+        | VIEW
+        |--------------------------------------------------------------------------
+        */
 
-            // Month
-            'monthOrders',
-            'monthSales',
+        return view('admin.management-dashboard', [
 
-            // Downloads
-            'totalDownloads',
+            'managementType' => 'map',
 
-            // Tables
-            'recentOrders',
-            'topMaps'
-        ));
+            'totalSales' => $totalSales,
+
+            'totalOrders' => $totalOrders,
+
+            'pendingOrders' => $pendingOrders,
+
+            'todaySales' => $todaySales,
+
+            'todayOrders' => $todayOrders,
+
+            'weekSales' => $weekSales,
+
+            'weekOrders' => $weekOrders,
+
+            'monthSales' => $monthSales,
+
+            'monthOrders' => $monthOrders,
+
+            'recentOrders' => $recentOrders,
+
+            'completedOrders' => $completedOrders,
+
+            'cancelledOrders' => $cancelledOrders,
+
+            'totalMaps' => $totalMaps,
+
+            'activeMaps' => $activeMaps,
+
+            'inactiveMaps' => $inactiveMaps,
+
+            'freeMaps' => $freeMaps,
+
+            'paidMaps' => $paidMaps,
+
+            'totalDownloads' => $totalDownloads,
+
+            'topMaps' => $topMaps,
+
+            'totalDivisions' => $totalDivisions,
+
+            'totalDistricts' => $totalDistricts,
+
+            'totalUpazilas' => $totalUpazilas,
+
+            'totalMouzas' => $totalMouzas,
+
+            'totalSurveyTypes' => $totalSurveyTypes,
+        ]);
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KHATIAN MANAGEMENT DASHBOARD
+    |--------------------------------------------------------------------------
+    */
+
+    public function khatianDashboard()
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | KHATIAN ORDERS ONLY
+        |--------------------------------------------------------------------------
+        */
+
+        $khatianOrdersQuery = Order::whereNotNull('khatian_id');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SALES
+        |--------------------------------------------------------------------------
+        */
+
+        $totalSales = (clone $khatianOrdersQuery)
+            ->where('status', 'completed')
+            ->sum('amount');
+
+        $totalOrders = (clone $khatianOrdersQuery)
+            ->count();
+
+        $pendingOrders = (clone $khatianOrdersQuery)
+            ->where('status', 'pending')
+            ->count();
+
+        $completedOrders = (clone $khatianOrdersQuery)
+            ->where('status', 'completed')
+            ->count();
+
+        $cancelledOrders = (clone $khatianOrdersQuery)
+            ->where('status', 'cancelled')
+            ->count();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | TODAY
+        |--------------------------------------------------------------------------
+        */
+
+        $todayOrders = (clone $khatianOrdersQuery)
+            ->where('status', 'completed')
+            ->whereDate('created_at', today())
+            ->count();
+
+        $todaySales = (clone $khatianOrdersQuery)
+            ->where('status', 'completed')
+            ->whereDate('created_at', today())
+            ->sum('amount');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | WEEK
+        |--------------------------------------------------------------------------
+        */
+
+        $weekOrders = (clone $khatianOrdersQuery)
+            ->where('status', 'completed')
+            ->whereBetween('created_at', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ])
+            ->count();
+
+        $weekSales = (clone $khatianOrdersQuery)
+            ->where('status', 'completed')
+            ->whereBetween('created_at', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ])
+            ->sum('amount');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | MONTH
+        |--------------------------------------------------------------------------
+        */
+
+        $monthOrders = (clone $khatianOrdersQuery)
+            ->where('status', 'completed')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->count();
+
+        $monthSales = (clone $khatianOrdersQuery)
+            ->where('status', 'completed')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('amount');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | KHATIAN INVENTORY
+        |--------------------------------------------------------------------------
+        */
+
+        $totalKhatians = Khatian::count();
+
+        $activeKhatians = Khatian::where('is_active', true)->count();
+
+        $inactiveKhatians = Khatian::where('is_active', false)->count();
+
+        $freeKhatians = Khatian::where('price', 0)->count();
+
+        $paidKhatians = Khatian::where('price', '>', 0)->count();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | KHATIAN DOWNLOADS
+        |--------------------------------------------------------------------------
+        */
+
+        $totalDownloads = (clone $khatianOrdersQuery)
+            ->where('status', 'completed')
+            ->where('download_allowed', true)
+            ->sum('download_count');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | RECENT KHATIAN ORDERS
+        |--------------------------------------------------------------------------
+        */
+
+        $recentOrders = (clone $khatianOrdersQuery)
+            ->with([
+                'khatian.mouza',
+                'khatian.surveyType'
+            ])
+            ->latest()
+            ->take(10)
+            ->get();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | TOP SELLING KHATIANS
+        |--------------------------------------------------------------------------
+        */
+
+        $topKhatians = Order::select('khatian_id')
+            ->selectRaw('COUNT(*) as total_orders')
+            ->selectRaw('SUM(amount) as total_sales')
+            ->whereNotNull('khatian_id')
+            ->where('status', 'completed')
+            ->with([
+                'khatian.mouza',
+                'khatian.surveyType'
+            ])
+            ->groupBy('khatian_id')
+            ->orderByDesc('total_orders')
+            ->take(5)
+            ->get();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | COMMON ADMIN DATA
+        |--------------------------------------------------------------------------
+        */
+
+        $totalDivisions = Division::count();
+
+        $totalDistricts = District::count();
+
+        $totalUpazilas = Upazila::count();
+
+        $totalMouzas = Mouza::count();
+
+        $totalSurveyTypes = SurveyType::count();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | VIEW
+        |--------------------------------------------------------------------------
+        */
+
+        return view('admin.management-dashboard', [
+
+            'managementType' => 'khatian',
+
+            'totalSales' => $totalSales,
+
+            'totalOrders' => $totalOrders,
+
+            'pendingOrders' => $pendingOrders,
+
+            'todaySales' => $todaySales,
+
+            'todayOrders' => $todayOrders,
+
+            'weekSales' => $weekSales,
+
+            'weekOrders' => $weekOrders,
+
+            'monthSales' => $monthSales,
+
+            'monthOrders' => $monthOrders,
+
+            'recentOrders' => $recentOrders,
+
+            'completedOrders' => $completedOrders,
+
+            'cancelledOrders' => $cancelledOrders,
+
+            'totalKhatians' => $totalKhatians,
+
+            'activeKhatians' => $activeKhatians,
+
+            'inactiveKhatians' => $inactiveKhatians,
+
+            'freeKhatians' => $freeKhatians,
+
+            'paidKhatians' => $paidKhatians,
+
+            'totalDownloads' => $totalDownloads,
+
+            'topKhatians' => $topKhatians,
+
+            'totalDivisions' => $totalDivisions,
+
+            'totalDistricts' => $totalDistricts,
+
+            'totalUpazilas' => $totalUpazilas,
+
+            'totalMouzas' => $totalMouzas,
+
+            'totalSurveyTypes' => $totalSurveyTypes,
+        ]);
     }
 }

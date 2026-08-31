@@ -35,4 +35,8 @@ class Mouza extends Model
     {
         return $this->hasMany(Map::class);
     }
+    public function khatians()
+{
+    return $this->hasMany(Khatian::class);
+}
 }

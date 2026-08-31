@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Khatian;
 use App\Models\Map;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -13,13 +14,13 @@ class OrderController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | PUBLIC ORDER
+    | PUBLIC MAP ORDER
     |--------------------------------------------------------------------------
     */
 
 
     /**
-     * Show public order form.
+     * Show public Map order form.
      */
     public function createPublic(Map $map)
     {
@@ -29,9 +30,7 @@ class OrderController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        if (!$map->is_active) {
-            abort(404);
-        }
+        abort_unless($map->is_active, 404);
 
 
         /*
@@ -48,7 +47,7 @@ class OrderController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Public Order Form
+        | Order Form
         |--------------------------------------------------------------------------
         */
 
@@ -57,13 +56,13 @@ class OrderController extends Controller
 
 
     /**
-     * Store public order.
+     * Store public Map order.
      */
     public function storePublic(Request $request)
     {
         /*
         |--------------------------------------------------------------------------
-        | Validate Customer Information
+        | Validation
         |--------------------------------------------------------------------------
         */
 
@@ -104,9 +103,6 @@ class OrderController extends Controller
         |--------------------------------------------------------------------------
         | Find Active Map
         |--------------------------------------------------------------------------
-        |
-        | Customer cannot order an inactive map.
-        |
         */
 
         $map = Map::where('is_active', true)
@@ -115,18 +111,15 @@ class OrderController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Create Order
+        | Create Map Order
         |--------------------------------------------------------------------------
-        |
-        | IMPORTANT:
-        | Amount is taken directly from database.
-        | Customer cannot manipulate the price.
-        |
         */
 
         $order = Order::create([
 
             'map_id' => $map->id,
+
+            'khatian_id' => null,
 
             'customer_name' => $validated['customer_name'],
 
@@ -153,7 +146,7 @@ class OrderController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Redirect To Order Success Page
+        | Success
         |--------------------------------------------------------------------------
         */
 
@@ -166,6 +159,168 @@ class OrderController extends Controller
     }
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | PUBLIC KHATIAN ORDER
+    |--------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Show public Khatian order form.
+     */
+    public function createKhatian(Khatian $khatian)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | Only Active Khatian
+        |--------------------------------------------------------------------------
+        */
+
+        abort_unless($khatian->is_active, 404);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Load Relationships
+        |--------------------------------------------------------------------------
+        */
+
+        $khatian->load([
+            'mouza.upazila.district.division',
+            'surveyType',
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Khatian Order Form
+        |--------------------------------------------------------------------------
+        */
+
+        return view(
+            'orders.khatian-create',
+            compact('khatian')
+        );
+    }
+
+
+    /**
+     * Store public Khatian order.
+     */
+    public function storeKhatian(Request $request)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | Validation
+        |--------------------------------------------------------------------------
+        */
+
+        $validated = $request->validate([
+
+            'khatian_id' => [
+                'required',
+                'exists:khatians,id',
+            ],
+
+            'customer_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'phone' => [
+                'required',
+                'string',
+                'max:30',
+            ],
+
+            'email' => [
+                'nullable',
+                'email',
+                'max:255',
+            ],
+
+            'payment_method' => [
+                'required',
+                'in:cod,bkash,nagad,card,bank',
+            ],
+
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Find Active Khatian
+        |--------------------------------------------------------------------------
+        */
+
+        $khatian = Khatian::where('is_active', true)
+            ->findOrFail($validated['khatian_id']);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Create Khatian Order
+        |--------------------------------------------------------------------------
+        |
+        | IMPORTANT:
+        | Price comes from database.
+        | Customer cannot manipulate amount.
+        |
+        */
+
+        $order = Order::create([
+
+            'map_id' => null,
+
+            'khatian_id' => $khatian->id,
+
+            'customer_name' => $validated['customer_name'],
+
+            'phone' => $validated['phone'],
+
+            'email' => $validated['email'] ?? null,
+
+            'amount' => $khatian->price,
+
+            'payment_method' => $validated['payment_method'],
+
+            'status' => 'pending',
+
+            'download_allowed' => false,
+
+            'download_token' => null,
+
+            'download_count' => 0,
+
+            'downloaded_at' => null,
+
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Redirect To Success
+        |--------------------------------------------------------------------------
+        */
+
+        return redirect()
+            ->route('orders.success', $order)
+            ->with(
+                'success',
+                'Your Khatian order has been placed successfully.'
+            );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ORDER SUCCESS
+    |--------------------------------------------------------------------------
+    */
+
+
     /**
      * Show order success page.
      */
@@ -173,13 +328,18 @@ class OrderController extends Controller
     {
         /*
         |--------------------------------------------------------------------------
-        | Load Map Information
+        | Load Relationships
         |--------------------------------------------------------------------------
         */
 
         $order->load([
+
             'map.mouza.upazila.district.division',
             'map.mouza.surveyType',
+
+            'khatian.mouza.upazila.district.division',
+            'khatian.surveyType',
+
         ]);
 
 
@@ -189,8 +349,18 @@ class OrderController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        return view('orders.success', compact('order'));
+        return view(
+            'orders.success',
+            compact('order')
+        );
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CUSTOMER PDF DOWNLOAD
+    |--------------------------------------------------------------------------
+    */
 
 
     /**
@@ -200,56 +370,36 @@ class OrderController extends Controller
     {
         /*
         |--------------------------------------------------------------------------
-        | Check Download Permission
+        | Download Permission
         |--------------------------------------------------------------------------
         */
 
         if (!$order->download_allowed) {
-            abort(403, 'Download is not allowed for this order.');
+
+            abort(
+                403,
+                'Download is not allowed for this order.'
+            );
+
         }
 
 
         /*
         |--------------------------------------------------------------------------
-        | Check Payment Status
+        | Payment Status
         |--------------------------------------------------------------------------
         */
 
-        if (!in_array($order->status, ['paid', 'completed'])) {
-            abort(403, 'Payment has not been confirmed.');
-        }
+        if (!in_array(
+            $order->status,
+            ['paid', 'completed']
+        )) {
 
+            abort(
+                403,
+                'Payment has not been confirmed.'
+            );
 
-        /*
-        |--------------------------------------------------------------------------
-        | Check Map
-        |--------------------------------------------------------------------------
-        */
-
-        if (!$order->map) {
-            abort(404, 'Map not found.');
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Check Map File
-        |--------------------------------------------------------------------------
-        */
-
-        if (empty($order->map->file_path)) {
-            abort(404, 'Map file not found.');
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Check PDF Exists
-        |--------------------------------------------------------------------------
-        */
-
-        if (!Storage::disk('public')->exists($order->map->file_path)) {
-            abort(404, 'Map PDF file does not exist.');
         }
 
 
@@ -257,59 +407,186 @@ class OrderController extends Controller
         |--------------------------------------------------------------------------
         | Download Token
         |--------------------------------------------------------------------------
-        |
-        | Token must exist before download.
-        |
         */
 
         if (!$order->download_token) {
-            abort(403, 'Download token is missing.');
+
+            abort(
+                403,
+                'Download token is missing.'
+            );
+
         }
 
 
         /*
         |--------------------------------------------------------------------------
-        | Optional Token Verification
+        | Verify Token
         |--------------------------------------------------------------------------
         */
 
         $token = $request->query('token');
 
-        if (!$token || !hash_equals(
-            $order->download_token,
-            $token
-        )) {
-            abort(403, 'Invalid download token.');
+        if (
+            !$token ||
+            !hash_equals(
+                $order->download_token,
+                $token
+            )
+        ) {
+
+            abort(
+                403,
+                'Invalid download token.'
+            );
+
         }
 
 
         /*
         |--------------------------------------------------------------------------
-        | Physical PDF Path
+        | Determine PDF
         |--------------------------------------------------------------------------
         */
 
-        $filePath = Storage::disk('public')
-            ->path($order->map->file_path);
+        $filePath = null;
+        $downloadName = null;
 
 
         /*
         |--------------------------------------------------------------------------
-        | Download File Name
+        | Map Order
         |--------------------------------------------------------------------------
         */
 
-        $downloadName = $order->map->file_name
-            ?: basename($order->map->file_path);
+        if ($order->map_id) {
+
+            $order->load('map');
+
+            if (!$order->map) {
+
+                abort(
+                    404,
+                    'Map not found.'
+                );
+
+            }
+
+
+            if (empty($order->map->file_path)) {
+
+                abort(
+                    404,
+                    'Map file not found.'
+                );
+
+            }
+
+
+            $filePath = $order->map->file_path;
+
+            $downloadName =
+                $order->map->file_name
+                ?: basename($filePath);
+
+        }
 
 
         /*
         |--------------------------------------------------------------------------
-        | Update Download Statistics
+        | Khatian Order
         |--------------------------------------------------------------------------
         */
 
-        $order->increment('download_count');
+        elseif ($order->khatian_id) {
+
+            $order->load('khatian');
+
+            if (!$order->khatian) {
+
+                abort(
+                    404,
+                    'Khatian not found.'
+                );
+
+            }
+
+
+            if (empty($order->khatian->pdf_path)) {
+
+                abort(
+                    404,
+                    'Khatian PDF file not found.'
+                );
+
+            }
+
+
+            $filePath = $order->khatian->pdf_path;
+
+            $downloadName =
+                'Khatian-' .
+                $order->khatian->khatian_number .
+                '.pdf';
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Invalid Order
+        |--------------------------------------------------------------------------
+        */
+
+        else {
+
+            abort(
+                404,
+                'Order document not found.'
+            );
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Check Physical File
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            !Storage::disk('public')
+                ->exists($filePath)
+        ) {
+
+            abort(
+                404,
+                'PDF file does not exist.'
+            );
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Physical Path
+        |--------------------------------------------------------------------------
+        */
+
+        $physicalPath =
+            Storage::disk('public')
+                ->path($filePath);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Download Statistics
+        |--------------------------------------------------------------------------
+        */
+
+        $order->increment(
+            'download_count'
+        );
 
         $order->update([
             'downloaded_at' => now(),
@@ -318,16 +595,21 @@ class OrderController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Download PDF
+        | Download
         |--------------------------------------------------------------------------
         */
 
         return response()->download(
-            $filePath,
+
+            $physicalPath,
+
             $downloadName,
+
             [
-                'Content-Type' => 'application/pdf',
+                'Content-Type' =>
+                    'application/pdf',
             ]
+
         );
     }
 
@@ -346,13 +628,18 @@ class OrderController extends Controller
     {
         /*
         |--------------------------------------------------------------------------
-        | Recent Orders
+        | Orders
         |--------------------------------------------------------------------------
         */
 
         $orders = Order::with([
+
             'map.mouza.upazila.district.division',
             'map.mouza.surveyType',
+
+            'khatian.mouza.upazila.district.division',
+            'khatian.surveyType',
+
         ])
             ->latest()
             ->get();
@@ -364,8 +651,14 @@ class OrderController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $todaySales = Order::whereDate('created_at', today())
-            ->whereIn('status', ['paid', 'completed'])
+        $todaySales = Order::whereDate(
+            'created_at',
+            today()
+        )
+            ->whereIn(
+                'status',
+                ['paid', 'completed']
+            )
             ->sum('amount');
 
 
@@ -373,23 +666,38 @@ class OrderController extends Controller
             'created_at',
             today()->subDay()
         )
-            ->whereIn('status', ['paid', 'completed'])
+            ->whereIn(
+                'status',
+                ['paid', 'completed']
+            )
             ->sum('amount');
 
 
-        $weekSales = Order::whereBetween('created_at', [
-            now()->startOfWeek(),
-            now()->endOfWeek(),
-        ])
-            ->whereIn('status', ['paid', 'completed'])
+        $weekSales = Order::whereBetween(
+            'created_at',
+            [
+                now()->startOfWeek(),
+                now()->endOfWeek(),
+            ]
+        )
+            ->whereIn(
+                'status',
+                ['paid', 'completed']
+            )
             ->sum('amount');
 
 
-        $monthSales = Order::whereBetween('created_at', [
-            now()->startOfMonth(),
-            now()->endOfMonth(),
-        ])
-            ->whereIn('status', ['paid', 'completed'])
+        $monthSales = Order::whereBetween(
+            'created_at',
+            [
+                now()->startOfMonth(),
+                now()->endOfMonth(),
+            ]
+        )
+            ->whereIn(
+                'status',
+                ['paid', 'completed']
+            )
             ->sum('amount');
 
 
@@ -399,19 +707,26 @@ class OrderController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $totalOrders = Order::count();
+        $totalOrders =
+            Order::count();
 
 
-        $paidOrders = Order::whereIn('status', [
-            'paid',
-            'completed',
-        ])->count();
+        $paidOrders =
+            Order::whereIn(
+                'status',
+                ['paid', 'completed']
+            )->count();
 
 
-        $pendingOrders = Order::where('status', 'pending')->count();
+        $pendingOrders =
+            Order::where(
+                'status',
+                'pending'
+            )->count();
 
 
-        $totalDownloads = Order::sum('download_count');
+        $totalDownloads =
+            Order::sum('download_count');
 
 
         /*
@@ -421,7 +736,11 @@ class OrderController extends Controller
         */
 
         $bestSellingMaps = Order::with('map')
-            ->whereIn('status', ['paid', 'completed'])
+            ->whereNotNull('map_id')
+            ->whereIn(
+                'status',
+                ['paid', 'completed']
+            )
             ->selectRaw(
                 'map_id, COUNT(*) as total_sales, SUM(amount) as total_revenue'
             )
@@ -433,58 +752,116 @@ class OrderController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Admin Order Dashboard
+        | Best Selling Khatians
         |--------------------------------------------------------------------------
         */
 
-        return view('admin.orders.index', compact(
-            'orders',
-            'todaySales',
-            'yesterdaySales',
-            'weekSales',
-            'monthSales',
-            'totalOrders',
-            'paidOrders',
-            'pendingOrders',
-            'totalDownloads',
-            'bestSellingMaps'
-        ));
+        $bestSellingKhatians = Order::with('khatian')
+            ->whereNotNull('khatian_id')
+            ->whereIn(
+                'status',
+                ['paid', 'completed']
+            )
+            ->selectRaw(
+                'khatian_id, COUNT(*) as total_sales, SUM(amount) as total_revenue'
+            )
+            ->groupBy('khatian_id')
+            ->orderByDesc('total_sales')
+            ->limit(5)
+            ->get();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Dashboard
+        |--------------------------------------------------------------------------
+        */
+
+        return view(
+            'admin.orders.index',
+            compact(
+
+                'orders',
+
+                'todaySales',
+
+                'yesterdaySales',
+
+                'weekSales',
+
+                'monthSales',
+
+                'totalOrders',
+
+                'paidOrders',
+
+                'pendingOrders',
+
+                'totalDownloads',
+
+                'bestSellingMaps',
+
+                'bestSellingKhatians',
+
+            )
+        );
     }
 
 
     /**
-     * Display a specific order.
+     * Display specific order.
      */
     public function show(Order $order)
     {
         $order->load([
+
             'map.mouza.upazila.district.division',
             'map.mouza.surveyType',
+
+            'khatian.mouza.upazila.district.division',
+            'khatian.surveyType',
+
         ]);
 
-        return view('admin.orders.show', compact('order'));
+
+        return view(
+            'admin.orders.show',
+            compact('order')
+        );
     }
 
 
     /**
-     * Show the order edit form.
+     * Show order edit form.
      */
     public function edit(Order $order)
     {
         $order->load([
+
             'map.mouza.upazila.district.division',
             'map.mouza.surveyType',
+
+            'khatian.mouza.upazila.district.division',
+            'khatian.surveyType',
+
         ]);
 
-        return view('admin.orders.edit', compact('order'));
+
+        return view(
+            'admin.orders.edit',
+            compact('order')
+        );
     }
 
 
     /**
-     * Update an order.
+     * Update order.
      */
-    public function update(Request $request, Order $order)
-    {
+    public function update(
+        Request $request,
+        Order $order
+    ) {
+
         $validated = $request->validate([
 
             'customer_name' => [
@@ -536,27 +913,33 @@ class OrderController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $validated['download_allowed'] = $request->boolean(
-            'download_allowed'
-        );
+        $validated['download_allowed'] =
+            $request->boolean(
+                'download_allowed'
+            );
 
 
         /*
         |--------------------------------------------------------------------------
         | Generate Download Token
         |--------------------------------------------------------------------------
-        |
-        | Token is generated when download permission is enabled.
-        |
         */
 
         if (
             $validated['download_allowed'] === true &&
-            in_array($validated['status'], ['paid', 'completed'])
+            in_array(
+                $validated['status'],
+                ['paid', 'completed']
+            )
         ) {
+
             if (!$order->download_token) {
-                $validated['download_token'] = Str::random(64);
+
+                $validated['download_token'] =
+                    Str::random(64);
+
             }
+
         }
 
 
@@ -564,33 +947,33 @@ class OrderController extends Controller
         |--------------------------------------------------------------------------
         | Remove Download Permission
         |--------------------------------------------------------------------------
-        |
-        | If download is disabled, remove the token.
-        |
         */
 
-        if ($validated['download_allowed'] === false) {
+        if (
+            $validated['download_allowed'] === false
+        ) {
+
             $validated['download_token'] = null;
+
         }
 
 
         /*
         |--------------------------------------------------------------------------
-        | Update Order
+        | Update
         |--------------------------------------------------------------------------
         */
 
-        $order->update($validated);
+        $order->update(
+            $validated
+        );
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Redirect
-        |--------------------------------------------------------------------------
-        */
 
         return redirect()
-            ->route('admin.orders.show', $order)
+            ->route(
+                'admin.orders.show',
+                $order
+            )
             ->with(
                 'success',
                 'Order updated successfully.'
@@ -599,10 +982,13 @@ class OrderController extends Controller
 
 
     /**
-     * Update order status only.
+     * Update order status.
      */
-    public function updateStatus(Request $request, Order $order)
-    {
+    public function updateStatus(
+        Request $request,
+        Order $order
+    ) {
+
         $validated = $request->validate([
 
             'status' => [
@@ -613,69 +999,74 @@ class OrderController extends Controller
         ]);
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Prepare Update Data
-        |--------------------------------------------------------------------------
-        */
-
         $data = [
-            'status' => $validated['status'],
+
+            'status' =>
+                $validated['status'],
+
         ];
 
 
         /*
         |--------------------------------------------------------------------------
-        | Automatically Enable Download
+        | Paid / Completed
         |--------------------------------------------------------------------------
-        |
-        | When admin marks the order as paid/completed,
-        | generate token and allow download.
-        |
         */
 
-        if (in_array($validated['status'], ['paid', 'completed'])) {
+        if (
+            in_array(
+                $validated['status'],
+                ['paid', 'completed']
+            )
+        ) {
 
             $data['download_allowed'] = true;
 
+
             if (!$order->download_token) {
-                $data['download_token'] = Str::random(64);
+
+                $data['download_token'] =
+                    Str::random(64);
+
             }
+
         }
 
 
         /*
         |--------------------------------------------------------------------------
-        | Disable Download For Failed/Cancelled/Pending
+        | Pending / Failed / Cancelled
         |--------------------------------------------------------------------------
         */
 
-        if (in_array($validated['status'], [
-            'pending',
-            'failed',
-            'cancelled',
-        ])) {
+        if (
+            in_array(
+                $validated['status'],
+                [
+                    'pending',
+                    'failed',
+                    'cancelled',
+                ]
+            )
+        ) {
 
-            $data['download_allowed'] = false;
+            $data['download_allowed'] =
+                false;
 
-            $data['download_token'] = null;
+            $data['download_token'] =
+                null;
+
         }
 
 
         /*
         |--------------------------------------------------------------------------
-        | Update Order
+        | Update
         |--------------------------------------------------------------------------
         */
 
         $order->update($data);
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Redirect
-        |--------------------------------------------------------------------------
-        */
 
         return redirect()
             ->back()
@@ -687,14 +1078,17 @@ class OrderController extends Controller
 
 
     /**
-     * Delete an order.
+     * Delete order.
      */
     public function destroy(Order $order)
     {
         $order->delete();
 
+
         return redirect()
-            ->route('admin.orders.index')
+            ->route(
+                'admin.orders.index'
+            )
             ->with(
                 'success',
                 'Order deleted successfully.'
