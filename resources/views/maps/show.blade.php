@@ -555,7 +555,7 @@
                     {{-- ORDER NOW BUTTON --}}
                     {{-- ================================================= --}}
 <a
-    href="{{ route('orders.create', ['map' => $map->id]) }}"
+    href="{{ route('orders.map.create', ['map' => $map->id]) }}"
     class="order-btn"
 >
     Order Now

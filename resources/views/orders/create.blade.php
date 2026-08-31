@@ -253,7 +253,7 @@
             Customer Information
         </h2>
 
-        <form action="{{ route('orders.store') }}" method="POST">
+        <form action="{{ route('orders.map.store') }}" method="POST">
 
             @csrf
 

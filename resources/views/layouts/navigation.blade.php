@@ -39,6 +39,12 @@
                 Mouza Maps
             </a>
 
+
+<a href="{{ route('khatians.browse') }}"
+   class="mm-nav-link {{ request()->routeIs('khatians.*') ? 'active' : '' }}">
+    <span class="mm-nav-icon">▤</span>
+    Khatian
+</a>
             @auth
                 @if(auth()->user()->is_admin ?? false)
 
@@ -206,6 +212,11 @@
 
         </a>
 
+<a href="{{ route('khatians.browse') }}"
+   class="mm-mobile-link {{ request()->routeIs('khatians.*') ? 'active' : '' }}">
+    <span>▤</span>
+    Khatian
+</a>
 
         @auth
 

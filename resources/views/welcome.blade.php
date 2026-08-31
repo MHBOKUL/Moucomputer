@@ -1,4 +1,3 @@
-
 <x-app-layout>
 
     {{-- =========================================================
@@ -240,6 +239,7 @@
             bottom: -130px;
             border: 1px solid rgba(255,255,255,.15);
             border-radius: 50%;
+            pointer-events: none;
         }
 
         .land-service-card.disabled-card {
@@ -376,6 +376,7 @@
             top: -150px;
             border: 1px solid rgba(255,255,255,.14);
             border-radius: 50%;
+            pointer-events: none;
         }
 
         .finder-header-title {
@@ -650,6 +651,7 @@
         }
 
         @media (max-width: 1024px) {
+
             .finder-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -657,9 +659,11 @@
             .maps-container {
                 grid-template-columns: repeat(2, 1fr);
             }
+
         }
 
         @media (max-width: 768px) {
+
             .land-container {
                 padding-left: 18px;
                 padding-right: 18px;
@@ -698,9 +702,11 @@
                 align-items: flex-start;
                 flex-direction: column;
             }
+
         }
 
         @media (max-width: 480px) {
+
             .land-hero-title {
                 font-size: 38px;
             }
@@ -720,6 +726,7 @@
             .map-actions {
                 grid-template-columns: 1fr;
             }
+
         }
     </style>
 
@@ -729,6 +736,7 @@
         {{-- =========================================================
             HERO
         ========================================================== --}}
+
         <section class="land-hero">
 
             <div class="land-hero-grid"></div>
@@ -754,20 +762,28 @@
 
 
                 {{-- Feature Highlights --}}
+
                 <div class="land-feature-row">
 
                     <div class="land-feature">
 
                         <div class="land-feature-icon">
-                            <svg width="19" height="19"
+
+                            <svg width="19"
+                                 height="19"
                                  fill="none"
                                  stroke="currentColor"
                                  viewBox="0 0 24 24">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.8"
-                                      d="M6 2h9l5 5v15H6V2zm9 0v6h5"/>
+
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.8"
+                                    d="M6 2h9l5 5v15H6V2zm9 0v6h5"
+                                />
+
                             </svg>
+
                         </div>
 
                         Digital PDF Maps
@@ -778,16 +794,28 @@
                     <div class="land-feature">
 
                         <div class="land-feature-icon">
-                            <svg width="19" height="19"
+
+                            <svg width="19"
+                                 height="19"
                                  fill="none"
                                  stroke="currentColor"
                                  viewBox="0 0 24 24">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.8"
-                                      d="M12 21s7-4.5 7-10a7 7 0 10-14 0c0 5.5 7 10 7 10z"/>
-                                <circle cx="12" cy="11" r="2.2"/>
+
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.8"
+                                    d="M12 21s7-4.5 7-10a7 7 0 10-14 0c0 5.5 7 10 7 10z"
+                                />
+
+                                <circle
+                                    cx="12"
+                                    cy="11"
+                                    r="2.2"
+                                />
+
                             </svg>
+
                         </div>
 
                         Location Based Search
@@ -798,15 +826,22 @@
                     <div class="land-feature">
 
                         <div class="land-feature-icon">
-                            <svg width="19" height="19"
+
+                            <svg width="19"
+                                 height="19"
                                  fill="none"
                                  stroke="currentColor"
                                  viewBox="0 0 24 24">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.8"
-                                      d="M5 12h14M13 6l6 6-6 6"/>
+
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.8"
+                                    d="M5 12h14M13 6l6 6-6 6"
+                                />
+
                             </svg>
+
                         </div>
 
                         Easy Ordering
@@ -823,6 +858,7 @@
         {{-- =========================================================
             SERVICES
         ========================================================== --}}
+
         <section class="land-container land-section">
 
             <div class="land-section-heading">
@@ -840,7 +876,10 @@
 
             <div class="land-services">
 
-                {{-- Mouza Map --}}
+                {{-- =====================================================
+                    MOUZA MAP SERVICE
+                ====================================================== --}}
+
                 <button
                     type="button"
                     id="mouzaMapCard"
@@ -851,14 +890,19 @@
 
                         <div class="land-service-icon">
 
-                            <svg width="26" height="26"
+                            <svg width="26"
+                                 height="26"
                                  fill="none"
                                  stroke="currentColor"
                                  viewBox="0 0 24 24">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.7"
-                                      d="M9 20l-5-2V6l5 2m0 12l6-2m-6 2V8m6 10l6 2V8l-6-2m0 12V6"/>
+
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.7"
+                                    d="M9 20l-5-2V6l5 2m0 12l6-2m-6 2V8m6 10l6 2V8l-6-2m0 12V6"
+                                />
+
                             </svg>
 
                         </div>
@@ -885,14 +929,19 @@
 
                         Browse Mouza Maps
 
-                        <svg width="16" height="16"
+                        <svg width="16"
+                             height="16"
                              fill="none"
                              stroke="currentColor"
                              viewBox="0 0 24 24">
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M9 5l7 7-7 7"/>
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 5l7 7-7 7"
+                            />
+
                         </svg>
 
                     </span>
@@ -900,27 +949,39 @@
                 </button>
 
 
-                {{-- Khatian --}}
-                <div class="land-service-card disabled-card">
+                {{-- =====================================================
+                    KHATIAN SERVICE
+                ====================================================== --}}
+
+                <button
+                    type="button"
+                    id="khatianCard"
+                    class="land-service-card available text-left"
+                >
 
                     <div class="land-service-top">
 
                         <div class="land-service-icon">
 
-                            <svg width="25" height="25"
+                            <svg width="25"
+                                 height="25"
                                  fill="none"
                                  stroke="currentColor"
                                  viewBox="0 0 24 24">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.7"
-                                      d="M6 2h9l5 5v15H6V2zm9 0v6h5"/>
+
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.7"
+                                    d="M6 2h9l5 5v15H6V2zm9 0v6h5"
+                                />
+
                             </svg>
 
                         </div>
 
-                        <span class="land-status soon-status">
-                            Coming Soon
+                        <span class="land-status available-status">
+                            Available
                         </span>
 
                     </div>
@@ -931,17 +992,34 @@
                     </h3>
 
                     <p class="land-service-description">
-                        Search and purchase Khatian records
-                        digitally. This service will be
-                        introduced soon.
+                        Search digital Khatian records by location,
+                        view owner information, survey details and
+                        order the required Khatian PDF.
                     </p>
 
 
                     <span class="land-service-button">
-                        Coming Soon
+
+                        Browse Khatians
+
+                        <svg width="16"
+                             height="16"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 5l7 7-7 7"
+                            />
+
+                        </svg>
+
                     </span>
 
-                </div>
+                </button>
 
             </div>
 
@@ -951,6 +1029,7 @@
         {{-- =========================================================
             MAP FINDER
         ========================================================== --}}
+
         <section
             id="mapSearchSection"
             class="land-container finder-wrapper"
@@ -958,7 +1037,8 @@
 
             <div class="finder-card">
 
-                {{-- Header --}}
+                {{-- Finder Header --}}
+
                 <div class="finder-header">
 
                     <div class="finder-header-title">
@@ -973,12 +1053,14 @@
                 </div>
 
 
-                {{-- Body --}}
+                {{-- Finder Body --}}
+
                 <div class="finder-body">
 
                     <div class="finder-grid">
 
                         {{-- Division --}}
+
                         <div class="land-field">
 
                             <label for="division">
@@ -994,11 +1076,13 @@
                                 @foreach($divisions as $division)
 
                                     <option value="{{ $division->id }}">
+
                                         {{ $division->name }}
 
                                         @if($division->name_bn)
                                             — {{ $division->name_bn }}
                                         @endif
+
                                     </option>
 
                                 @endforeach
@@ -1009,13 +1093,17 @@
 
 
                         {{-- District --}}
+
                         <div class="land-field">
 
                             <label for="district">
                                 District
                             </label>
 
-                            <select id="district" disabled>
+                            <select
+                                id="district"
+                                disabled
+                            >
 
                                 <option value="">
                                     Select District
@@ -1027,13 +1115,17 @@
 
 
                         {{-- Upazila --}}
+
                         <div class="land-field">
 
                             <label for="upazila">
                                 Upazila / Thana
                             </label>
 
-                            <select id="upazila" disabled>
+                            <select
+                                id="upazila"
+                                disabled
+                            >
 
                                 <option value="">
                                     Select Upazila
@@ -1045,13 +1137,17 @@
 
 
                         {{-- Mouza --}}
+
                         <div class="land-field">
 
                             <label for="mouza">
                                 Mouza
                             </label>
 
-                            <select id="mouza" disabled>
+                            <select
+                                id="mouza"
+                                disabled
+                            >
 
                                 <option value="">
                                     Select Mouza
@@ -1062,14 +1158,18 @@
                         </div>
 
 
-                        {{-- Survey --}}
+                        {{-- Survey Type --}}
+
                         <div class="land-field">
 
                             <label for="surveyType">
                                 Survey Type
                             </label>
 
-                            <select id="surveyType" disabled>
+                            <select
+                                id="surveyType"
+                                disabled
+                            >
 
                                 <option value="">
                                     Select Survey Type
@@ -1083,6 +1183,7 @@
 
 
                     {{-- Loading --}}
+
                     <div
                         id="mapLoading"
                         class="land-loading hidden"
@@ -1092,6 +1193,7 @@
 
 
                     {{-- Error --}}
+
                     <div
                         id="mapError"
                         class="land-error hidden"
@@ -1099,7 +1201,11 @@
 
 
                     {{-- Available Maps --}}
-                    <div id="mapsSection" class="hidden">
+
+                    <div
+                        id="mapsSection"
+                        class="hidden"
+                    >
 
                         <div class="maps-header">
 
@@ -1131,7 +1237,8 @@
                     </div>
 
 
-                    {{-- Empty --}}
+                    {{-- No Maps --}}
+
                     <div
                         id="noMaps"
                         class="empty-state hidden"
@@ -1139,14 +1246,19 @@
 
                         <div class="empty-icon">
 
-                            <svg width="25" height="25"
+                            <svg width="25"
+                                 height="25"
                                  fill="none"
                                  stroke="currentColor"
                                  viewBox="0 0 24 24">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.8"
-                                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"/>
+
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.8"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"
+                                />
+
                             </svg>
 
                         </div>
@@ -1174,659 +1286,1022 @@
     {{-- =========================================================
         JAVASCRIPT
     ========================================================== --}}
+
     <script>
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener(
+            'DOMContentLoaded',
+            function () {
 
-            const division = document.getElementById('division');
-            const district = document.getElementById('district');
-            const upazila = document.getElementById('upazila');
-            const mouza = document.getElementById('mouza');
-            const surveyType = document.getElementById('surveyType');
+                /*
+                |--------------------------------------------------------------------------
+                | DOM Elements
+                |--------------------------------------------------------------------------
+                */
 
-            const mapsSection =
-                document.getElementById('mapsSection');
+                const division =
+                    document.getElementById('division');
 
-            const mapsContainer =
-                document.getElementById('mapsContainer');
+                const district =
+                    document.getElementById('district');
 
-            const mapCount =
-                document.getElementById('mapCount');
+                const upazila =
+                    document.getElementById('upazila');
 
-            const noMaps =
-                document.getElementById('noMaps');
+                const mouza =
+                    document.getElementById('mouza');
 
-            const mapLoading =
-                document.getElementById('mapLoading');
+                const surveyType =
+                    document.getElementById('surveyType');
 
-            const mapError =
-                document.getElementById('mapError');
+                const mapsSection =
+                    document.getElementById('mapsSection');
 
-            const mouzaMapCard =
-                document.getElementById('mouzaMapCard');
+                const mapsContainer =
+                    document.getElementById('mapsContainer');
 
-            const mapSearchSection =
-                document.getElementById('mapSearchSection');
+                const mapCount =
+                    document.getElementById('mapCount');
 
+                const noMaps =
+                    document.getElementById('noMaps');
 
-            /*
-            |--------------------------------------------------------------------------
-            | Reset Select
-            |--------------------------------------------------------------------------
-            */
+                const mapLoading =
+                    document.getElementById('mapLoading');
 
-            function resetSelect(select, placeholder)
-            {
-                select.innerHTML = '';
+                const mapError =
+                    document.getElementById('mapError');
 
-                const option =
-                    document.createElement('option');
+                const mouzaMapCard =
+                    document.getElementById('mouzaMapCard');
 
-                option.value = '';
-                option.textContent = placeholder;
+                const khatianCard =
+                    document.getElementById('khatianCard');
 
-                select.appendChild(option);
-
-                select.disabled = true;
-            }
+                const mapSearchSection =
+                    document.getElementById('mapSearchSection');
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | Hide Results
-            |--------------------------------------------------------------------------
-            */
+                /*
+                |--------------------------------------------------------------------------
+                | Reset Select
+                |--------------------------------------------------------------------------
+                */
 
-            function hideResults()
-            {
-                mapsSection.classList.add('hidden');
-                noMaps.classList.add('hidden');
+                function resetSelect(
+                    select,
+                    placeholder
+                ) {
 
-                mapsContainer.innerHTML = '';
-                mapCount.textContent = '';
-            }
+                    select.innerHTML = '';
 
+                    const option =
+                        document.createElement('option');
 
-            /*
-            |--------------------------------------------------------------------------
-            | Error
-            |--------------------------------------------------------------------------
-            */
+                    option.value = '';
 
-            function showError(message)
-            {
-                mapError.textContent = message;
-                mapError.classList.remove('hidden');
-            }
+                    option.textContent =
+                        placeholder;
 
+                    select.appendChild(option);
 
-            function clearError()
-            {
-                mapError.textContent = '';
-                mapError.classList.add('hidden');
-            }
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Loading
-            |--------------------------------------------------------------------------
-            */
-
-            function setLoading(status)
-            {
-                if (status) {
-                    mapLoading.classList.remove('hidden');
-                } else {
-                    mapLoading.classList.add('hidden');
+                    select.disabled = true;
                 }
-            }
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | Load Districts
-            |--------------------------------------------------------------------------
-            */
+                /*
+                |--------------------------------------------------------------------------
+                | Hide Results
+                |--------------------------------------------------------------------------
+                */
 
-            division.addEventListener(
-                'change',
-                async function ()
+                function hideResults()
                 {
-                    const divisionId = this.value;
+                    mapsSection.classList.add('hidden');
 
-                    resetSelect(
-                        district,
-                        'Select District'
-                    );
+                    noMaps.classList.add('hidden');
 
-                    resetSelect(
-                        upazila,
-                        'Select Upazila'
-                    );
+                    mapsContainer.innerHTML = '';
 
-                    resetSelect(
-                        mouza,
-                        'Select Mouza'
-                    );
+                    mapCount.textContent = '';
+                }
 
-                    resetSelect(
-                        surveyType,
-                        'Select Survey Type'
-                    );
 
-                    hideResults();
-                    clearError();
+                /*
+                |--------------------------------------------------------------------------
+                | Show Error
+                |--------------------------------------------------------------------------
+                */
 
-                    if (!divisionId) {
-                        return;
-                    }
+                function showError(message)
+                {
+                    mapError.textContent = message;
 
-                    setLoading(true);
+                    mapError.classList.remove('hidden');
+                }
 
-                    try {
 
-                        const response = await fetch(
-                            `/maps/browse/divisions/${divisionId}/districts`
+                /*
+                |--------------------------------------------------------------------------
+                | Clear Error
+                |--------------------------------------------------------------------------
+                */
+
+                function clearError()
+                {
+                    mapError.textContent = '';
+
+                    mapError.classList.add('hidden');
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Loading
+                |--------------------------------------------------------------------------
+                */
+
+                function setLoading(status)
+                {
+                    if (status) {
+
+                        mapLoading.classList.remove(
+                            'hidden'
                         );
 
-                        if (!response.ok) {
-                            throw new Error();
-                        }
+                    } else {
 
-                        const districts =
-                            await response.json();
-
-                        districts.forEach(function (item) {
-
-                            const option =
-                                document.createElement('option');
-
-                            option.value = item.id;
-
-                            option.textContent =
-                                item.name_bn
-                                    ? `${item.name} — ${item.name_bn}`
-                                    : item.name;
-
-                            district.appendChild(option);
-
-                        });
-
-                        district.disabled = false;
-
-                    } catch (error) {
-
-                        showError(
-                            'District data could not be loaded. Please try again.'
+                        mapLoading.classList.add(
+                            'hidden'
                         );
-
-                    } finally {
-
-                        setLoading(false);
 
                     }
                 }
-            );
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | Load Upazilas
-            |--------------------------------------------------------------------------
-            */
+                /*
+                |--------------------------------------------------------------------------
+                | Load Districts
+                |--------------------------------------------------------------------------
+                */
 
-            district.addEventListener(
-                'change',
-                async function ()
-                {
-                    const districtId = this.value;
+                division.addEventListener(
+                    'change',
+                    async function ()
+                    {
 
-                    resetSelect(
-                        upazila,
-                        'Select Upazila'
-                    );
+                        const divisionId =
+                            this.value;
 
-                    resetSelect(
-                        mouza,
-                        'Select Mouza'
-                    );
 
-                    resetSelect(
-                        surveyType,
-                        'Select Survey Type'
-                    );
-
-                    hideResults();
-                    clearError();
-
-                    if (!districtId) {
-                        return;
-                    }
-
-                    setLoading(true);
-
-                    try {
-
-                        const response = await fetch(
-                            `/maps/browse/districts/${districtId}/upazilas`
+                        resetSelect(
+                            district,
+                            'Select District'
                         );
 
-                        if (!response.ok) {
-                            throw new Error();
+                        resetSelect(
+                            upazila,
+                            'Select Upazila'
+                        );
+
+                        resetSelect(
+                            mouza,
+                            'Select Mouza'
+                        );
+
+                        resetSelect(
+                            surveyType,
+                            'Select Survey Type'
+                        );
+
+
+                        hideResults();
+
+                        clearError();
+
+
+                        if (!divisionId) {
+                            return;
                         }
 
-                        const upazilas =
-                            await response.json();
 
-                        upazilas.forEach(function (item) {
-
-                            const option =
-                                document.createElement('option');
-
-                            option.value = item.id;
-
-                            option.textContent =
-                                item.name_bn
-                                    ? `${item.name} — ${item.name_bn}`
-                                    : item.name;
-
-                            upazila.appendChild(option);
-
-                        });
-
-                        upazila.disabled = false;
-
-                    } catch (error) {
-
-                        showError(
-                            'Upazila data could not be loaded. Please try again.'
-                        );
-
-                    } finally {
-
-                        setLoading(false);
-
-                    }
-                }
-            );
+                        setLoading(true);
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | Load Mouzas
-            |--------------------------------------------------------------------------
-            */
+                        try {
 
-            upazila.addEventListener(
-                'change',
-                async function ()
-                {
-                    const upazilaId = this.value;
+                            const response =
+                                await fetch(
+                                    `/maps/browse/divisions/${divisionId}/districts`
+                                );
 
-                    resetSelect(
-                        mouza,
-                        'Select Mouza'
-                    );
 
-                    resetSelect(
-                        surveyType,
-                        'Select Survey Type'
-                    );
-
-                    hideResults();
-                    clearError();
-
-                    if (!upazilaId) {
-                        return;
-                    }
-
-                    setLoading(true);
-
-                    try {
-
-                        const response = await fetch(
-                            `/maps/browse/upazilas/${upazilaId}/mouzas`
-                        );
-
-                        if (!response.ok) {
-                            throw new Error();
-                        }
-
-                        const mouzas =
-                            await response.json();
-
-                        mouzas.forEach(function (item) {
-
-                            const option =
-                                document.createElement('option');
-
-                            option.value = item.id;
-
-                            let label = item.name;
-
-                            if (item.name_bn) {
-                                label +=
-                                    ` — ${item.name_bn}`;
+                            if (!response.ok) {
+                                throw new Error(
+                                    'Failed to load districts'
+                                );
                             }
 
-                            if (item.jl_number) {
-                                label +=
-                                    ` (JL: ${item.jl_number})`;
-                            }
 
-                            option.textContent = label;
+                            const districts =
+                                await response.json();
 
-                            option.dataset.surveyTypeId =
-                                item.survey_type_id ?? '';
 
-                            option.dataset.surveyType =
-                                item.survey_type ?? '';
+                            districts.forEach(
+                                function (item) {
 
-                            mouza.appendChild(option);
+                                    const option =
+                                        document.createElement(
+                                            'option'
+                                        );
 
-                        });
+                                    option.value =
+                                        item.id;
 
-                        mouza.disabled = false;
+                                    option.textContent =
+                                        item.name_bn
+                                            ? `${item.name} — ${item.name_bn}`
+                                            : item.name;
 
-                    } catch (error) {
+                                    district.appendChild(
+                                        option
+                                    );
 
-                        showError(
-                            'Mouza data could not be loaded. Please try again.'
-                        );
+                                }
+                            );
 
-                    } finally {
 
-                        setLoading(false);
+                            district.disabled = false;
+
+
+                        } catch (error) {
+
+                            console.error(
+                                error
+                            );
+
+                            showError(
+                                'District data could not be loaded. Please try again.'
+                            );
+
+                        } finally {
+
+                            setLoading(false);
+
+                        }
 
                     }
-                }
-            );
+                );
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | Mouza Change
-            |--------------------------------------------------------------------------
-            */
+                /*
+                |--------------------------------------------------------------------------
+                | Load Upazilas
+                |--------------------------------------------------------------------------
+                */
 
-            mouza.addEventListener(
-                'change',
-                async function ()
-                {
-                    const mouzaId = this.value;
+                district.addEventListener(
+                    'change',
+                    async function ()
+                    {
 
-                    resetSelect(
-                        surveyType,
-                        'Select Survey Type'
-                    );
+                        const districtId =
+                            this.value;
 
-                    hideResults();
-                    clearError();
+
+                        resetSelect(
+                            upazila,
+                            'Select Upazila'
+                        );
+
+                        resetSelect(
+                            mouza,
+                            'Select Mouza'
+                        );
+
+                        resetSelect(
+                            surveyType,
+                            'Select Survey Type'
+                        );
+
+
+                        hideResults();
+
+                        clearError();
+
+
+                        if (!districtId) {
+                            return;
+                        }
+
+
+                        setLoading(true);
+
+
+                        try {
+
+                            const response =
+                                await fetch(
+                                    `/maps/browse/districts/${districtId}/upazilas`
+                                );
+
+
+                            if (!response.ok) {
+                                throw new Error(
+                                    'Failed to load upazilas'
+                                );
+                            }
+
+
+                            const upazilas =
+                                await response.json();
+
+
+                            upazilas.forEach(
+                                function (item) {
+
+                                    const option =
+                                        document.createElement(
+                                            'option'
+                                        );
+
+                                    option.value =
+                                        item.id;
+
+                                    option.textContent =
+                                        item.name_bn
+                                            ? `${item.name} — ${item.name_bn}`
+                                            : item.name;
+
+                                    upazila.appendChild(
+                                        option
+                                    );
+
+                                }
+                            );
+
+
+                            upazila.disabled = false;
+
+
+                        } catch (error) {
+
+                            console.error(
+                                error
+                            );
+
+                            showError(
+                                'Upazila data could not be loaded. Please try again.'
+                            );
+
+                        } finally {
+
+                            setLoading(false);
+
+                        }
+
+                    }
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Load Mouzas
+                |--------------------------------------------------------------------------
+                */
+
+                upazila.addEventListener(
+                    'change',
+                    async function ()
+                    {
+
+                        const upazilaId =
+                            this.value;
+
+
+                        resetSelect(
+                            mouza,
+                            'Select Mouza'
+                        );
+
+                        resetSelect(
+                            surveyType,
+                            'Select Survey Type'
+                        );
+
+
+                        hideResults();
+
+                        clearError();
+
+
+                        if (!upazilaId) {
+                            return;
+                        }
+
+
+                        setLoading(true);
+
+
+                        try {
+
+                            const response =
+                                await fetch(
+                                    `/maps/browse/upazilas/${upazilaId}/mouzas`
+                                );
+
+
+                            if (!response.ok) {
+                                throw new Error(
+                                    'Failed to load mouzas'
+                                );
+                            }
+
+
+                            const mouzas =
+                                await response.json();
+
+
+                            mouzas.forEach(
+                                function (item) {
+
+                                    const option =
+                                        document.createElement(
+                                            'option'
+                                        );
+
+
+                                    option.value =
+                                        item.id;
+
+
+                                    let label =
+                                        item.name || '';
+
+
+                                    if (
+                                        item.name_bn
+                                    ) {
+
+                                        label +=
+                                            ` — ${item.name_bn}`;
+
+                                    }
+
+
+                                    if (
+                                        item.jl_number
+                                    ) {
+
+                                        label +=
+                                            ` (JL: ${item.jl_number})`;
+
+                                    }
+
+
+                                    option.textContent =
+                                        label;
+
+
+                                    option.dataset
+                                        .surveyTypeId =
+                                        item.survey_type_id
+                                        ?? '';
+
+
+                                    option.dataset
+                                        .surveyType =
+                                        item.survey_type
+                                        ?? '';
+
+
+                                    mouza.appendChild(
+                                        option
+                                    );
+
+                                }
+                            );
+
+
+                            mouza.disabled = false;
+
+
+                        } catch (error) {
+
+                            console.error(
+                                error
+                            );
+
+                            showError(
+                                'Mouza data could not be loaded. Please try again.'
+                            );
+
+                        } finally {
+
+                            setLoading(false);
+
+                        }
+
+                    }
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Mouza Change
+                |--------------------------------------------------------------------------
+                */
+
+                mouza.addEventListener(
+                    'change',
+                    async function ()
+                    {
+
+                        const mouzaId =
+                            this.value;
+
+
+                        resetSelect(
+                            surveyType,
+                            'Select Survey Type'
+                        );
+
+
+                        hideResults();
+
+                        clearError();
+
+
+                        if (!mouzaId) {
+                            return;
+                        }
+
+
+                        const selectedOption =
+                            this.options[
+                                this.selectedIndex
+                            ];
+
+
+                        const surveyTypeName =
+                            selectedOption.dataset
+                                .surveyType;
+
+
+                        const surveyTypeId =
+                            selectedOption.dataset
+                                .surveyTypeId;
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Add Survey Type
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (surveyTypeName) {
+
+                            const option =
+                                document.createElement(
+                                    'option'
+                                );
+
+
+                            option.value =
+                                surveyTypeId ||
+                                surveyTypeName;
+
+
+                            option.textContent =
+                                surveyTypeName;
+
+
+                            surveyType.appendChild(
+                                option
+                            );
+
+
+                            surveyType.disabled =
+                                false;
+
+                        }
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Load Maps
+                        |--------------------------------------------------------------------------
+                        */
+
+                        await loadMaps(
+                            mouzaId
+                        );
+
+                    }
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Load Maps
+                |--------------------------------------------------------------------------
+                */
+
+                async function loadMaps(
+                    mouzaId
+                ) {
 
                     if (!mouzaId) {
                         return;
                     }
 
-                    const selectedOption =
-                        this.options[this.selectedIndex];
 
-                    const surveyTypeName =
-                        selectedOption.dataset.surveyType;
+                    setLoading(true);
 
-                    const surveyTypeId =
-                        selectedOption.dataset.surveyTypeId;
-
-                    if (surveyTypeName) {
-
-                        const option =
-                            document.createElement('option');
-
-                        option.value =
-                            surveyTypeId || surveyTypeName;
-
-                        option.textContent =
-                            surveyTypeName;
-
-                        surveyType.appendChild(option);
-
-                        surveyType.disabled = false;
-
-                    }
-
-                    await loadMaps(mouzaId);
-                }
-            );
+                    clearError();
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | Load Maps
-            |--------------------------------------------------------------------------
-            */
+                    try {
 
-            async function loadMaps(mouzaId)
-            {
-                if (!mouzaId) {
-                    return;
-                }
-
-                setLoading(true);
-                clearError();
-
-                try {
-
-                    const response = await fetch(
-                        `/maps/browse/mouzas/${mouzaId}/maps`
-                    );
-
-                    if (!response.ok) {
-                        throw new Error();
-                    }
-
-                    const maps =
-                        await response.json();
-
-                    mapsContainer.innerHTML = '';
-
-                    if (!maps.length) {
-
-                        mapsSection.classList.add('hidden');
-                        noMaps.classList.remove('hidden');
-
-                        return;
-                    }
-
-                    noMaps.classList.add('hidden');
-                    mapsSection.classList.remove('hidden');
-
-                    mapCount.textContent =
-                        `${maps.length} map${maps.length > 1 ? 's' : ''} available`;
+                        const response =
+                            await fetch(
+                                `/maps/browse/mouzas/${mouzaId}/maps`
+                            );
 
 
-                    maps.forEach(function (map) {
-
-                        const card =
-                            document.createElement('div');
-
-                        card.className =
-                            'map-card';
+                        if (!response.ok) {
+                            throw new Error(
+                                'Failed to load maps'
+                            );
+                        }
 
 
-                        const price =
-                            Number(map.price || 0)
-                                .toLocaleString(
-                                    'en-BD',
-                                    {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2
-                                    }
+                        const maps =
+                            await response.json();
+
+
+                        mapsContainer.innerHTML =
+                            '';
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | No Maps
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (
+                            !maps ||
+                            !maps.length
+                        ) {
+
+                            mapsSection
+                                .classList
+                                .add('hidden');
+
+                            noMaps
+                                .classList
+                                .remove('hidden');
+
+                            return;
+                        }
+
+
+                        noMaps
+                            .classList
+                            .add('hidden');
+
+
+                        mapsSection
+                            .classList
+                            .remove('hidden');
+
+
+                        mapCount.textContent =
+                            `${maps.length} map${maps.length > 1 ? 's' : ''} available`;
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Render Maps
+                        |--------------------------------------------------------------------------
+                        */
+
+                        maps.forEach(
+                            function (map) {
+
+                                const card =
+                                    document.createElement(
+                                        'div'
+                                    );
+
+
+                                card.className =
+                                    'map-card';
+
+
+                                const price =
+                                    Number(
+                                        map.price || 0
+                                    ).toLocaleString(
+                                        'en-BD',
+                                        {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        }
+                                    );
+
+
+                                const viewUrl =
+                                    map.view_url ||
+                                    '#';
+
+
+                                const orderUrl =
+                                    map.order_url ||
+                                    '#';
+
+
+                                card.innerHTML = `
+
+                                    <div class="flex items-start justify-between">
+
+                                        <div class="map-card-icon">
+
+                                            <svg
+                                                width="22"
+                                                height="22"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="1.7"
+                                                    d="M6 2h9l5 5v15H6V2zm9 0v6h5"
+                                                />
+
+                                            </svg>
+
+                                        </div>
+
+
+                                        <span class="land-status available-status">
+                                            Available
+                                        </span>
+
+                                    </div>
+
+
+                                    <h4 class="map-card-title">
+                                        ${escapeHtml(map.title)}
+                                    </h4>
+
+
+                                    <div class="map-meta">
+
+                                        <div class="map-meta-row">
+
+                                            <span class="map-meta-label">
+                                                Mouza
+                                            </span>
+
+                                            <span class="map-meta-value">
+                                                ${escapeHtml(
+                                                    map.mouza || '-'
+                                                )}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="map-meta-row">
+
+                                            <span class="map-meta-label">
+                                                JL Number
+                                            </span>
+
+                                            <span class="map-meta-value">
+                                                ${escapeHtml(
+                                                    map.jl_number || '-'
+                                                )}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="map-meta-row">
+
+                                            <span class="map-meta-label">
+                                                Survey
+                                            </span>
+
+                                            <span class="map-meta-value">
+                                                ${escapeHtml(
+                                                    map.survey_type || '-'
+                                                )}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="map-price-row">
+
+                                        <span class="map-price-label">
+                                            Map Price
+                                        </span>
+
+                                        <span class="map-price">
+                                            ৳${price}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="map-actions">
+
+                                        <a
+                                            href="${escapeAttribute(viewUrl)}"
+                                            class="map-action map-action-primary"
+                                        >
+                                            View Details
+                                        </a>
+
+
+                                        <a
+                                            href="${escapeAttribute(orderUrl)}"
+                                            class="map-action map-action-secondary"
+                                        >
+                                            Order Now
+                                        </a>
+
+                                    </div>
+
+                                `;
+
+
+                                mapsContainer.appendChild(
+                                    card
                                 );
 
-
-                        card.innerHTML = `
-
-                            <div class="flex items-start justify-between">
-
-                                <div class="map-card-icon">
-
-                                    <svg width="22" height="22"
-                                         fill="none"
-                                         stroke="currentColor"
-                                         viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="1.7"
-                                            d="M6 2h9l5 5v15H6V2zm9 0v6h5"
-                                        />
-                                    </svg>
-
-                                </div>
-
-                                <span class="land-status available-status">
-                                    Available
-                                </span>
-
-                            </div>
+                            }
+                        );
 
 
-                            <h4 class="map-card-title">
-                                ${escapeHtml(map.title)}
-                            </h4>
+                    } catch (error) {
 
+                        console.error(
+                            error
+                        );
 
-                            <div class="map-meta">
+                        showError(
+                            'Map data could not be loaded. Please try again.'
+                        );
 
-                                <div class="map-meta-row">
-                                    <span class="map-meta-label">
-                                        Mouza
-                                    </span>
+                    } finally {
 
-                                    <span class="map-meta-value">
-                                        ${escapeHtml(map.mouza || '-')}
-                                    </span>
-                                </div>
+                        setLoading(false);
 
-
-                                <div class="map-meta-row">
-                                    <span class="map-meta-label">
-                                        JL Number
-                                    </span>
-
-                                    <span class="map-meta-value">
-                                        ${escapeHtml(map.jl_number || '-')}
-                                    </span>
-                                </div>
-
-
-                                <div class="map-meta-row">
-                                    <span class="map-meta-label">
-                                        Survey
-                                    </span>
-
-                                    <span class="map-meta-value">
-                                        ${escapeHtml(map.survey_type || '-')}
-                                    </span>
-                                </div>
-
-                            </div>
-
-
-                            <div class="map-price-row">
-
-                                <span class="map-price-label">
-                                    Map Price
-                                </span>
-
-                                <span class="map-price">
-                                    ৳${price}
-                                </span>
-
-                            </div>
-
-
-                            <div class="map-actions">
-
-                                <a
-                                    href="${map.view_url}"
-                                    class="map-action map-action-primary"
-                                >
-                                    View Details
-                                </a>
-
-                                <a
-                                    href="${map.order_url}"
-                                    class="map-action map-action-secondary"
-                                >
-                                    Order Now
-                                </a>
-
-                            </div>
-                        `;
-
-                        mapsContainer.appendChild(card);
-
-                    });
-
-                } catch (error) {
-
-                    showError(
-                        'Map data could not be loaded. Please try again.'
-                    );
-
-                } finally {
-
-                    setLoading(false);
+                    }
 
                 }
-            }
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | Escape HTML
-            |--------------------------------------------------------------------------
-            */
+                /*
+                |--------------------------------------------------------------------------
+                | Escape HTML
+                |--------------------------------------------------------------------------
+                */
 
-            function escapeHtml(value)
-            {
-                if (
-                    value === null ||
-                    value === undefined
-                ) {
-                    return '';
-                }
-
-                return String(value)
-                    .replace(/&/g, '&amp;')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;')
-                    .replace(/"/g, '&quot;')
-                    .replace(/'/g, '&#039;');
-            }
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Scroll To Finder
-            |--------------------------------------------------------------------------
-            */
-
-            mouzaMapCard.addEventListener(
-                'click',
-                function ()
+                function escapeHtml(value)
                 {
-                    mapSearchSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            );
 
-        });
+                    if (
+                        value === null ||
+                        value === undefined
+                    ) {
+
+                        return '';
+
+                    }
+
+
+                    return String(value)
+                        .replace(
+                            /&/g,
+                            '&amp;'
+                        )
+                        .replace(
+                            /</g,
+                            '&lt;'
+                        )
+                        .replace(
+                            />/g,
+                            '&gt;'
+                        )
+                        .replace(
+                            /"/g,
+                            '&quot;'
+                        )
+                        .replace(
+                            /'/g,
+                            '&#039;'
+                        );
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Escape Attribute
+                |--------------------------------------------------------------------------
+                */
+
+                function escapeAttribute(value)
+                {
+
+                    if (
+                        value === null ||
+                        value === undefined
+                    ) {
+
+                        return '#';
+
+                    }
+
+
+                    return String(value)
+                        .replace(
+                            /"/g,
+                            '&quot;'
+                        )
+                        .replace(
+                            /'/g,
+                            '&#039;'
+                        );
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Scroll To Finder
+                |--------------------------------------------------------------------------
+                */
+
+                mouzaMapCard.addEventListener(
+                    'click',
+                    function ()
+                    {
+
+                        mapSearchSection.scrollIntoView(
+                            {
+                                behavior: 'smooth',
+                                block: 'start'
+                            }
+                        );
+
+                    }
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Khatian Card
+                |--------------------------------------------------------------------------
+                |
+                | Khatian search page route পরে বসানো যাবে।
+                | এখন card click করলে কোনো broken URL হবে না।
+                |--------------------------------------------------------------------------
+                */
+
+                khatianCard.addEventListener(
+                    'click',
+                    function ()
+                    {
+
+                        /*
+                         * যদি তোমার Khatian route থাকে,
+                         * এখানে ব্যবহার করবে:
+                         *
+                         * 
+                         */
+window.location.href =
+                             "{{ route('khatians.browse') }}";
+                        console.log(
+                            'Khatian service selected.'
+                        );
+
+                    }
+                );
+
+            }
+        );
 
     </script>
 
 </x-app-layout>
-
