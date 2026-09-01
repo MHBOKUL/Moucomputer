@@ -8,15 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('divisions', function (Blueprint $table) {
-            $table->string('name_bn')->nullable()->after('name');
-        });
+        //
     }
 
     public function down(): void
     {
-        Schema::table('divisions', function (Blueprint $table) {
-            $table->dropColumn('name_bn');
-        });
+        //
     }
 };
